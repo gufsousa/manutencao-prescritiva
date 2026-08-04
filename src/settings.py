@@ -24,7 +24,9 @@ def _env_flag(name: str, default: bool = False) -> bool:
 
 @dataclass(frozen=True)
 class AppSettings:
+    llm_provider: str
     groq_api_key: str
+    ollama_base_url: str
     default_llm_model: str
     fallback_llm_models: tuple[str, ...]
     mongo_connection_string: str
@@ -50,7 +52,9 @@ def get_settings() -> AppSettings:
         if item.strip()
     )
     return AppSettings(
+        llm_provider=os.getenv("LLM_PROVIDER", "groq").strip().lower(),
         groq_api_key=os.getenv("GROQ_API_KEY", "").strip(),
+        ollama_base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434").strip().rstrip("/"),
         default_llm_model=os.getenv("DEFAULT_LLM_MODEL", "llama-3.1-8b-instant").strip(),
         fallback_llm_models=fallback_models,
         mongo_connection_string=os.getenv("MONGO_CONNECTION_STRING", "").strip(),

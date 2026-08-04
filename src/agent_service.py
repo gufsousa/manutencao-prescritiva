@@ -5,6 +5,7 @@ from typing import Any
 import json
 import re
 import time
+from urllib import error, request
 
 from groq import Groq
 
@@ -24,15 +25,75 @@ FEW_SHOT_PROMPT = load_prompt("prescriptive_response_few_shot.md")
 
 class PrescriptiveAgent:
     def __init__(self) -> None:
-        self._client = Groq(api_key=SETTINGS.groq_api_key) if SETTINGS.groq_api_key else None
+        self._provider = SETTINGS.llm_provider
+        self._groq_client = Groq(api_key=SETTINGS.groq_api_key) if SETTINGS.groq_api_key else None
 
     def available_models(self) -> list[str]:
+        if self._provider == "ollama":
+            local_models = self._ollama_model_names()
+            if local_models:
+                return local_models
         models = [SETTINGS.default_llm_model, *SETTINGS.fallback_llm_models]
         seen: list[str] = []
         for model in models:
             if model and model not in seen:
                 seen.append(model)
         return seen
+
+    def _ollama_request(self, path: str, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        url = f"{SETTINGS.ollama_base_url}{path}"
+        data = None
+        headers = {}
+        if payload is not None:
+            data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+            headers["Content-Type"] = "application/json"
+        req = request.Request(url=url, data=data, headers=headers, method="POST" if payload is not None else "GET")
+        with request.urlopen(req, timeout=90) as response:
+            return json.loads(response.read().decode("utf-8"))
+
+    def _ollama_model_names(self) -> list[str]:
+        try:
+            payload = self._ollama_request("/api/tags")
+            names = [str(item.get("name", "")).strip() for item in payload.get("models", [])]
+            return [name for name in names if name]
+        except Exception:
+            return []
+
+    def _chat_complete(self, messages: list[dict[str, str]], model: str, temperature: float = 0.1) -> tuple[str, dict[str, Any]]:
+        if self._provider == "ollama":
+            payload = {
+                "model": model,
+                "messages": messages,
+                "stream": False,
+                "options": {
+                    "temperature": temperature,
+                },
+            }
+            response = self._ollama_request("/api/chat", payload)
+            content = ((response.get("message") or {}).get("content") or "").strip()
+            usage = {
+                "prompt_tokens": response.get("prompt_eval_count"),
+                "completion_tokens": response.get("eval_count"),
+                "total_tokens": (response.get("prompt_eval_count") or 0) + (response.get("eval_count") or 0),
+                "provider": "ollama",
+            }
+            return content, usage
+
+        if self._groq_client is None:
+            raise RuntimeError("Nenhum backend de LLM disponivel.")
+        completion = self._groq_client.chat.completions.create(
+            model=model,
+            temperature=temperature,
+            messages=messages,
+        )
+        content = completion.choices[0].message.content or ""
+        usage = {
+            "prompt_tokens": getattr(completion.usage, "prompt_tokens", None),
+            "completion_tokens": getattr(completion.usage, "completion_tokens", None),
+            "total_tokens": getattr(completion.usage, "total_tokens", None),
+            "provider": "groq",
+        }
+        return content, usage
 
     def _extract_json(self, text: str) -> dict[str, Any]:
         try:
@@ -70,9 +131,9 @@ class PrescriptiveAgent:
         if any(pattern in lowered for pattern in document_patterns):
             return "document_query"
 
-        if self._client:
+        if self._provider in {"groq", "ollama"} and (self._provider != "groq" or self._groq_client is not None):
             try:
-                completion = self._client.chat.completions.create(
+                routed, _ = self._chat_complete(
                     model=SETTINGS.default_llm_model,
                     temperature=0,
                     messages=[
@@ -80,7 +141,7 @@ class PrescriptiveAgent:
                         {"role": "user", "content": text},
                     ],
                 )
-                routed = (completion.choices[0].message.content or "").strip().lower()
+                routed = routed.strip().lower()
                 if routed in {"event_json", "document_query", "freeform_question"}:
                     return routed
             except Exception:
@@ -367,7 +428,7 @@ class PrescriptiveAgent:
             response_payload["evidence_points"] = [*response_payload.get("evidence_points", []), *document_lines]
             response_payload["cited_documents"] = [item.get("title") for item in documents_catalog]
 
-        if self._client:
+        if self._provider in {"groq", "ollama"} and (self._provider != "groq" or self._groq_client is not None):
             context_payload = {
                 "user_question": raw_input,
                 "answer_type": answer_type,
@@ -391,7 +452,7 @@ class PrescriptiveAgent:
                 ],
             }
             try:
-                completion = self._client.chat.completions.create(
+                raw_llm_response, usage = self._chat_complete(
                     model=selected_model,
                     temperature=0.2,
                     messages=[
@@ -399,12 +460,6 @@ class PrescriptiveAgent:
                         {"role": "user", "content": json.dumps(context_payload, ensure_ascii=False, default=str)},
                     ],
                 )
-                raw_llm_response = completion.choices[0].message.content or ""
-                usage = {
-                    "prompt_tokens": getattr(completion.usage, "prompt_tokens", None),
-                    "completion_tokens": getattr(completion.usage, "completion_tokens", None),
-                    "total_tokens": getattr(completion.usage, "total_tokens", None),
-                }
                 parsed = self._extract_json(raw_llm_response)
                 if parsed:
                     response_payload.update(parsed)
@@ -490,7 +545,7 @@ class PrescriptiveAgent:
         usage = {}
         selected_model = model_name or SETTINGS.default_llm_model
 
-        if self._client and validation.get("valid", True):
+        if (self._provider in {"groq", "ollama"} and (self._provider != "groq" or self._groq_client is not None)) and validation.get("valid", True):
             context_payload = {
                 "event": event,
                 "validation": validation,
@@ -511,7 +566,7 @@ class PrescriptiveAgent:
                 "catalog": get_fault_catalog(),
             }
             try:
-                completion = self._client.chat.completions.create(
+                raw_llm_response, usage = self._chat_complete(
                     model=selected_model,
                     temperature=0.1,
                     messages=[
@@ -519,12 +574,6 @@ class PrescriptiveAgent:
                         {"role": "user", "content": json.dumps(context_payload, ensure_ascii=False, default=str)},
                     ],
                 )
-                raw_llm_response = completion.choices[0].message.content or ""
-                usage = {
-                    "prompt_tokens": getattr(completion.usage, "prompt_tokens", None),
-                    "completion_tokens": getattr(completion.usage, "completion_tokens", None),
-                    "total_tokens": getattr(completion.usage, "total_tokens", None),
-                }
                 parsed = self._extract_json(raw_llm_response)
                 if parsed:
                     response_payload.update(parsed)
