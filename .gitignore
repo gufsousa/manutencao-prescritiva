@@ -8,8 +8,15 @@ __pycache__/
 venv/
 env/
 
+# Environment files / secrets
+.env
+.env.local
+.env.*.local
+
 # Jupyter / local outputs
 *.nbconvert.ipynb
+data/app_state/
+*.jsonl
 
 # OS / editor
 .DS_Store

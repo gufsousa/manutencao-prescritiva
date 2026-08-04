@@ -10,6 +10,14 @@ O resultado da análise exploratória está alinhado com a literatura recente so
 - a camada documental com RAG é útil, mas precisa de rastreabilidade e validação humana;
 - a etapa mais importante antes da modelagem é a preparação semântica do dado, especialmente taxonomia de falhas e contexto operacional.
 
+Ao mesmo tempo, para **esta prova específica**, há uma adaptação estratégica importante: embora a literatura seja mais conservadora, a arquitetura da entrega deve priorizar um **LLM local como protagonista**, porque o enunciado e o documento `C:\Projetos\Manutencao-prescritiva-main\docs\Arquitetura Manutenção Prescritiva Local.pdf` sugerem fortemente esse direcionamento.
+
+Em outras palavras:
+
+- a literatura continua útil para evitar erros conceituais;
+- mas a forma de empacotar a solução para avaliação deve ser **LLM-first**, rodando em estação local;
+- ferramentas numéricas clássicas ainda podem existir, porém como capacidade interna do agente, e não como narrativa central da entrega.
+
 ## Onde a nossa AED bate com a literatura
 
 ### 1. LLM sozinho não é a melhor peça para o diagnóstico numérico
@@ -134,16 +142,17 @@ Por que é necessária:
 - a similaridade entre assinaturas vibracionais depende do contexto;
 - a literatura de séries temporais indica que estrutura do sinal muda bastante a dificuldade do problema.
 
-### 4. Baseline de busca por similaridade com avaliação `top-k`
+### 4. Análise de ferramentas técnicas auxiliares para o agente
 
 Objetivo:
 
-- medir se eventos historicamente mais próximos recuperam a família correta.
+- definir quais rotinas ou heurísticas o LLM poderá acionar localmente para apoiar a inferência.
 
 Por que é necessária:
 
-- é o caminho mais coerente com o case;
-- fornece uma referência forte antes de modelos mais complexos.
+- permite manter aderência à expectativa de um sistema centrado em LLM;
+- evita que a entrega pareça apenas um pipeline tradicional de ML;
+- ajuda a transformar processamento técnico em capacidade do agente.
 
 ### 5. Análise de novidade e recusa
 
@@ -165,9 +174,16 @@ O confronto com a literatura não invalida a AED; pelo contrário, ele a fortale
 - usar RAG para localizar procedimento técnico;
 - devolver respostas com fonte e política de recusa.
 
-O passo certo agora não é aumentar complexidade do modelo, e sim melhorar a base de decisão:
+Para a estratégia desta prova, a conclusão prática precisa ser levemente ajustada:
+
+- a solução deve ser apresentada como um **agente local baseado em LLM**;
+- as rotinas técnicas entram como suporte à inferência do agente;
+- a narrativa de arquitetura precisa enfatizar a execução em estação de trabalho, sem dependência de API externa.
+
+O passo certo agora não é aumentar complexidade estatística isolada, e sim melhorar a base de decisão e a arquitetura do agente:
 
 1. padronizar falhas;
 2. mapear falha-documento;
-3. testar similaridade por contexto;
-4. só então avançar para o pipeline prescritivo fim a fim.
+3. definir ferramentas locais que o LLM poderá usar;
+4. estruturar o RAG técnico;
+5. só então avançar para o pipeline prescritivo fim a fim.

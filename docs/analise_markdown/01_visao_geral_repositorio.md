@@ -14,7 +14,7 @@ Os PDFs em `docs/` cumprem papéis complementares:
 
 - `Revisão LLM Manutenção Prescritiva.pdf` traz fundamentação conceitual e limitações do uso direto de LLMs em séries temporais multivariadas.
 - `RAG para Manutenção Prescritiva.pdf` descreve uma arquitetura de avaliação/implementação com recuperação documental e controle de alucinação.
-- `Arquitetura Manutenção Prescritiva Local.pdf` propõe uma abordagem neuro-simbólica local, separando diagnóstico numérico e geração textual.
+- `Arquitetura Manutenção Prescritiva Local.pdf` propõe uma abordagem local para estação de trabalho, com forte ênfase em um núcleo de inferência baseado em LLM operando on-premise.
 
 Os PDFs em `data/raw/` são a base documental operacional do RAG. Eles representam procedimentos de diagnóstico/correção para falhas físicas específicas:
 
@@ -46,11 +46,12 @@ Lacunas identificadas:
 O escopo implícito do projeto, a partir dos documentos, é construir um pipeline de manutenção prescritiva com os seguintes blocos:
 
 1. Ler um novo evento de sensores em JSON.
-2. Comparar esse evento com o histórico para encontrar casos semelhantes.
-3. Estimar qual falha ou grupo de falhas melhor explica o padrão observado.
-4. Consultar a documentação técnica relacionada à falha detectada.
-5. Gerar uma resposta orientativa com diagnóstico, evidências e ação recomendada.
-6. Registrar o histórico de consultas e permitir evolução incremental da base.
+2. Encaminhar esse evento para um LLM local que atue como cérebro da solução.
+3. Permitir que o LLM consulte histórico, contexto operacional e base documental.
+4. Estimar qual falha ou grupo de falhas melhor explica o padrão observado.
+5. Consultar a documentação técnica relacionada à falha detectada.
+6. Gerar uma resposta orientativa com diagnóstico, evidências e ação recomendada.
+7. Registrar o histórico de consultas e permitir evolução incremental da base.
 
 O case também sugere entregáveis de engenharia além do modelo:
 
@@ -64,7 +65,7 @@ Escopo realista deste repositório hoje:
 
 - preparação e limpeza dos dados;
 - taxonomia de falhas;
-- construção de um baseline de recuperação por similaridade;
+- definição de um fluxo LLM-first com ferramentas auxiliares;
 - indexação documental;
 - protótipo de resposta prescritiva com regras de segurança;
 - documentação de arquitetura e plano de execução.
@@ -84,11 +85,12 @@ Escopo realista deste repositório hoje:
 - separar condições normais, falhas conhecidas e falhas novas;
 - definir estratégia de particionamento por tempo, rotação e classe.
 
-### Fase 3. Baseline analítico
+### Fase 3. Orquestração LLM-first
 
-- construir busca por similaridade entre eventos históricos;
-- comparar estratégias simples, como distância euclidiana padronizada, cosseno e k-NN;
-- medir top-k, estabilidade por faixa de rpm e robustez a ruído.
+- definir o papel do LLM local como núcleo da solução;
+- estruturar ferramentas técnicas que possam ser chamadas pelo agente para apoiar leitura de sinais e contexto;
+- manter a inferência técnica como apoio interno do fluxo, e não como entrega principal isolada;
+- adaptar a narrativa da solução ao que a prova aparenta valorizar: um sistema prescritivo inteligente executando localmente.
 
 ### Fase 4. Camada documental
 
@@ -98,7 +100,7 @@ Escopo realista deste repositório hoje:
 
 ### Fase 5. Motor prescritivo
 
-- combinar diagnóstico numérico + recuperação documental;
+- combinar LLM local + ferramentas técnicas auxiliares + recuperação documental;
 - gerar resposta estruturada com: falha provável, evidências, documentos usados, ações sugeridas e ressalvas;
 - bloquear prescrição para falhas sem cobertura documental.
 
@@ -140,18 +142,20 @@ O notebook tem boa intenção documental, mas ainda está incompleto:
 
 ### Leitura arquitetural recomendada
 
-Entre os documentos conceituais, há uma convergência útil:
+Considerando o histórico relatado da prova e o documento `C:\Projetos\Manutencao-prescritiva-main\docs\Arquitetura Manutenção Prescritiva Local.pdf`, a leitura mais pragmática para esta entrega é:
 
-- o diagnóstico da falha não deve ser delegado diretamente ao LLM;
-- a parte numérica deve ser tratada por método determinístico/estatístico;
-- o LLM deve atuar principalmente na orquestração e na redação da resposta prescritiva;
-- o sistema precisa de mecanismos de recusa para casos sem suporte documental.
+- o LLM local precisa aparecer como componente central da arquitetura;
+- a estação de trabalho local é o limite de infraestrutura da solução;
+- qualquer mecanismo técnico de apoio deve ser apresentado como ferramenta do agente, e não como substituto do agente;
+- o sistema precisa de mecanismos de recusa para casos sem suporte documental;
+- a aderência ao enunciado e à expectativa avaliativa pesa tanto quanto a pureza metodológica.
 
 ## 5. Conclusão
 
-O repositório já possui os insumos certos para um protótipo forte de manutenção prescritiva, mas ainda está em estágio de base documental e exploração inicial. O caminho mais promissor é tratar o projeto como um sistema híbrido:
+O repositório já possui os insumos certos para um protótipo forte de manutenção prescritiva, mas ainda está em estágio de base documental e exploração inicial. Para esta prova, o caminho mais promissor é tratar o projeto como um sistema **LLM-first local**:
 
-- busca de similaridade para identificar eventos comparáveis;
+- um LLM local como núcleo de decisão e orquestração;
+- ferramentas técnicas auxiliares para leitura estruturada dos sinais;
 - taxonomia de falhas para estabilizar o vocabulário;
 - RAG sobre procedimentos técnicos para justificar a prescrição;
 - interface mínima para demonstrar o fluxo fim a fim.

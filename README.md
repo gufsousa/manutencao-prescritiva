@@ -1,58 +1,273 @@
-# Manutenção Prescritiva
+# Manutencao Prescritiva LLM-First
 
-Projeto base para estudo e prototipação de um pipeline de manutenção prescritiva aplicado a máquinas rotativas, usando dados de sensores, histórico de falhas e documentação técnica de manutenção.
+Aplicacao em Streamlit para manutencao prescritiva industrial com chat como superficie principal, busca historica, base documental chunkada, benchmark de modelos e rastreabilidade operacional.
 
-## Objetivo
+O projeto foi estruturado para a prova com foco em uma leitura **LLM-first em estacao de trabalho**, usando o modelo como camada de orquestracao e sintese, com ferramentas tecnicas auxiliares para historico, validacao, semantica e RAG documental.
 
-Construir a base analítica e documental para uma solução capaz de:
+## Sumario
 
-1. receber um novo evento de sensores;
-2. localizar eventos historicamente semelhantes;
-3. inferir a família de falha mais provável;
-4. recuperar procedimentos técnicos relevantes;
-5. apoiar uma resposta prescritiva rastreável e segura.
+- [Problema e solucao](#problema-e-solucao)
+- [Funcionalidades principais](#funcionalidades-principais)
+- [Arquitetura](#arquitetura)
+- [Fluxos do copiloto](#fluxos-do-copiloto)
+- [Prompts e organizacao agentic](#prompts-e-organizacao-agentic)
+- [Estrutura de pastas](#estrutura-de-pastas)
+- [Como executar localmente](#como-executar-localmente)
+- [Validacao](#validacao)
+- [Documentacao produzida](#documentacao-produzida)
+- [Roadmap imediato](#roadmap-imediato)
 
-## Estrutura do repositório
+## Problema e solucao
 
-- `data/raw/`: base histórica de sensores e documentos técnicos de falha.
-- `docs/`: material de referência do case, arquitetura e análises em Markdown.
-- `notebooks/`: análises exploratórias e experimentos.
-- `scripts/`: utilitários de apoio à geração de artefatos analíticos.
+O projeto resolve o apoio a decisao em manutencao prescritiva para maquinas rotativas a partir de:
 
-## Status atual
+1. eventos de sensores em JSON;
+2. historico operacional com rotulos de falha;
+3. documentos tecnicos usados como lastro prescritivo.
 
-Na data de **4 de agosto de 2026**, o repositório já contém:
+Abordagem adotada:
 
-- inventário e síntese dos documentos do projeto;
-- AED concluída sobre `data/raw/banner.csv`;
-- notebook executável com análise de qualidade, falhas, `rpm`, cobertura documental e prontidão prescritiva;
-- documentação inicial em Markdown com visão geral, CRISP-DM e insights.
+1. o usuario conversa com o copiloto em linguagem natural ou envia um evento JSON;
+2. o agente roteia a intencao entre evento, consulta documental e duvida tecnica;
+3. para eventos, o sistema valida o payload, busca vizinhos historicos e consulta chunks documentais;
+4. o LLM sintetiza uma resposta rastreavel em markdown;
+5. logs, benchmark e historico de conversa ficam disponiveis nas paginas auxiliares.
 
-## Principais achados da AED
+## Funcionalidades principais
 
-- o dataset principal (`banner.csv`) está estruturalmente íntegro, sem faltantes e sem duplicidade de `id`;
-- a principal fragilidade está na coluna `fault`, que mistura defeito, contexto experimental e erros de digitação;
-- os `151` rótulos originais se consolidam em `17` famílias canônicas;
-- cerca de `72,82%` dos registros já pertencem a famílias com documentação técnica associável no acervo atual;
-- a rotação (`rpm`) precisa ser tratada como variável de contexto obrigatória para similaridade e modelagem.
+- Chat principal com historico de conversa e nova conversa pela sidebar.
+- Resposta em markdown com estilo operacional para PCP e manutencao.
+- Roteamento de intencao entre `event_json`, `document_query` e `freeform_question`.
+- Busca historica sobre `data/raw/banner.csv` com normalizacao semantica de falhas.
+- Base documental com ingestao de PDFs, chunking e busca vetorial local.
+- MongoDB opcional para persistencia de historico, documentos, chunks, conversas e logs.
+- Benchmark de modelos Groq para comparar latencia, uso e aderencia.
+- Observabilidade com logs locais e colecoes persistidas.
+- UI multipage em Streamlit com sidebar compartilhada.
 
-## Documentação produzida
+## Arquitetura
 
-- [Visão geral do repositório](docs/analise_markdown/01_visao_geral_repositorio.md)
-- [CRISP-DM detalhado](docs/analise_markdown/02_crisp_dm_detalhado.md)
-- [Análise exploratória e insights](docs/analise_markdown/03_analise_exploratoria_insights.md)
-- [Confronto com a literatura web](docs/analise_markdown/04_confronto_literatura_web.md)
-- [Resumos por arquivo](docs/analise_markdown/resumos)
+```mermaid
+graph LR
+    subgraph "Interface Streamlit"
+        A[Chat Principal]
+        B[Dashboard BI]
+        C[Base Documental]
+        D[Historico Operacional]
+        E[Benchmark]
+        F[Observabilidade]
+    end
 
-## Próximos passos recomendados
+    subgraph "Camada Agentic"
+        G[Router de Intencao]
+        H[Agente Prescritivo]
+        I[Prompts Externos]
+    end
 
-1. padronizar a taxonomia de `fault`;
-2. mapear cada família de falha ao documento técnico correspondente;
-3. criar baseline de similaridade condicionado por `rpm`;
-4. estruturar recuperação documental com rastreabilidade de fonte;
-5. implementar política de recusa para falhas sem cobertura documental.
+    subgraph "Servicos Tecnicos"
+        J[History Service]
+        K[Document Service]
+        L[Fault Semantics]
+        M[Benchmark Service]
+        N[Conversation Store]
+        O[Observability]
+    end
 
-## Observações de versionamento
+    subgraph "Persistencia"
+        P[(MongoDB opcional)]
+        Q[(Fallback local)]
+    end
 
-- os arquivos da prova prática foram mantidos fora do versionamento por `.gitignore`;
-- o script auxiliar que gera o notebook/relatório também foi deixado fora do versionamento para manter o primeiro commit mais limpo.
+    A --> G
+    G --> H
+    H --> I
+    H --> J
+    H --> K
+    H --> L
+    H --> O
+    B --> O
+    C --> K
+    D --> J
+    E --> M
+    A --> N
+    J --> P
+    K --> P
+    N --> P
+    O --> P
+    J --> Q
+    K --> Q
+    N --> Q
+    O --> Q
+```
+
+## Fluxos do copiloto
+
+### 1. Evento JSON
+
+1. normaliza o payload;
+2. valida grandezas fisicas;
+3. recupera vizinhos historicos;
+4. escolhe falha candidata;
+5. busca chunks documentais aderentes;
+6. gera resposta prescritiva com confianca, rastreio e limitacoes.
+
+### 2. Consulta documental
+
+Exemplo: `quais documentos tem na base de dados?`
+
+1. consulta a base indexada;
+2. lista documentos e trechos aderentes;
+3. responde sem exigir JSON;
+4. deixa claro quando ha ou nao lastro.
+
+### 3. Duvida tecnica livre
+
+Exemplo: `o que e FFT?`
+
+1. nao trata a pergunta como evento;
+2. usa chunks documentais quando encontrar suporte;
+3. responde tecnicamente em markdown;
+4. explicita limitacao se a base nao sustentar a resposta.
+
+## Prompts e organizacao agentic
+
+Inspirado na organizacao do repositorio `gufsousa/projeto-ia-gen` e na referencia local `C:\Projetos\Manutencao-prescritva`, os prompts ficam fora do codigo Python para facilitar iteracao.
+
+Arquivos principais:
+
+- [prompts/maintenance_event_system.md](C:\Projetos\Manutencao-prescritiva-main\prompts\maintenance_event_system.md)
+- [prompts/freeform_system.md](C:\Projetos\Manutencao-prescritiva-main\prompts\freeform_system.md)
+- [prompts/input_router.md](C:\Projetos\Manutencao-prescritiva-main\prompts\input_router.md)
+- [prompts/prescriptive_response_few_shot.md](C:\Projetos\Manutencao-prescritiva-main\prompts\prescriptive_response_few_shot.md)
+- [src/prompt_loader.py](C:\Projetos\Manutencao-prescritiva-main\src\prompt_loader.py)
+
+Isso permite:
+
+- ajustar o papel do agente sem editar o core;
+- evoluir para um planner estilo ReAct mais explicito;
+- versionar politica, few-shot e roteamento de forma auditavel.
+
+## Estrutura de pastas
+
+- `Home.py`: pagina principal do chat.
+- `pages/`: dashboard, diagnostico, base documental, historico, benchmark e observabilidade.
+- `src/agent_service.py`: motor principal do copiloto.
+- `src/history_service.py`: ingestao e busca historica.
+- `src/document_service.py`: ingestao de PDFs, chunking e busca vetorial.
+- `src/fault_semantics.py`: canonizacao de falhas.
+- `src/mongo_store.py`: persistencia MongoDB com fallback local.
+- `src/sidebar.py`: sidebar compartilhada entre paginas.
+- `src/ui.py`: tema e estilos comuns.
+- `config/fault_lexicon.yaml`: taxonomia de falhas.
+- `data/raw/`: dataset e PDFs base.
+- `docs/analise_markdown/`: analises e confrontos da prova.
+- `tests/smoke_test.py`: teste de fumaca end-to-end.
+
+## Como executar localmente
+
+### Requisitos
+
+- Python `3.12+`
+- acesso a internet para Groq
+- opcional: MongoDB Atlas ou instancia local
+
+### 1. Criar ambiente virtual
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+```
+
+Se o PowerShell bloquear a ativacao:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+.venv\Scripts\Activate.ps1
+```
+
+### 2. Instalar dependencias
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+### 3. Configurar ambiente
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Campos principais em `.env`:
+
+- `GROQ_API_KEY`
+- `DEFAULT_LLM_MODEL`
+- `FALLBACK_LLM_MODELS`
+- `MONGO_CONNECTION_STRING`
+- `MONGO_DATABASE`
+- `MONGO_ENABLED`
+- `TOP_K_DOCUMENTS`
+- `TOP_K_HISTORY`
+
+Para rodar sem Mongo:
+
+```env
+MONGO_ENABLED=false
+```
+
+### 4. Rodar o app
+
+```powershell
+python -m streamlit run Home.py
+```
+
+Depois abra:
+
+```text
+http://localhost:8501
+```
+
+## Validacao
+
+### Teste de fumaca
+
+```powershell
+python tests\smoke_test.py
+```
+
+Valida:
+
+- ingestao do historico;
+- ingestao documental;
+- busca historica;
+- busca documental;
+- inferencia do agente;
+- observabilidade.
+
+### Compilacao
+
+```powershell
+python -m compileall Home.py pages src tests
+```
+
+## Documentacao produzida
+
+- [docs/analise_markdown/01_visao_geral_repositorio.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\01_visao_geral_repositorio.md)
+- [docs/analise_markdown/02_crisp_dm_detalhado.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\02_crisp_dm_detalhado.md)
+- [docs/analise_markdown/03_analise_exploratoria_insights.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\03_analise_exploratoria_insights.md)
+- [docs/analise_markdown/04_confronto_literatura_web.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\04_confronto_literatura_web.md)
+- [docs/analise_markdown/05_plano_mvp_streamlit_llm_first.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\05_plano_mvp_streamlit_llm_first.md)
+- [docs/analise_markdown/06_referencia_interface_streamlit_bi.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\06_referencia_interface_streamlit_bi.md)
+- [docs/analise_markdown/07_plano_implementacao_mvp_streamlit.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\07_plano_implementacao_mvp_streamlit.md)
+
+## Roadmap imediato
+
+- melhorar a qualidade da resposta tecnica livre quando o termo consultado nao estiver explicitamente nos PDFs;
+- introduzir politica agentic configuravel em `config/agent_policy.yaml`;
+- evoluir do router atual para um planner estilo ReAct mais explicito;
+- adicionar avaliacao mais forte para falso positivo e casos `unknown`.
+
+## Referencias
+
+- Repositorio de interface e documentacao usado como referencia estrutural: [gufsousa/projeto-ia-gen](https://github.com/gufsousa/projeto-ia-gen)
+- Repositorio local usado como referencia para organizacao agentic e prompts: `C:\Projetos\Manutencao-prescritva`

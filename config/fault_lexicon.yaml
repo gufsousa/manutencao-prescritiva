@@ -1,0 +1,258 @@
+version: 1
+entries:
+  - key: motor_desligado
+    label_pt: Motor desligado
+    kind: state
+    family: operacao
+    aliases:
+      - motordesligado
+      - mortordesligado
+      - motor_desligado_novo
+
+  - key: baseline
+    label_pt: Baseline operacional
+    kind: state
+    family: operacao
+    aliases:
+      - baseline
+      - new_baseline
+
+  - key: acelerando
+    label_pt: Acelerando
+    kind: state
+    family: operacao
+    aliases:
+      - acelerando
+
+  - key: normal
+    label_pt: Operacao normal
+    kind: state
+    family: operacao
+    aliases:
+      - normal
+      - normal_2
+      - normal_3
+      - normal_novo
+      - normal_carga
+      - normal_adxl_0
+      - normal_adxl_1
+      - normal_pos_2
+      - normal_2_pos_2
+      - normal_3_pos_2
+      - new_normal_0
+      - new_normal_1
+      - new_normal_2
+      - new_normal_3
+      - new_normal_4
+      - new_normal_5
+      - new_normal_6
+      - normla_carga_3_3
+
+  - key: teste
+    label_pt: Teste de bancada
+    kind: state
+    family: operacao
+    aliases:
+      - teste
+      - new_tes
+      - new_teste
+      - normal_novo_teste
+
+  - key: falta_fase
+    label_pt: Falta de fase
+    kind: fault
+    family: eletrica
+    aliases:
+      - faltafase
+      - new_falta_fase_0
+      - new_falta_fase_1
+      - new_falta_fase_2
+      - new_falta_fase_3
+
+  - key: eccentric_rotor
+    label_pt: Rotor excentrico
+    kind: fault
+    family: rotor
+    aliases:
+      - eccentric_rotor
+      - eccentric_rotor_2
+      - eccentric_rotor_3
+      - eccentric_rotor_4
+      - eccentric_rotor_pos_2
+      - eccentric_rotor_2_pos_2
+      - eccentric_rotor_carga
+      - eccentric_rotor_carga_2
+      - eccentric_adxl_0
+      - eccentric_2_pos_2
+      - new_eccentric_0
+      - new_eccentric_1
+      - new_eccentric_2
+      - new_eccentric_3
+
+  - key: cocked_rotor
+    label_pt: Cocked rotor
+    kind: fault
+    family: rotor
+    aliases:
+      - cocked_rotor
+      - cocked_rotor_2
+      - cocked_rotor_pos_2
+      - cocked_rotor_2_pos_2
+      - cocked_rotor_carga
+      - new_cocked_0
+      - new_cocked_1
+      - new_cocked_2
+      - new_cocked_3
+      - cocked_adxl_0
+      - cockecocked_adxl_0
+
+  - key: rolamento_combination
+    label_pt: Rolamento combinado
+    kind: fault
+    family: rolamento
+    aliases:
+      - rolamento_combination
+      - rolamento_combination_2
+      - rolamento_combination_3
+      - rolamento_combination_4
+      - rolamento_combination_pos_2
+      - rolamento_combination_carga
+      - rolamento_combination_carga_2
+      - rolamento_comb_adxl_0
+      - new_rolamento_comb_0
+      - new_rolamento_comb_1
+      - new_rolamento_comb_2
+      - new_rolamento_comb_3
+
+  - key: rolamento_outer
+    label_pt: Rolamento outer race
+    kind: fault
+    family: rolamento
+    aliases:
+      - rolamento_outer
+      - rolamento_outer_2
+      - rolamento_outer_3
+      - rolamento_outer_4
+      - rolamento_outer_pos_2
+      - rolamento_outer_carga
+      - rolamento_outer_carga_2
+      - rolamento_outer_novo
+      - rolamento_outer_novo_teste
+      - rolamento_outer_adxl_0
+      - rolamento_outer_adxl_1
+      - new_rolamento_outer_0
+      - new_rolamento_outer_1
+      - new_rolamento_outer_2
+      - new_rolamento_outer_3
+
+  - key: rolamento_inner
+    label_pt: Rolamento inner race
+    kind: fault
+    family: rolamento
+    aliases:
+      - rolamento_inner
+      - rolamento_inner_2
+      - rolamento_inner_3
+      - rolamento_inner_4
+      - rolamento_inner_pos_2
+      - rolamento_inner_carga
+      - rolamento_inner_carga_2
+      - rolamento_inner_adxl_0
+      - new_rolamento_inner_0
+      - new_rolamento_inner_1
+      - new_rolamento_inner_2
+      - new_rolamento_inner_3
+
+  - key: rolamento_ball
+    label_pt: Rolamento esfera
+    kind: fault
+    family: rolamento
+    aliases:
+      - rolamento_ball
+      - rolamento_ball_2
+      - rolamento_ball_3
+      - rolamento_ball_4
+      - rolamento_ball_pos_2
+      - rolamento_ball_carga
+      - rolamento_ball_carga_3
+      - rolamento_ball_adxl_0
+      - new_rolamento_ball_0
+      - new_rolamento_ball_1
+      - new_rolamento_ball_2
+      - new_rolamento_ball_3
+
+  - key: ventoinha
+    label_pt: Ventoinha
+    kind: fault
+    family: transmissao
+    aliases:
+      - ventoinha
+      - ventoinha_2
+      - ventoinha_3
+      - ventoinha_adxl_0
+
+  - key: correia
+    label_pt: Correia
+    kind: fault
+    family: transmissao
+    aliases:
+      - correia
+      - correia_2
+
+  - key: polia
+    label_pt: Polia
+    kind: fault
+    family: transmissao
+    aliases:
+      - polia
+      - polia_2
+
+  - key: desbalanceamento
+    label_pt: Desbalanceamento
+    kind: fault
+    family: dinamica
+    aliases:
+      - desbalanceamento
+      - desbalanceado_1parafuso
+      - desbalanceado_1parafuso_3
+      - desbalanceado_2_pos_2
+      - desbalanceado_3
+      - desbalanceado_adxl_0
+      - desbalanceado_adxl_1
+      - desbalanceado_antigo_0
+      - desbalanceado_antigo_1
+      - desbalanceado_antigo_2
+      - desbalanceado_antigo_3
+      - desbalanceado_carga
+      - desbalanceado_carga_2
+      - desbalanceado_carga_3
+      - desbalanceado_carga_3_2
+      - desbalanceado_novo
+      - desbalanceado_pos_2
+      - desabalanceado_3
+      - desbanlanceado_carga_3_2
+      - dedesbalanceado_adxl_1
+      - ddesbalanceado_adxl_0
+      - new_desbalanceado_0
+      - new_desbalanceado_1
+      - new_desbalanceado_2
+      - new_desbalanceado_3
+      - new_desbalanceado_antigo_0
+      - new_desbalanceado_antigo_1
+      - new_desbalanceado_antigo_2
+      - new_desbalanceado_antigo_3
+      - new_desabanceado_1
+
+  - key: desalinhamento
+    label_pt: Desalinhamento
+    kind: fault
+    family: dinamica
+    aliases:
+      - desalinhado
+      - desalinhado_2
+      - desalinhado_3
+      - new_desalinhado_0
+      - new_desalinhado_1
+      - new_desalinhado_2
+      - new_desalinhado_3
+      - new_desalinhado_4
