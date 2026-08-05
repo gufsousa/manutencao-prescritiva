@@ -4,6 +4,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+from src.fault_semantics import get_label_kind, is_fault_label, is_state_label
 from src.history_service import HISTORY_SERVICE
 from src.mongo_store import STORE
 from src.sidebar import render_shared_sidebar
@@ -86,18 +87,45 @@ with bottom_left:
 
 with bottom_right:
     if not logs.empty:
-        probable_fault_df = logs["probable_fault"].fillna("nao_informado").value_counts().reset_index()
-        probable_fault_df.columns = ["probable_fault", "count"]
-        fig_logs = px.bar(
-            probable_fault_df,
-            x="probable_fault",
-            y="count",
-            title="Falhas propostas pelo agente",
-            color="count",
-            color_continuous_scale="Sunsetdark",
-        )
-        fig_logs.update_layout(height=420, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
-        st.plotly_chart(fig_logs, width="stretch")
+        probable_fault_series = logs["probable_fault"].fillna("nao_informado")
+        proposed_faults_df = probable_fault_series[probable_fault_series.map(is_fault_label)].value_counts().reset_index()
+        proposed_faults_df.columns = ["probable_fault", "count"]
+
+        proposed_states_df = probable_fault_series[probable_fault_series.map(is_state_label)].value_counts().reset_index()
+        proposed_states_df.columns = ["probable_state", "count"]
+
+        other_outputs_df = probable_fault_series[
+            ~probable_fault_series.map(lambda value: is_fault_label(value) or is_state_label(value))
+        ].value_counts().reset_index()
+        other_outputs_df.columns = ["output", "count"]
+
+        if not proposed_faults_df.empty:
+            fig_logs = px.bar(
+                proposed_faults_df,
+                x="probable_fault",
+                y="count",
+                title="Falhas reais propostas pelo agente",
+                color="count",
+                color_continuous_scale="Sunsetdark",
+            )
+            fig_logs.update_layout(height=420, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+            st.plotly_chart(fig_logs, width="stretch")
+        else:
+            st.info("Nenhuma falha real proposta pelo agente ainda.")
+
+        summary_parts: list[str] = []
+        if not proposed_states_df.empty:
+            summary_parts.append(
+                "estados operacionais propostos: "
+                + ", ".join(f"{row['probable_state']} ({row['count']})" for _, row in proposed_states_df.iterrows())
+            )
+        if not other_outputs_df.empty:
+            summary_parts.append(
+                "saidas sem classe definida: "
+                + ", ".join(f"{row['output']} ({row['count']})" for _, row in other_outputs_df.iterrows())
+            )
+        if summary_parts:
+            st.caption(" | ".join(summary_parts))
     else:
         st.info("Nenhuma inferencia registrada ainda.")
 
