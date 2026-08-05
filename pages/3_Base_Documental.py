@@ -32,12 +32,36 @@ with left:
     with st.form("manual_doc_form"):
         st.subheader("Adicionar documento manual")
         title = st.text_input("Titulo")
-        fault_family = st.selectbox("Familia de falha", [item["key"] for item in get_fault_catalog(include_other=False)])
+        catalog = get_fault_catalog(include_other=True)
+        selected_fault = st.selectbox(
+            "Familia de falha",
+            options=[item["key"] for item in catalog],
+            format_func=lambda key: next((item["label_pt"] for item in catalog if item["key"] == key), key),
+        )
+        custom_fault = st.text_input("Nova falha ou rotulo livre", placeholder="ex.: cavitacao, folga estrutural, falha_xpto")
+        source_file = st.text_input("Origem / referencia", value="manual_input")
         content = st.text_area("Conteudo", height=200)
         submitted = st.form_submit_button("Adicionar manual", width="stretch")
         if submitted:
-            result = DOCUMENT_SERVICE.add_manual_document(title=title, fault_family=fault_family, content=content)
-            st.success(f"Documento adicionado com {result['chunks_created']} chunk(s).")
+            fault_family = custom_fault.strip() if selected_fault == "other" else selected_fault
+            if not title.strip():
+                st.error("Informe um titulo para o documento.")
+            elif not fault_family.strip():
+                st.error("Informe a familia de falha ou um rotulo livre.")
+            elif not content.strip():
+                st.error("Informe o conteudo do documento.")
+            else:
+                result = DOCUMENT_SERVICE.add_manual_document(
+                    title=title.strip(),
+                    fault_family=fault_family.strip(),
+                    content=content.strip(),
+                    source_file=source_file.strip() or "manual_input",
+                )
+                st.success(
+                    "Documento adicionado com "
+                    f"{result['chunks_created']} chunk(s) para a falha `{result['document']['fault_family']}`."
+                )
+        st.caption("Se a falha ainda nao existir na taxonomia, selecione `Outro / rotulo livre` e digite o novo rotulo.")
 
 with right:
     st.subheader("Busca vetorial")
