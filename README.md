@@ -163,7 +163,7 @@ Isso permite:
 
 ## Estrutura de pastas
 
-Em uma leitura mais `full stack IA + Python`, no espirito da referencia [gufsousa/projeto-ia-gen](https://github.com/gufsousa/projeto-ia-gen), o repositorio pode ser entendido assim:
+O repositorio pode ser entendido assim:
 
 ```text
 Manutencao-prescritiva-main/
@@ -368,8 +368,3 @@ Sweep adicional Groq em **5 de agosto de 2026**:
 - introduzir politica agentic configuravel em `config/agent_policy.yaml`;
 - evoluir do router atual para um planner estilo ReAct mais explicito;
 - adicionar avaliacao mais forte para falso positivo e casos `unknown`.
-
-## Referencias
-
-- Repositorio de interface e documentacao usado como referencia estrutural: [gufsousa/projeto-ia-gen](https://github.com/gufsousa/projeto-ia-gen)
-- Repositorio local usado como referencia para organizacao agentic e prompts: `C:\Projetos\Manutencao-prescritva`
