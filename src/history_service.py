@@ -78,6 +78,7 @@ class HistoryService:
         source: str = "protected",
         allow_partial: bool = False,
         sample_fraction: float | None = None,
+        incremental: bool = False,
     ) -> dict[str, Any]:
         if limit is None and sample_fraction is None and source != "page":
             raise PermissionError("Reingestao completa do historico permitida apenas pela pagina da aplicacao.")
@@ -96,13 +97,21 @@ class HistoryService:
         if limit:
             df = df.head(limit)
         records = json.loads(df.to_json(orient="records", date_format="iso"))
-        inserted = STORE.replace_many("history", records)
+        if incremental:
+            result = STORE.insert_many_missing_by_id("history", records)
+            inserted = result["inserted"]
+            skipped = result["skipped"]
+        else:
+            inserted = STORE.replace_many("history", records)
+            skipped = 0
         return {
             "inserted": inserted,
+            "skipped": skipped,
             "source_rows": len(df),
             "source": source,
             "partial": limit is not None or sample_fraction is not None,
             "sample_fraction": sample_fraction,
+            "incremental": incremental,
         }
 
     def load_history_frame(self, prefer_mongo: bool = True) -> pd.DataFrame:
@@ -358,10 +367,14 @@ class HistoryService:
         )
 
     def dataset_metrics(self) -> dict[str, Any]:
-        df = self.load_history_frame()
+        df = self.load_dataset()
         canonical_series = df["canonical_fault"].dropna()
         state_labels = sorted({label for label in canonical_series.unique().tolist() if is_state_label(label)})
         fault_labels = sorted({label for label in canonical_series.unique().tolist() if is_fault_label(label)})
+        fault_mask = df["canonical_fault"].map(is_fault_label)
+        state_mask = df["canonical_fault"].map(is_state_label)
+        fault_counts = df.loc[fault_mask, "canonical_fault"].value_counts().to_dict()
+        state_counts = df.loc[state_mask, "canonical_fault"].value_counts().to_dict()
         return {
             "rows": len(df),
             "raw_faults": int(df["fault"].nunique()),
@@ -370,10 +383,14 @@ class HistoryService:
             "fault_labels": len(fault_labels),
             "state_catalog": state_labels,
             "fault_catalog": fault_labels,
+            "fault_rows": int(fault_mask.sum()),
+            "state_rows": int(state_mask.sum()),
             "min_date": df["created_at"].min(),
             "max_date": df["created_at"].max(),
             "rpm_counts": df["rpm"].value_counts().sort_index().to_dict(),
             "fault_counts": df["canonical_fault"].value_counts().to_dict(),
+            "real_fault_counts": fault_counts,
+            "state_counts": state_counts,
         }
 
     def storage_metrics(self) -> dict[str, Any]:

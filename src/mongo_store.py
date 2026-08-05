@@ -87,6 +87,41 @@ class MongoStore:
         self._save_local_state()
         return len(documents)
 
+    def get_existing_ids(self, logical_name: str) -> set[str]:
+        collection_name = self._collection_name(logical_name)
+        db = self.get_database()
+        if db is not None:
+            cursor = db[collection_name].find({"id": {"$exists": True}}, {"_id": 0, "id": 1})
+            return {str(item["id"]) for item in cursor if item.get("id") is not None}
+        return {
+            str(item["id"])
+            for item in self._local_state.get(collection_name, [])
+            if isinstance(item, dict) and item.get("id") is not None
+        }
+
+    def insert_many_missing_by_id(self, logical_name: str, documents: list[dict[str, Any]]) -> dict[str, int]:
+        collection_name = self._collection_name(logical_name)
+        existing_ids = self.get_existing_ids(logical_name)
+        missing_documents = [
+            deepcopy(item)
+            for item in documents
+            if item.get("id") is not None and str(item["id"]) not in existing_ids
+        ]
+
+        db = self.get_database()
+        if db is not None:
+            if missing_documents:
+                collection = db[collection_name]
+                for batch in self._batched(missing_documents):
+                    collection.insert_many(batch, ordered=False)
+            return {"requested": len(documents), "inserted": len(missing_documents), "skipped": len(documents) - len(missing_documents)}
+
+        target = self._local_state.setdefault(collection_name, [])
+        if missing_documents:
+            target.extend(missing_documents)
+            self._save_local_state()
+        return {"requested": len(documents), "inserted": len(missing_documents), "skipped": len(documents) - len(missing_documents)}
+
     def insert_one(self, logical_name: str, document: dict[str, Any]) -> dict[str, Any]:
         collection_name = self._collection_name(logical_name)
         db = self.get_database()

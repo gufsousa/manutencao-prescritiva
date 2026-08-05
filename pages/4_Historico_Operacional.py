@@ -52,9 +52,27 @@ st.caption(
     f"{metrics['fault_labels']} falhas reais e {metrics['state_labels']} estados operacionais canonicos."
 )
 
-if st.button("Reingestar amostra representativa de 20% pela pagina", width="stretch"):
-    result = HISTORY_SERVICE.ingest_history_to_mongo(source="page", sample_fraction=0.20)
-    st.success(f"Ingestao concluida com {result['inserted']} registros.")
+st.markdown("### Ingestao incremental no Mongo")
+target_percent = st.slider(
+    "Percentual alvo da amostra representativa",
+    min_value=20,
+    max_value=100,
+    value=20,
+    step=10,
+    help="A pagina calcula uma amostra representativa nesse percentual e adiciona apenas os IDs que ainda nao existem no historico persistido.",
+)
+target_fraction = target_percent / 100
+target_rows = math.ceil(storage_metrics["csv_rows"] * target_fraction)
+st.caption(
+    f"Meta alvo selecionada: {target_rows:,} registros representativos ({target_percent}%).".replace(",", ".")
+)
+
+if st.button("Adicionar somente registros faltantes ao Mongo", width="stretch"):
+    result = HISTORY_SERVICE.ingest_history_to_mongo(source="page", sample_fraction=target_fraction, incremental=True)
+    st.success(
+        "Ingestao incremental concluida: "
+        f"{result['inserted']} novo(s) registro(s) e {result['skipped']} ja existente(s)."
+    )
 
 df = HISTORY_SERVICE.load_history_frame()
 df["semantic_kind"] = df["canonical_fault"].map(get_label_kind)
