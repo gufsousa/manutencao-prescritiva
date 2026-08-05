@@ -321,6 +321,7 @@ Resposta boa:
 Resposta segura:
 
 - "Nao ainda. O Atlas esta sendo usado como persistencia opcional. A parte vetorial ainda esta implementada no lado da aplicacao."
+- "Se a arquitetura evoluir, o caminho natural e manter os vetores no Mongo e migrar o ranking para indice vetorial nativo com `$vectorSearch`."
 
 ## Observabilidade e rastreabilidade
 
@@ -553,6 +554,14 @@ Resposta segura:
 | Planner ReAct completo | Nao | "agentic leve com roteamento e ferramentas internas" |
 | FFT calculada no pipeline | Nao | "conceito pode ser explicado, mas nao e calculo do motor atual" |
 | Aprendizado online | Nao | "dataset e base documental sao ingeridos, nao ha treino incremental" |
+
+### Pergunta potencial da banca: "Entao por que usar Mongo agora?"
+
+Resposta recomendada:
+
+- "Porque ele ja organiza a persistencia operacional do MVP: historico, documentos, chunks, logs e conversas."
+- "Ou seja, o Mongo ja faz sentido hoje como camada de dados, mesmo antes da ativacao do motor vetorial nativo."
+- "Se houver evolucao futura, a mesma base pode receber indice vetorial e consulta por `$vectorSearch`, reduzindo o ranking manual em Python."
 
 ## Melhor forma de apresentar tecnicamente
 

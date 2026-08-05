@@ -28,3 +28,6 @@ docs/11 - prova prtica.pdf
 
 # Script auxiliar de geração de notebook/relatório
 scripts/generate_eda_artifacts.py
+
+# Artefatos graficos auxiliares de benchmark
+docs/analise_markdown/benchmark_graficos_2026-08-05/

@@ -367,4 +367,11 @@ Sweep adicional Groq em **5 de agosto de 2026**:
 - melhorar a qualidade da resposta tecnica livre quando o termo consultado nao estiver explicitamente nos PDFs;
 - introduzir politica agentic configuravel em `config/agent_policy.yaml`;
 - evoluir do router atual para um planner estilo ReAct mais explicito;
+- migrar a recuperacao vetorial documental do ranking local em Python para `MongoDB Vector Search` nativo com indice vetorial e `$vectorSearch`;
 - adicionar avaliacao mais forte para falso positivo e casos `unknown`.
+
+Observacao importante para defesa:
+
+- hoje o `MongoDB` funciona como camada de persistencia opcional para documentos, chunks, conversas e logs;
+- a busca vetorial ainda e executada na aplicacao Python com vetorizacao local e similaridade cosseno;
+- uma evolucao natural de arquitetura e mover essa etapa para `MongoDB Vector Search` nativo, mantendo o restante do pipeline.
