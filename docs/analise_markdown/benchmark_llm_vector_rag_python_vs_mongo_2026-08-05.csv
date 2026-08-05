@@ -1,0 +1,299 @@
+﻿sample_id,true_fault,backend,model,predicted_fault,confidence_proxy,elapsed_ms,doc_latency_ms,correct,retrieval_overlap_at_k,retrieval_same_order,retrieved_chunk_ids,raw_response,usage
+153802,desalinhamento,python,llama-3.1-8b-instant,desalinhamento,89.99,20265.987,123.511,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""ab69eeef-1d82-434f-bd3d-b66907e9d3c0"", ""0306ead0-b7ee-4b31-b922-bfe4b7ccd9a3""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 89.99,
+  ""rationale"": ""A maior similaridade com os exemplos de desalinhamento e a presença de características típicas de desalinhamento, como vibrações e acelerações anormais, indicam que a falha mais provável é desalinhamento.""
+}
+```","{""prompt_tokens"": 1853, ""completion_tokens"": 90, ""total_tokens"": 1943}"
+153802,desalinhamento,mongo,llama-3.1-8b-instant,desalinhamento,89.99,19729.946,35.743,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""ab69eeef-1d82-434f-bd3d-b66907e9d3c0"", ""0306ead0-b7ee-4b31-b922-bfe4b7ccd9a3""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 89.99,
+  ""rationale"": ""A maior parte dos exemplos de manutenção prescritiva recuperados foi relacionada a desalinhamento, com uma confiança de 89,99%.""
+}
+```","{""prompt_tokens"": 1853, ""completion_tokens"": 70, ""total_tokens"": 1923}"
+37590,cocked_rotor,python,llama-3.1-8b-instant,correia,68.57,16943.982,102.056,False,4,True,"[""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b""]","```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 68.57,
+  ""rationale"": ""A maior parte das evidências coletadas sugere que a falha é relacionada à correia, com uma confiança de 68,57%.""
+}
+```","{""prompt_tokens"": 1835, ""completion_tokens"": 67, ""total_tokens"": 1902}"
+37590,cocked_rotor,mongo,llama-3.1-8b-instant,correia,68.57,21271.756,30.71,False,4,True,"[""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b""]","```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 68.57,
+  ""rationale"": ""A maior parte das evidências coletadas sugere que a falha é relacionada à correia, com uma confiança de 68,57%.""
+}
+```","{""prompt_tokens"": 1835, ""completion_tokens"": 67, ""total_tokens"": 1902}"
+144360,correia,python,llama-3.1-8b-instant,correia,90.18,18745.698,124.716,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c""]","```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 90.18,
+  ""rationale"": ""A maior similaridade foi encontrada com o procedimento de correia, com uma pontuação de 0.9018. Além disso, os sintomas comuns de problemas de correia, como assobios ou chiados, vibração excessiva e aquecimento, estão presentes no evento.""
+}
+```","{""prompt_tokens"": 1835, ""completion_tokens"": 99, ""total_tokens"": 1934}"
+144360,correia,mongo,llama-3.1-8b-instant,correia,90.18,15228.44,38.585,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c""]","```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 90.18,
+  ""rationale"": ""A maior similaridade foi encontrada com o procedimento de correia, com uma pontuação de 0.9018. Além disso, os sintomas comuns de problemas de correia, como assobios ou chiados, vibração excessiva e aquecimento, estão presentes nos dados do evento.""
+}
+```","{""prompt_tokens"": 1834, ""completion_tokens"": 101, ""total_tokens"": 1935}"
+158579,desalinhamento,python,llama-3.1-8b-instant,desalinhamento,68.15,22301.015,109.983,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""8c615ead-1e1d-4d7d-b7fc-acb118e7a130"", ""c5666667-3168-4a33-b646-9244b9cd7ba9""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 68.15,
+  ""rationale"": ""A maior similaridade com o evento de manutenção prescritiva foi encontrada com o procedimento de desalinhamento, com uma pontuação de 68,15%.""
+}
+```
+
+Essa resposta foi baseada na análise dos dados fornecidos, onde o procedimento de desalinhamento apresentou a maior similaridade com o evento de manutenção prescritiva, com uma pontuação de 68,15%.","{""prompt_tokens"": 1810, ""completion_tokens"": 124, ""total_tokens"": 1934}"
+158579,desalinhamento,mongo,llama-3.1-8b-instant,desalinhamento,68.15,21854.01,30.469,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""8c615ead-1e1d-4d7d-b7fc-acb118e7a130"", ""c5666667-3168-4a33-b646-9244b9cd7ba9""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 68.15,
+  ""rationale"": ""A maior similaridade com o evento de manutenção prescritiva foi encontrada com o procedimento de desalinhamento, com uma pontuação de 0.7141. Além disso, os valores de vibração e temperatura do evento de manutenção prescritiva estão dentro da tolerância definida pelo procedimento de desalinhamento.""
+}
+```","{""prompt_tokens"": 1810, ""completion_tokens"": 110, ""total_tokens"": 1920}"
+60079,rolamento_inner,python,llama-3.1-8b-instant,rolamento_inner,87.79,20677.26,117.266,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""c5666667-3168-4a33-b646-9244b9cd7ba9"", ""ab69eeef-1d82-434f-bd3d-b66907e9d3c0""]","```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 87.79,
+  ""rationale"": ""A maior confiança foi atribuída ao rolamento inner devido à alta correlação entre as características de vibração e aceleração medidas e as características típicas de um rolamento inner em falha.""
+}
+```","{""prompt_tokens"": 1822, ""completion_tokens"": 79, ""total_tokens"": 1901}"
+60079,rolamento_inner,mongo,llama-3.1-8b-instant,rolamento_inner,87.79,18887.072,31.518,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""c5666667-3168-4a33-b646-9244b9cd7ba9"", ""ab69eeef-1d82-434f-bd3d-b66907e9d3c0""]","```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 87.79,
+  ""rationale"": ""A maior confiança foi atribuída ao rolamento inner devido às características de vibração e aceleração detectadas no evento.""
+}
+```","{""prompt_tokens"": 1823, ""completion_tokens"": 63, ""total_tokens"": 1886}"
+10748,desbalanceamento,python,llama-3.1-8b-instant,desbalanceamento,65.74,15415.192,115.531,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c""]","```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 65.74,
+  ""rationale"": ""A maior confiança foi atribuída ao desbalanceamento devido aos valores elevados de x_peak_acceleration_g e z_peak_acceleration_g, que indicam vibrações anormais no eixo x e z. Além disso, os valores de x_kurtosis e z_kurtosis também são elevados, o que sugere uma distribuição de vibrações não gaussiana, típica de desbalanceamentos.""
+}
+```","{""prompt_tokens"": 1839, ""completion_tokens"": 126, ""total_tokens"": 1965}"
+10748,desbalanceamento,mongo,llama-3.1-8b-instant,desbalanceamento,65.74,23335.801,33.346,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c""]","```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 65.74,
+  ""rationale"": ""A maior confiança foi encontrada no desbalanceamento, pois os valores de x_rms_velocity_mm_s e z_rms_velocity_mm_s estão acima da média, e os valores de x_peak_acceleration_g e z_peak_acceleration_g também estão acima da média. Além disso, os valores de x_kurtosis e z_kurtosis estão acima da média, o que sugere que há uma distribuição de vibrações não normal.""
+}
+```","{""prompt_tokens"": 1839, ""completion_tokens"": 133, ""total_tokens"": 1972}"
+70137,rolamento_inner,python,llama-3.1-8b-instant,cocked_rotor,67.05,14705.978,123.255,False,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""0306ead0-b7ee-4b31-b922-bfe4b7ccd9a3"", ""86ea7c8f-ad5b-4bf9-8e7d-1905c4fa1765""]","```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 67.05,
+  ""rationale"": ""O evento de manutenção prescritiva apresenta características semelhantes ao cocked_rotor, com valores de rpm, temperatura e aceleração que se aproximam dos valores registrados em eventos de cocked_rotor.""
+}
+```","{""prompt_tokens"": 1867, ""completion_tokens"": 82, ""total_tokens"": 1949}"
+70137,rolamento_inner,mongo,llama-3.1-8b-instant,cocked_rotor,67.05,14467.446,32.236,False,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""0306ead0-b7ee-4b31-b922-bfe4b7ccd9a3"", ""86ea7c8f-ad5b-4bf9-8e7d-1905c4fa1765""]","```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 67.05,
+  ""rationale"": ""O evento de manutenção prescritiva apresenta características semelhantes ao cocked_rotor, com valores de rpm, temperatura e aceleração que se aproximam dos valores registrados em eventos de cocked_rotor.""
+}
+```","{""prompt_tokens"": 1866, ""completion_tokens"": 82, ""total_tokens"": 1948}"
+160014,desalinhamento,python,llama-3.1-8b-instant,desalinhamento,88.57,14234.239,104.099,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""4c2ec314-19cd-4ac6-a2e7-b299304e284b"", ""9668d9b3-8bd3-4b03-b24e-adb2d5842ead""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 88.57,
+  ""rationale"": ""A maior parte das evidências coletadas indica que o problema é um desalinhamento. A vibração reduzida em relação à condição inicial, a temperatura dos mancais estável e a falta de ruído anormal são características que apontam para um desalinhamento.""
+}
+```","{""prompt_tokens"": 1842, ""completion_tokens"": 98, ""total_tokens"": 1940}"
+160014,desalinhamento,mongo,llama-3.1-8b-instant,desalinhamento,88.57,20389.066,30.958,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""4c2ec314-19cd-4ac6-a2e7-b299304e284b"", ""9668d9b3-8bd3-4b03-b24e-adb2d5842ead""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 88.57,
+  ""rationale"": ""A maior parte das evidências coletadas indica que o problema é um desalinhamento. A vibração reduzida em relação à condição inicial, a temperatura dos mancais estável e a falta de ruído anormal são características que apontam para um desalinhamento.""
+}
+```","{""prompt_tokens"": 1842, ""completion_tokens"": 98, ""total_tokens"": 1940}"
+40379,cocked_rotor,python,llama-3.1-8b-instant,rolamento_inner,75.26,15543.235,107.806,False,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""9c4ccf1d-0ec3-433d-9199-6b129e7779fc"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""86ea7c8f-ad5b-4bf9-8e7d-1905c4fa1765""]","```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 75.26,
+  ""rationale"": ""A análise dos dados de vibração e aceleração sugere que o problema está relacionado ao rolamento interno, com uma confiança de 75,26%""
+}
+```","{""prompt_tokens"": 1865, ""completion_tokens"": 71, ""total_tokens"": 1936}"
+40379,cocked_rotor,mongo,llama-3.1-8b-instant,rolamento_inner,75.26,16193.72,30.621,False,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""9c4ccf1d-0ec3-433d-9199-6b129e7779fc"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""86ea7c8f-ad5b-4bf9-8e7d-1905c4fa1765""]","```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 75.26,
+  ""rationale"": ""A análise dos dados de vibração e aceleração sugere que o problema está relacionado ao rolamento interno, com uma confiança de 75,26%""
+}
+```","{""prompt_tokens"": 1864, ""completion_tokens"": 71, ""total_tokens"": 1935}"
+42143,cocked_rotor,python,llama-3.1-8b-instant,cocked_rotor,85.62,14956.079,131.195,True,4,True,"[""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""c5666667-3168-4a33-b646-9244b9cd7ba9"", ""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""9668d9b3-8bd3-4b03-b24e-adb2d5842ead""]","```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 85.62,
+  ""rationale"": ""A maior confiança foi encontrada no evento de manutenção prescritiva com o rótulo 'Cocked rotor' com uma pontuação de 0,8562.""
+}
+```","{""prompt_tokens"": 1853, ""completion_tokens"": 72, ""total_tokens"": 1925}"
+42143,cocked_rotor,mongo,llama-3.1-8b-instant,cocked_rotor,85.62,14040.159,41.821,True,4,True,"[""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""c5666667-3168-4a33-b646-9244b9cd7ba9"", ""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""9668d9b3-8bd3-4b03-b24e-adb2d5842ead""]","```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 85.62,
+  ""rationale"": ""A maior confiança foi encontrada no evento de manutenção prescritiva com o rótulo 'Cocked rotor' com uma pontuação de 0,8562.""
+}
+```","{""prompt_tokens"": 1854, ""completion_tokens"": 72, ""total_tokens"": 1926}"
+110041,correia,python,llama-3.1-8b-instant,desalinhamento,67.31,14322.3,112.408,False,4,True,"[""0306ead0-b7ee-4b31-b922-bfe4b7ccd9a3"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""c5666667-3168-4a33-b646-9244b9cd7ba9"", ""86ea7c8f-ad5b-4bf9-8e7d-1905c4fa1765""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 67.31,
+  ""rationale"": ""A combinação de alta vibração, temperatura e ruído anormal nos dados de evento sugere desalinhamento. Além disso, a presença de procedimentos de desalinhamento nos documentos de manutenção prescritiva reforça essa hipótese.""
+}
+```","{""prompt_tokens"": 1837, ""completion_tokens"": 96, ""total_tokens"": 1933}"
+110041,correia,mongo,llama-3.1-8b-instant,desalinhamento,67.31,17937.305,30.362,False,4,True,"[""0306ead0-b7ee-4b31-b922-bfe4b7ccd9a3"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""c5666667-3168-4a33-b646-9244b9cd7ba9"", ""86ea7c8f-ad5b-4bf9-8e7d-1905c4fa1765""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 67.31,
+  ""rationale"": ""A combinação de alta vibração, temperatura e ruído anormal nos dados de evento sugere desalinhamento. Além disso, a presença de procedimentos de desalinhamento nos documentos de manutenção prescritiva reforça essa hipótese.""
+}
+```","{""prompt_tokens"": 1838, ""completion_tokens"": 96, ""total_tokens"": 1934}"
+148217,desalinhamento,python,llama-3.1-8b-instant,desalinhamento,67.94,17928.378,112.165,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""ab69eeef-1d82-434f-bd3d-b66907e9d3c0"", ""86ea7c8f-ad5b-4bf9-8e7d-1905c4fa1765""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 67.94,
+  ""rationale"": ""A maior parte dos exemplos de manutenção prescritiva recuperados foi relacionada a desalinhamento, com uma pontuação média de 0.6616. Além disso, o procedimento de desalinhamento foi encontrado no conjunto de documentos recuperados, com uma pontuação de 0.3742.""
+}
+```","{""prompt_tokens"": 1842, ""completion_tokens"": 104, ""total_tokens"": 1946}"
+148217,desalinhamento,mongo,llama-3.1-8b-instant,desalinhamento,67.94,16859.692,30.268,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""ab69eeef-1d82-434f-bd3d-b66907e9d3c0"", ""86ea7c8f-ad5b-4bf9-8e7d-1905c4fa1765""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 67.94,
+  ""rationale"": ""A maior parte dos exemplos de manutenção prescritiva e procedimentos de desalinhamento apresentados no conjunto de dados indicam que o problema mais provável é um desalinhamento. Além disso, os valores de vibração e aceleração apresentados no evento são semelhantes aos apresentados nos exemplos de desalinhamento.""
+}
+```","{""prompt_tokens"": 1841, ""completion_tokens"": 112, ""total_tokens"": 1953}"
+129987,rolamento_inner,python,llama-3.1-8b-instant,desalinhamento,68.96,18416.604,102.702,False,4,True,"[""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""0306ead0-b7ee-4b31-b922-bfe4b7ccd9a3"", ""c5666667-3168-4a33-b646-9244b9cd7ba9""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 68.96,
+  ""rationale"": ""A vibração elevada e o aumento de temperatura nos mancais são sintomas comuns de desalinhamento, conforme descrito no procedimento de desalinhamento.""
+}
+```
+
+Essa resposta é baseada na análise dos dados fornecidos e na comparação com os procedimentos de desalinhamento e desbalanceamento. A confiança é calculada com base na pontuação dos exemplos de treinamento e na pontuação dos documentos de busca.","{""prompt_tokens"": 1853, ""completion_tokens"": 134, ""total_tokens"": 1987}"
+129987,rolamento_inner,mongo,llama-3.1-8b-instant,desalinhamento,68.96,20382.324,30.416,False,4,True,"[""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""0306ead0-b7ee-4b31-b922-bfe4b7ccd9a3"", ""c5666667-3168-4a33-b646-9244b9cd7ba9""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 68.96,
+  ""rationale"": ""A vibração reduzir em relação à condição inicial; Não houver ruído anormal; A temperatura dos mancais permanecer estável; O motor operar sem oscilações excessivas; O acoplamento trabalhar sem esforço aparente; As medições estiverem dentro da tolerância definida pelo fabricante ou pelo procedimento interno.""
+}
+```
+
+Essa resposta é baseada na análise dos dados fornecidos e na comparação com os procedimentos de desalinhamento e desbalanceamento. A confiança é calculada com base na pontuação dos exemplos de treinamento e na similaridade com os procedimentos de desalinhamento.","{""prompt_tokens"": 1853, ""completion_tokens"": 182, ""total_tokens"": 2035}"
+42018,cocked_rotor,python,llama-3.1-8b-instant,cocked_rotor,91.74,26179.597,106.939,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b""]","```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 91.74,
+  ""rationale"": ""A maior parte dos exemplos de manutenção prescritiva recuperados apresentam a falha de 'cocked_rotor' com uma pontuação alta, indicando que essa é a falha mais provável.""
+}
+```","{""prompt_tokens"": 1846, ""completion_tokens"": 79, ""total_tokens"": 1925}"
+42018,cocked_rotor,mongo,llama-3.1-8b-instant,cocked_rotor,91.74,17806.487,30.535,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b""]","```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 91.74,
+  ""rationale"": ""A maior parte dos exemplos de manutenção prescritiva recuperados apresentam a falha de 'cocked_rotor' como a mais provável, com uma confiança de 91,74%.""
+}
+```","{""prompt_tokens"": 1846, ""completion_tokens"": 79, ""total_tokens"": 1925}"
+175719,desbalanceamento,python,llama-3.1-8b-instant,desbalanceamento,66.44,16046.614,133.481,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""0306ead0-b7ee-4b31-b922-bfe4b7ccd9a3"", ""9668d9b3-8bd3-4b03-b24e-adb2d5842ead"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b""]","```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 66.44,
+  ""rationale"": ""A maior confiança foi atribuída ao desbalanceamento devido à presença de características de vibração anormal nas direções x e z, bem como a presença de ruído anormal e desgaste excessivo nas pás.""
+}
+```
+
+Essa resposta foi baseada na análise dos dados de vibração e aceleração fornecidos, que indicam uma possível causa de desbalanceamento. A confiança de 66,44% é baseada na pontuação do modelo de classificação, que considerou a presença de características de vibração anormal, ruído anormal e desgaste excessivo nas pás.","{""prompt_tokens"": 1853, ""completion_tokens"": 172, ""total_tokens"": 2025}"
+175719,desbalanceamento,mongo,llama-3.1-8b-instant,desbalanceamento,66.44,16896.613,31.747,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""0306ead0-b7ee-4b31-b922-bfe4b7ccd9a3"", ""9668d9b3-8bd3-4b03-b24e-adb2d5842ead"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b""]","```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 66.44,
+  ""rationale"": ""A maior similaridade foi encontrada com o procedimento de desbalanceamento, com uma pontuação de 0,6954. Além disso, o evento de manutenção prescritiva apresenta características semelhantes ao desbalanceamento, como vibrações anormais e ruído excessivo.""
+}
+```","{""prompt_tokens"": 1853, ""completion_tokens"": 100, ""total_tokens"": 1953}"
+104473,correia,python,llama-3.1-8b-instant,correia,91.6,20766.947,109.55,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""9668d9b3-8bd3-4b03-b24e-adb2d5842ead"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe""]","```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 91.6,
+  ""rationale"": ""A maior confiança foi atribuída à classe 'correia' devido à maior similaridade entre os dados de vibração e os sintomas comuns de problemas de correia.""
+}
+```","{""prompt_tokens"": 1833, ""completion_tokens"": 74, ""total_tokens"": 1907}"
+104473,correia,mongo,llama-3.1-8b-instant,correia,91.6,14267.974,33.607,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b"", ""9668d9b3-8bd3-4b03-b24e-adb2d5842ead"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe""]","```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 91.6,
+  ""rationale"": ""A maior confiança foi atribuída à classe 'correia' devido à presença de assobios ou chiados, vibração excessiva, aquecimento, perda de velocidade, oscilação da correia e desgaste irregular, que são sintomas comuns de problemas de correia.""
+}
+```","{""prompt_tokens"": 1834, ""completion_tokens"": 102, ""total_tokens"": 1936}"
+4566,desbalanceamento,python,llama-3.1-8b-instant,desbalanceamento,87.28,18168.942,120.627,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""86ea7c8f-ad5b-4bf9-8e7d-1905c4fa1765"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b""]","```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 87.28,
+  ""rationale"": ""A maior confiança foi atribuída ao desbalanceamento devido à alta correlação entre os dados de vibração e aceleração, indicando uma possível causa de desbalanceamento.""
+}
+```
+
+Essa resposta é baseada na análise dos dados fornecidos, onde o desbalanceamento tem a maior confiança (87,28%) e a maior correlação com os dados de vibração e aceleração.","{""prompt_tokens"": 1836, ""completion_tokens"": 123, ""total_tokens"": 1959}"
+4566,desbalanceamento,mongo,llama-3.1-8b-instant,desbalanceamento,87.28,19900.311,36.746,True,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""86ea7c8f-ad5b-4bf9-8e7d-1905c4fa1765"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b""]","```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 87.28,
+  ""rationale"": ""A maior confiança foi atribuída ao desbalanceamento devido à alta correlação entre as características de vibração e aceleração, que são comumente associadas a esse tipo de falha.""
+}
+```
+
+Essa resposta é baseada na análise das características de vibração e aceleração presentes no evento, que são mais semelhantes às características associadas ao desbalanceamento. Além disso, a confiança atribuída ao desbalanceamento é alta, o que indica que a classificação é confiável.","{""prompt_tokens"": 1837, ""completion_tokens"": 150, ""total_tokens"": 1987}"
+66814,rolamento_inner,python,llama-3.1-8b-instant,correia,66.16,19425.795,109.34,False,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b""]","```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 66.16,
+  ""rationale"": ""A maior similaridade foi encontrada com o procedimento de correias, com sintomas comuns como assobios ou chiados, vibração excessiva, aquecimento, perda de velocidade, oscilação da correia, partículas de borracha próximas ao equipamento, desgaste irregular e falhas recorrentes da correia.""
+}
+```","{""prompt_tokens"": 1844, ""completion_tokens"": 111, ""total_tokens"": 1955}"
+66814,rolamento_inner,mongo,llama-3.1-8b-instant,correia,66.16,19818.114,31.854,False,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""cbf8a2fd-d4f4-4d21-b5b1-3bad344efb5b""]","```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 66.16,
+  ""rationale"": ""A vibração excessiva e o aquecimento são sintomas comuns de problemas de correia, e os dados de vibração e temperatura fornecidos no evento de manutenção prescritiva indicam que a correia pode estar causando esses problemas.""
+}
+```
+
+Essa resposta é baseada na análise dos dados fornecidos e na comparação com os procedimentos de manutenção prescritiva disponíveis. A correia é a classe de falha mais provável com base nos dados de vibração e temperatura fornecidos no evento de manutenção prescritiva. A confiança é de 66,16%, o que é considerado um nível de confiança moderado. A justificativa para essa resposta é que a vibração excessiva e o aquecimento são sintomas comuns de problemas de correia, e os dados de vibração e temperatura fornecidos no evento de manutenção prescritiva indicam que a correia pode estar causando esses problemas.","{""prompt_tokens"": 1844, ""completion_tokens"": 251, ""total_tokens"": 2095}"
+104258,correia,python,llama-3.1-8b-instant,desalinhamento,68.67,25973.285,126.188,False,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""08242014-e432-4ccc-b815-81d885f8e5c2""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 68.67,
+  ""rationale"": ""A maior parte das evidências coletadas sugere que o problema é relacionado a um desalinhamento, com uma confiança de 68,67%.""
+}
+```
+
+Essa resposta é baseada nas informações coletadas nos eventos de manutenção prescritiva, que indicam que o problema é mais provável de ser um desalinhamento, com uma confiança de 68,67%.","{""prompt_tokens"": 1842, ""completion_tokens"": 121, ""total_tokens"": 1963}"
+104258,correia,mongo,llama-3.1-8b-instant,desalinhamento,68.67,14969.903,32.0,False,4,True,"[""c58c7e93-9758-4ae2-a30c-3e1733368050"", ""0de9ba19-2f20-4a45-ab78-6ed944267a0c"", ""c298e315-93e8-46bb-b5c1-fb72f31de6fe"", ""08242014-e432-4ccc-b815-81d885f8e5c2""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 68.67,
+  ""rationale"": ""A maior parte das evidências coletadas sugere que o problema é relacionado a um desalinhamento, com uma confiança de 68,67%.""
+}
+```
+
+Essa resposta é baseada nas informações coletadas nos eventos de manutenção prescritiva, que indicam que o problema é mais provável de ser um desalinhamento, com uma confiança de 68,67%.","{""prompt_tokens"": 1842, ""completion_tokens"": 121, ""total_tokens"": 1963}"
+5491,desbalanceamento,python,llama-3.1-8b-instant,desalinhamento,68.54,18670.321,106.183,False,4,True,"[""0306ead0-b7ee-4b31-b922-bfe4b7ccd9a3"", ""9668d9b3-8bd3-4b03-b24e-adb2d5842ead"", ""4c2ec314-19cd-4ac6-a2e7-b299304e284b"", ""86ea7c8f-ad5b-4bf9-8e7d-1905c4fa1765""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 68.54,
+  ""rationale"": ""A maior similaridade com o evento de manutenção prescritiva foi encontrada com o procedimento de desalinhamento, com uma pontuação de 68,54%.""
+}
+```","{""prompt_tokens"": 1828, ""completion_tokens"": 72, ""total_tokens"": 1900}"
+5491,desbalanceamento,mongo,llama-3.1-8b-instant,desalinhamento,68.54,18980.617,31.718,False,4,True,"[""0306ead0-b7ee-4b31-b922-bfe4b7ccd9a3"", ""9668d9b3-8bd3-4b03-b24e-adb2d5842ead"", ""4c2ec314-19cd-4ac6-a2e7-b299304e284b"", ""86ea7c8f-ad5b-4bf9-8e7d-1905c4fa1765""]","```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 68.54,
+  ""rationale"": ""A maior similaridade com o evento de manutenção prescritiva foi encontrada com o procedimento de desalinhamento, com uma pontuação de 0.7046. Além disso, a análise das características vibracionais do evento também sugere desalinhamento, com uma pontuação de 0.6854.""
+}
+```","{""prompt_tokens"": 1828, ""completion_tokens"": 106, ""total_tokens"": 1934}"

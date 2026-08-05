@@ -1,0 +1,3 @@
+﻿backend,rows,accuracy,macro_f1,avg_latency_ms,avg_doc_latency_ms,same_prediction_ratio
+mongo,20,0.6,0.5857,18160.838,32.763,1.0
+python,20,0.6,0.5857,18484.372,114.95,1.0

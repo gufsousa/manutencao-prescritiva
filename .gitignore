@@ -12,6 +12,7 @@ env/
 .env
 .env.local
 .env.*.local
+.streamlit/secrets.toml
 
 # Jupyter / local outputs
 *.nbconvert.ipynb
