@@ -370,7 +370,7 @@ Sweep adicional Groq em **5 de agosto de 2026**:
 - migrar a recuperacao vetorial documental do ranking local em Python para `MongoDB Vector Search` nativo com indice vetorial e `$vectorSearch`;
 - adicionar avaliacao mais forte para falso positivo e casos `unknown`.
 
-Observacao importante para defesa:
+Observacao importante:
 
 - hoje o `MongoDB` funciona como camada de persistencia opcional para documentos, chunks, conversas e logs;
 - a busca vetorial ainda e executada na aplicacao Python com vetorizacao local e similaridade cosseno;
