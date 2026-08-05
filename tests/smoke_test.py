@@ -14,7 +14,7 @@ from src.mongo_store import STORE
 
 
 def main() -> None:
-    history_result = HISTORY_SERVICE.ingest_history_to_mongo(limit=5000)
+    history_result = HISTORY_SERVICE.ingest_history_to_mongo(limit=5000, source="test", allow_partial=True)
     assert history_result["inserted"] > 0, "Histórico não foi ingerido."
 
     document_result = DOCUMENT_SERVICE.ingest_default_documents()

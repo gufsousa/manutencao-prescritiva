@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 
 import pandas as pd
 import streamlit as st
@@ -15,6 +16,8 @@ render_shared_sidebar(current_page="historico")
 hero("Historico Operacional", "Exploracao do historico do banner.csv, ingestao e recuperacao de vizinhos similares.", eyebrow="base historica")
 
 metrics = HISTORY_SERVICE.dataset_metrics()
+storage_metrics = HISTORY_SERVICE.storage_metrics()
+sample_target = math.ceil(storage_metrics["csv_rows"] * 0.10)
 col1, col2, col3 = st.columns(3)
 with col1:
     metric_card("Registros", f"{metrics['rows']:,}".replace(",", "."))
@@ -23,8 +26,26 @@ with col2:
 with col3:
     metric_card("Familias canonicas", str(metrics["canonical_faults"]), tone="green")
 
-if st.button("Reingestar historico completo", width="stretch"):
-    result = HISTORY_SERVICE.ingest_history_to_mongo()
+st.markdown("### Cobertura do historico persistido")
+cover1, cover2, cover3 = st.columns(3)
+with cover1:
+    metric_card("CSV banner", f"{storage_metrics['csv_rows']:,}".replace(",", "."))
+with cover2:
+    metric_card("Persistido", f"{storage_metrics['stored_rows']:,}".replace(",", "."), tone="amber")
+with cover3:
+    metric_card("Cobertura", f"{storage_metrics['coverage_pct']}%", tone="green" if storage_metrics["is_fully_synced"] else "amber")
+
+st.info(
+    "Neste ambiente, o Mongo gratis usa uma amostra representativa de 10% do `banner.csv`, "
+    "preservando cobertura temporal e de familias de falha para exploracao e busca historica."
+)
+st.caption(
+    "Meta de amostragem: "
+    f"{sample_target:,} registros. Atual: {storage_metrics['stored_rows']:,}.".replace(",", ".")
+)
+
+if st.button("Reingestar amostra representativa de 10% pela pagina", width="stretch"):
+    result = HISTORY_SERVICE.ingest_history_to_mongo(source="page", sample_fraction=0.10)
     st.success(f"Ingestao concluida com {result['inserted']} registros.")
 
 df = HISTORY_SERVICE.load_history_frame()

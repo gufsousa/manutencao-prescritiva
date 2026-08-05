@@ -1,0 +1,8 @@
+﻿technique,provider,model,rows,accuracy,macro_f1,avg_latency_ms
+mahalanobis_weighted_knn,local,deterministic,50,0.92,0.9195,75.5
+euclidean_knn,local,deterministic,50,0.8,0.8027,98.667
+cosine_knn,local,deterministic,50,0.8,0.7942,147.533
+llm_vector_rag_groq,groq,llama-3.1-8b-instant,50,0.74,0.7443,9942.814
+llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,50,0.68,0.69,20808.92
+centroid_euclidean,local,deterministic,50,0.48,0.4654,122.927
+text_vector_vote,local,deterministic,50,0.44,0.4248,1234.912

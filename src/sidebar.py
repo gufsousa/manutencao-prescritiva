@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import math
+
 import streamlit as st
 
 from src.agent_service import AGENT
@@ -48,6 +50,8 @@ def render_shared_sidebar(current_page: str = "chat") -> None:
     status = STORE.ping()
     counts = STORE.get_counts()
     metrics = HISTORY_SERVICE.dataset_metrics()
+    storage_metrics = HISTORY_SERVICE.storage_metrics()
+    sample_target = math.ceil(storage_metrics["csv_rows"] * 0.10)
 
     with st.sidebar:
         st.markdown("## Copiloto")
@@ -107,12 +111,19 @@ def render_shared_sidebar(current_page: str = "chat") -> None:
         with st.expander("Estado do sistema", expanded=False):
             st.write(f"Mongo: {'Conectado' if status.get('connected') else 'Fallback local'}")
             st.write(f"Historico: {metrics['rows']:,}".replace(",", "."))
+            st.write(
+                "Historico persistido: "
+                f"{storage_metrics['stored_rows']:,} / {storage_metrics['csv_rows']:,} "
+                f"({storage_metrics['coverage_pct']}%)".replace(",", ".")
+            )
             st.write(f"Docs: {counts['documents']}")
             st.write(f"Chunks: {counts['document_chunks']}")
             st.write(f"Modelo base: {st.session_state.selected_model or 'n/a'}")
-            if st.button("Ingerir historico", width="stretch", key=f"ingest_history_{current_page}"):
-                result = HISTORY_SERVICE.ingest_history_to_mongo()
-                st.success(f"{result['inserted']} registros carregados.")
+            st.caption(
+                "Mongo gratis configurado com amostra representativa de 10% "
+                f"(meta: {sample_target:,} registros).".replace(",", ".")
+            )
+            st.caption("A reingestao do historico fica disponivel apenas na pagina Historico operacional.")
             if st.button("Ingerir documentos", width="stretch", key=f"ingest_docs_{current_page}"):
                 result = DOCUMENT_SERVICE.ingest_default_documents()
                 st.success(f"{result['documents']} documentos | {result['chunks']} chunks.")

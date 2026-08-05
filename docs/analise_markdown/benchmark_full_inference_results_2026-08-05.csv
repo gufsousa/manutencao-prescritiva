@@ -1,0 +1,981 @@
+﻿sample_id,true_fault,technique,provider,model,predicted_fault,confidence_proxy,elapsed_ms,correct,ood_flag,ood_score,raw_response,usage
+4566,desbalanceamento,euclidean_knn,local,deterministic,desbalanceamento,100.0,51.133,True,,,,
+4566,desbalanceamento,mahalanobis_weighted_knn,local,deterministic,desbalanceamento,100.0,68.142,True,False,3.9051,,
+4566,desbalanceamento,cosine_knn,local,deterministic,desbalanceamento,100.0,134.318,True,,,,
+4566,desbalanceamento,centroid_euclidean,local,deterministic,desbalanceamento,19.42,3925.055,True,,,,
+4566,desbalanceamento,text_vector_vote,local,deterministic,desalinhamento,40.0,1373.271,False,,,,
+4566,desbalanceamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desbalanceamento,87.28,9597.665,True,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 87.28,
+  ""rationale"": ""A maior confiança foi atribuída ao desbalanceamento devido à alta correlação entre os dados de vibração e aceleração, indicando uma possível causa de desbalanceamento.""
+}
+```
+
+Essa resposta é baseada na análise dos dados fornecidos, onde o desbalanceamento tem a maior confiança (87,28%) e a maior correlação com os dados de vibração e aceleração.","{""prompt_tokens"": 1836, ""completion_tokens"": 123, ""total_tokens"": 1959}"
+4566,desbalanceamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desbalanceamento,87.28,38767.203,True,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 87.28,
+  ""rationale"": ""O evento apresenta características semelhantes ao desbalanceamento, com valores altos de x_rms_velocity_mm_s e x_peak_acceleration_g, indicando movimentos inesperados no eixo do motor.""
+}
+```","{""prompt_tokens"": 1979, ""completion_tokens"": 80, ""total_tokens"": 2059}"
+107155,correia,euclidean_knn,local,deterministic,correia,80.0,183.139,True,,,,
+107155,correia,mahalanobis_weighted_knn,local,deterministic,correia,83.41,73.378,True,False,3.2156,,
+107155,correia,cosine_knn,local,deterministic,correia,80.0,126.649,True,,,,
+107155,correia,centroid_euclidean,local,deterministic,correia,59.15,122.942,True,,,,
+107155,correia,text_vector_vote,local,deterministic,correia,40.0,1051.529,True,,,,
+107155,correia,llm_vector_rag_groq,groq,llama-3.1-8b-instant,correia,90.11,9755.944,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 90.11,
+  ""rationale"": ""A maior confiança foi encontrada na classe 'correia' com uma pontuação de 0,9011, indicando que a falha mais provável é relacionada à correia.""
+}
+```","{""prompt_tokens"": 1810, ""completion_tokens"": 75, ""total_tokens"": 1885}"
+107155,correia,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,correia,90.11,18637.471,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 90.11,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de correia, com valores altos de x_rms_velocity_mm_s e z_rms_velocity_mm_s, bem como kurtosis e crest factor elevados.""
+}
+```","{""prompt_tokens"": 1958, ""completion_tokens"": 81, ""total_tokens"": 2039}"
+104473,correia,euclidean_knn,local,deterministic,correia,100.0,58.964,True,,,,
+104473,correia,mahalanobis_weighted_knn,local,deterministic,correia,100.0,62.546,True,False,3.0376,,
+104473,correia,cosine_knn,local,deterministic,correia,100.0,153.04,True,,,,
+104473,correia,centroid_euclidean,local,deterministic,correia,36.48,18.025,True,,,,
+104473,correia,text_vector_vote,local,deterministic,correia,80.0,1849.144,True,,,,
+104473,correia,llm_vector_rag_groq,groq,llama-3.1-8b-instant,correia,91.6,10549.484,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 91.6,
+  ""rationale"": ""A maior confiança foi atribuída à classe 'correia' devido à maior similaridade entre os dados de vibração e os sintomas comuns de problemas de correia.""
+}
+```","{""prompt_tokens"": 1833, ""completion_tokens"": 74, ""total_tokens"": 1907}"
+104473,correia,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,correia,0.916,21773.776,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 0.916,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de falha de correia, com valores altos de x_rms_velocity_mm_s e z_rms_velocity_mm_s, bem como kurtosis e crest factor elevados. A correlação mais alta entre os dados do evento e o exemplo de correia é de 0.916.""
+}
+```","{""prompt_tokens"": 1975, ""completion_tokens"": 109, ""total_tokens"": 2084}"
+37299,cocked_rotor,euclidean_knn,local,deterministic,cocked_rotor,60.0,319.838,True,,,,
+37299,cocked_rotor,mahalanobis_weighted_knn,local,deterministic,cocked_rotor,86.22,76.124,True,False,2.5742,,
+37299,cocked_rotor,cosine_knn,local,deterministic,cocked_rotor,80.0,170.151,True,,,,
+37299,cocked_rotor,centroid_euclidean,local,deterministic,correia,38.43,125.609,False,,,,
+37299,cocked_rotor,text_vector_vote,local,deterministic,desalinhamento,60.0,1246.385,False,,,,
+37299,cocked_rotor,llm_vector_rag_groq,groq,llama-3.1-8b-instant,cocked_rotor,91.61,11908.018,True,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 91.61,
+  ""rationale"": ""A maior confiança foi encontrada no evento de manutenção prescritiva com o rótulo 'Cocked rotor' com uma pontuação de 0,9161.""
+}
+```","{""prompt_tokens"": 1857, ""completion_tokens"": 72, ""total_tokens"": 1929}"
+37299,cocked_rotor,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,cocked_rotor,91.61,22338.928,True,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 91.61,
+  ""rationale"": ""O evento apresenta características semelhantes ao de um cocked rotor, com valores altos de x_rms_velocity_mm_s e z_peak_acceleration_g, além de kurtosis e crest factor elevados.""
+}
+```","{""prompt_tokens"": 2006, ""completion_tokens"": 81, ""total_tokens"": 2087}"
+11700,desbalanceamento,euclidean_knn,local,deterministic,desbalanceamento,80.0,147.705,True,,,,
+11700,desbalanceamento,mahalanobis_weighted_knn,local,deterministic,desbalanceamento,92.37,112.226,True,False,4.2688,,
+11700,desbalanceamento,cosine_knn,local,deterministic,desbalanceamento,80.0,226.001,True,,,,
+11700,desbalanceamento,centroid_euclidean,local,deterministic,desbalanceamento,22.52,47.892,True,,,,
+11700,desbalanceamento,text_vector_vote,local,deterministic,desalinhamento,40.0,1390.401,False,,,,
+11700,desbalanceamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desbalanceamento,90.46,10898.148,True,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 90.46,
+  ""rationale"": ""A maior confiança foi atribuída ao desbalanceamento devido aos valores elevados de x_rms_velocity_mm_s e x_peak_acceleration_g, indicando uma possível desigualdade de massa no rotor.""
+}
+```","{""prompt_tokens"": 1845, ""completion_tokens"": 80, ""total_tokens"": 1925}"
+11700,desbalanceamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desbalanceamento,90.46,21137.433,True,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 90.46,
+  ""rationale"": ""O evento apresenta características semelhantes ao desbalanceamento, como alta vibração e ruído anormal, conforme indicado nos exemplos recuperados.""
+}
+```","{""prompt_tokens"": 1996, ""completion_tokens"": 69, ""total_tokens"": 2065}"
+38974,cocked_rotor,euclidean_knn,local,deterministic,cocked_rotor,100.0,86.884,True,,,,
+38974,cocked_rotor,mahalanobis_weighted_knn,local,deterministic,cocked_rotor,61.94,73.354,True,False,1.4487,,
+38974,cocked_rotor,cosine_knn,local,deterministic,cocked_rotor,100.0,139.295,True,,,,
+38974,cocked_rotor,centroid_euclidean,local,deterministic,cocked_rotor,38.13,20.671,True,,,,
+38974,cocked_rotor,text_vector_vote,local,deterministic,cocked_rotor,40.0,1825.319,True,,,,
+38974,cocked_rotor,llm_vector_rag_groq,groq,llama-3.1-8b-instant,cocked_rotor,69.89,10990.653,True,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 69.89,
+  ""rationale"": ""A maior similaridade com o evento de manutenção prescritiva foi encontrada com o cocked_rotor, com uma pontuação de 0.6989.""
+}
+```","{""prompt_tokens"": 1836, ""completion_tokens"": 69, ""total_tokens"": 1905}"
+38974,cocked_rotor,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,cocked_rotor,0.6989,22543.604,True,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 0.6989,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de falha 'cocked_rotor', com valores de RPM, velocidades RMS e acelerações RMS que estão dentro do intervalo típico para essa condição.""
+}
+```","{""prompt_tokens"": 1983, ""completion_tokens"": 86, ""total_tokens"": 2069}"
+66805,rolamento_inner,euclidean_knn,local,deterministic,rolamento_inner,100.0,269.591,True,,,,
+66805,rolamento_inner,mahalanobis_weighted_knn,local,deterministic,rolamento_inner,100.0,124.632,True,False,1.4924,,
+66805,rolamento_inner,cosine_knn,local,deterministic,rolamento_inner,100.0,137.28,True,,,,
+66805,rolamento_inner,centroid_euclidean,local,deterministic,rolamento_inner,37.84,177.216,True,,,,
+66805,rolamento_inner,text_vector_vote,local,deterministic,cocked_rotor,80.0,1565.624,False,,,,
+66805,rolamento_inner,llm_vector_rag_groq,groq,llama-3.1-8b-instant,rolamento_inner,88.05,11469.864,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 88.05,
+  ""rationale"": ""A maior confiança foi atribuída ao rolamento inner devido aos valores de x_rms_velocity_mm_s e x_peak_acceleration_g que estão dentro do intervalo esperado para esse tipo de falha.""
+}
+```","{""prompt_tokens"": 1857, ""completion_tokens"": 78, ""total_tokens"": 1935}"
+66805,rolamento_inner,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,rolamento_inner,88.05,22320.489,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 88.05,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de rolamento inner race, com altos valores de x_rms_velocity_mm_s e z_peak_acceleration_g, além de kurtosis e crest factor elevados.""
+}
+```","{""prompt_tokens"": 2009, ""completion_tokens"": 82, ""total_tokens"": 2091}"
+69199,rolamento_inner,euclidean_knn,local,deterministic,rolamento_inner,80.0,119.399,True,,,,
+69199,rolamento_inner,mahalanobis_weighted_knn,local,deterministic,rolamento_inner,94.72,136.587,True,False,2.4883,,
+69199,rolamento_inner,cosine_knn,local,deterministic,rolamento_inner,80.0,223.06,True,,,,
+69199,rolamento_inner,centroid_euclidean,local,deterministic,desalinhamento,34.42,30.308,False,,,,
+69199,rolamento_inner,text_vector_vote,local,deterministic,desalinhamento,60.0,1085.641,False,,,,
+69199,rolamento_inner,llm_vector_rag_groq,groq,llama-3.1-8b-instant,rolamento_inner,90.28,10638.748,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 90.28,
+  ""rationale"": ""A maior confiança foi atribuída ao rolamento inner devido à maior similaridade entre os dados de vibração e aceleração com os exemplos de manutenção prescritiva fornecidos.""
+}
+```","{""prompt_tokens"": 1849, ""completion_tokens"": 78, ""total_tokens"": 1927}"
+69199,rolamento_inner,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,rolamento_inner,90.28,21692.096,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 90.28,
+  ""rationale"": ""O evento apresenta características semelhantes ao rolamento inner race, com valores altos de aceleração e velocidade RMS no eixo X e Z, além de um fator de cresta elevado. A probabilidade de ser um rolamento inner race é significativamente maior em comparação com os outros tipos de falhas mencionados.""
+}
+```","{""prompt_tokens"": 2000, ""completion_tokens"": 110, ""total_tokens"": 2110}"
+104258,correia,euclidean_knn,local,deterministic,correia,100.0,79.965,True,,,,
+104258,correia,mahalanobis_weighted_knn,local,deterministic,correia,100.0,100.68,True,False,2.8506,,
+104258,correia,cosine_knn,local,deterministic,correia,100.0,205.054,True,,,,
+104258,correia,centroid_euclidean,local,deterministic,desalinhamento,37.04,16.604,False,,,,
+104258,correia,text_vector_vote,local,deterministic,desalinhamento,80.0,1207.163,False,,,,
+104258,correia,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,68.67,11230.559,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 68.67,
+  ""rationale"": ""A maior parte das evidências coletadas sugere que o problema é relacionado a um desalinhamento, com uma confiança de 68,67%.""
+}
+```
+
+Essa resposta é baseada nas informações coletadas nos eventos de manutenção prescritiva, que indicam que o problema é mais provável de ser um desalinhamento, com uma confiança de 68,67%.","{""prompt_tokens"": 1842, ""completion_tokens"": 121, ""total_tokens"": 1963}"
+104258,correia,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,0.85,23243.221,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 0.85,
+  ""rationale"": ""Os exemplos de eventos de manutenção prescritiva fornecidos têm uma pontuação alta para falha de desalinhamento (mais de 67%). Além disso, os parâmetros como x_rms_velocity_mm_s e z_peak_acceleration_g estão dentro do intervalo típico para essa falha. A documentação também destaca o desalinhamento como um problema comum em máquinas rotativas.""
+}
+```","{""prompt_tokens"": 1989, ""completion_tokens"": 128, ""total_tokens"": 2117}"
+5283,desbalanceamento,euclidean_knn,local,deterministic,desbalanceamento,100.0,91.11,True,,,,
+5283,desbalanceamento,mahalanobis_weighted_knn,local,deterministic,desbalanceamento,100.0,76.776,True,False,4.3792,,
+5283,desbalanceamento,cosine_knn,local,deterministic,desbalanceamento,100.0,135.342,True,,,,
+5283,desbalanceamento,centroid_euclidean,local,deterministic,desbalanceamento,19.33,45.59,True,,,,
+5283,desbalanceamento,text_vector_vote,local,deterministic,desalinhamento,40.0,1383.378,False,,,,
+5283,desbalanceamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,73.58,11255.506,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 73.58,
+  ""rationale"": ""A maior similaridade com o evento de manutenção prescritiva foi encontrada com o procedimento de desalinhamento, com uma pontuação de 0.7058. Além disso, os dados de vibração e aceleração coletados no evento são consistentes com os padrões de desalinhamento, como a presença de vibrações excessivas e acelerações anormais nas direções x e z.""
+}
+```
+
+Essa resposta foi gerada com base na análise dos dados fornecidos e na comparação com os procedimentos de manutenção prescritiva disponíveis. A confiança no resultado é de 73,58%, o que indica que a classificação é razoavelmente confiável.","{""prompt_tokens"": 1848, ""completion_tokens"": 195, ""total_tokens"": 2043}"
+5283,desbalanceamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,0.7058,22955.655,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 0.7058,
+  ""rationale"": ""O evento apresenta características semelhantes ao desalinhamento, com valores de RMS e pico de aceleração que estão dentro do intervalo típico para esse tipo de falha. Além disso, o valor de kurtosis é relativamente baixo, indicando uma distribuição menos assímmetria, o que é consistente com desalinhamento.""
+}
+```","{""prompt_tokens"": 1996, ""completion_tokens"": 118, ""total_tokens"": 2114}"
+5491,desbalanceamento,euclidean_knn,local,deterministic,desbalanceamento,100.0,169.252,True,,,,
+5491,desbalanceamento,mahalanobis_weighted_knn,local,deterministic,desbalanceamento,100.0,89.923,True,False,4.5515,,
+5491,desbalanceamento,cosine_knn,local,deterministic,desbalanceamento,100.0,149.311,True,,,,
+5491,desbalanceamento,centroid_euclidean,local,deterministic,desbalanceamento,17.68,333.752,True,,,,
+5491,desbalanceamento,text_vector_vote,local,deterministic,desalinhamento,40.0,1474.95,False,,,,
+5491,desbalanceamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,68.54,10295.3,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 68.54,
+  ""rationale"": ""A maior similaridade com o evento de manutenção prescritiva foi encontrada com o procedimento de desalinhamento, com uma pontuação de 68,54%.""
+}
+```","{""prompt_tokens"": 1828, ""completion_tokens"": 72, ""total_tokens"": 1900}"
+5491,desbalanceamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,0.6854,19578.64,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 0.6854,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de desalinhamento, com valores altos de x_rms_velocity_mm_s e z_peak_acceleration_g, indicando movimentos inesperados no sistema.""
+}
+```","{""prompt_tokens"": 1979, ""completion_tokens"": 83, ""total_tokens"": 2062}"
+160321,desalinhamento,euclidean_knn,local,deterministic,cocked_rotor,60.0,349.143,False,,,,
+160321,desalinhamento,mahalanobis_weighted_knn,local,deterministic,desalinhamento,89.56,101.392,True,False,4.2219,,
+160321,desalinhamento,cosine_knn,local,deterministic,cocked_rotor,60.0,129.459,False,,,,
+160321,desalinhamento,centroid_euclidean,local,deterministic,desbalanceamento,32.44,336.484,False,,,,
+160321,desalinhamento,text_vector_vote,local,deterministic,desalinhamento,100.0,1042.322,True,,,,
+160321,desalinhamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,94.16,9791.986,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 94.16,
+  ""rationale"": ""A maior parte dos exemplos de manutenção prescritiva recuperados foi relacionada a desalinhamento, com uma confiança de 94,16%.""
+}
+```","{""prompt_tokens"": 1867, ""completion_tokens"": 70, ""total_tokens"": 1937}"
+160321,desalinhamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,94.16,19302.766,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 94.16,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de desalinhamento, com valores significativamente altos para x_rms_velocity_mm_s e x_peak_acceleration_g, indicando movimentos inesperados no eixo X do motor.""
+}
+```","{""prompt_tokens"": 2018, ""completion_tokens"": 89, ""total_tokens"": 2107}"
+108093,correia,euclidean_knn,local,deterministic,correia,100.0,62.513,True,,,,
+108093,correia,mahalanobis_weighted_knn,local,deterministic,correia,100.0,56.311,True,False,2.4196,,
+108093,correia,cosine_knn,local,deterministic,correia,100.0,125.373,True,,,,
+108093,correia,centroid_euclidean,local,deterministic,correia,35.48,17.842,True,,,,
+108093,correia,text_vector_vote,local,deterministic,correia,100.0,1046.38,True,,,,
+108093,correia,llm_vector_rag_groq,groq,llama-3.1-8b-instant,correia,91.77,9767.61,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 91.77,
+  ""rationale"": ""A maior parte dos exemplos de manutenção prescritiva recuperados foi classificada como 'correia', com uma pontuação média de 0,87. Além disso, os valores de vibração e aceleração registrados no evento são semelhantes aos encontrados em outros eventos de manutenção prescritiva classificados como 'correia'.""
+}
+```","{""prompt_tokens"": 1779, ""completion_tokens"": 116, ""total_tokens"": 1895}"
+108093,correia,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,correia,91.77,20787.812,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 91.77,
+  ""rationale"": ""A predição foi feita com base em exemplos de eventos de manutenção prescritiva que apresentam características semelhantes aos dados fornecidos, incluindo valores de velocidade RMS e aceleração RMS consistentes com falhas de correia.""
+}
+```","{""prompt_tokens"": 1925, ""completion_tokens"": 91, ""total_tokens"": 2016}"
+161075,desalinhamento,euclidean_knn,local,deterministic,desalinhamento,100.0,43.596,True,,,,
+161075,desalinhamento,mahalanobis_weighted_knn,local,deterministic,desalinhamento,81.44,72.817,True,False,2.7185,,
+161075,desalinhamento,cosine_knn,local,deterministic,desalinhamento,100.0,128.867,True,,,,
+161075,desalinhamento,centroid_euclidean,local,deterministic,desalinhamento,35.47,37.13,True,,,,
+161075,desalinhamento,text_vector_vote,local,deterministic,rolamento_inner,80.0,1355.7,False,,,,
+161075,desalinhamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,rolamento_inner,67.23,9259.587,False,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 67.23,
+  ""rationale"": ""A análise dos dados de vibração e aceleração sugere que o problema está relacionado ao rolamento interno, com valores de kurtosis e crest factor elevados, indicando desgaste irregular.""
+}
+```
+
+Essa resposta é baseada na análise dos dados de vibração e aceleração fornecidos, que indicam que o problema está relacionado ao rolamento interno. A confiança na resposta é de 67,23%, baseada na similaridade entre os dados fornecidos e os exemplos de rolamento interno fornecidos.","{""prompt_tokens"": 1865, ""completion_tokens"": 155, ""total_tokens"": 2020}"
+161075,desalinhamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,rolamento_inner,0.6723,20358.769,False,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 0.6723,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de rolamento inner race, com valores de velocidade RMS e aceleração RMS similares a aqueles registrados em eventos previamente classificados como desalinhamento. No entanto, o valor mais alto de confiança é para rolamento_inner.""
+}
+```","{""prompt_tokens"": 2021, ""completion_tokens"": 103, ""total_tokens"": 2124}"
+160014,desalinhamento,euclidean_knn,local,deterministic,desalinhamento,100.0,220.951,True,,,,
+160014,desalinhamento,mahalanobis_weighted_knn,local,deterministic,desalinhamento,100.0,70.374,True,False,2.719,,
+160014,desalinhamento,cosine_knn,local,deterministic,desalinhamento,100.0,132.276,True,,,,
+160014,desalinhamento,centroid_euclidean,local,deterministic,desbalanceamento,36.32,125.432,False,,,,
+160014,desalinhamento,text_vector_vote,local,deterministic,desalinhamento,80.0,1130.424,True,,,,
+160014,desalinhamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,88.57,9936.261,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 88.57,
+  ""rationale"": ""A maior parte das evidências coletadas indica que o problema é um desalinhamento. A vibração reduzida em relação à condição inicial, a temperatura dos mancais estável e a falta de ruído anormal são características que apontam para um desalinhamento.""
+}
+```","{""prompt_tokens"": 1842, ""completion_tokens"": 98, ""total_tokens"": 1940}"
+160014,desalinhamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,0.8857,22590.966,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 0.8857,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de desalinhamento, com valores altos de x_rms_velocity_mm_s e z_peak_acceleration_g, além de uma alta confiança (0.8857) na classificação como desalinhamento.""
+}
+```","{""prompt_tokens"": 1999, ""completion_tokens"": 97, ""total_tokens"": 2096}"
+149358,desalinhamento,euclidean_knn,local,deterministic,desalinhamento,80.0,177.395,True,,,,
+149358,desalinhamento,mahalanobis_weighted_knn,local,deterministic,desalinhamento,100.0,95.837,True,True,5.1833,,
+149358,desalinhamento,cosine_knn,local,deterministic,desalinhamento,80.0,139.269,True,,,,
+149358,desalinhamento,centroid_euclidean,local,deterministic,desalinhamento,38.22,69.364,True,,,,
+149358,desalinhamento,text_vector_vote,local,deterministic,desalinhamento,60.0,1479.013,True,,,,
+149358,desalinhamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,94.67,9613.457,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 94.67,
+  ""rationale"": ""A maior parte das evidências coletadas indica que o problema é de desalinhamento, com uma confiança de 94,67%.""
+}
+```","{""prompt_tokens"": 1832, ""completion_tokens"": 66, ""total_tokens"": 1898}"
+149358,desalinhamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,94.67,20029.25,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 94.67,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de desalinhamento, incluindo altos valores de x_rms_velocity_mm_s e z_rms_velocity_mm_s, além de kurtosis e fator de pico elevados. O procedimento de desalinhamento é mencionado no documento recuperado.""
+}
+```","{""prompt_tokens"": 1984, ""completion_tokens"": 106, ""total_tokens"": 2090}"
+37590,cocked_rotor,euclidean_knn,local,deterministic,cocked_rotor,60.0,58.526,True,,,,
+37590,cocked_rotor,mahalanobis_weighted_knn,local,deterministic,cocked_rotor,61.55,63.496,True,False,2.3509,,
+37590,cocked_rotor,cosine_knn,local,deterministic,correia,60.0,138.386,False,,,,
+37590,cocked_rotor,centroid_euclidean,local,deterministic,correia,46.74,19.257,False,,,,
+37590,cocked_rotor,text_vector_vote,local,deterministic,correia,80.0,2382.825,False,,,,
+37590,cocked_rotor,llm_vector_rag_groq,groq,llama-3.1-8b-instant,correia,68.57,9800.073,False,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 68.57,
+  ""rationale"": ""A maior parte das evidências coletadas sugere que a falha é relacionada à correia, com uma confiança de 68,57%.""
+}
+```","{""prompt_tokens"": 1835, ""completion_tokens"": 67, ""total_tokens"": 1902}"
+37590,cocked_rotor,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,correia,0.6857,21097.477,False,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 0.6857,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de correia, com valores altos de x_rms_velocity_mm_s e z_rms_velocity_mm_s, indicando vibração excessiva. Além disso, os valores de x_peak_acceleration_g e z_peak_acceleration_g também estão dentro do intervalo típico para falhas de correia.""
+}
+```","{""prompt_tokens"": 1984, ""completion_tokens"": 113, ""total_tokens"": 2097}"
+40530,cocked_rotor,euclidean_knn,local,deterministic,rolamento_inner,80.0,79.308,False,,,,
+40530,cocked_rotor,mahalanobis_weighted_knn,local,deterministic,cocked_rotor,80.78,64.096,True,False,1.3035,,
+40530,cocked_rotor,cosine_knn,local,deterministic,rolamento_inner,80.0,153.274,False,,,,
+40530,cocked_rotor,centroid_euclidean,local,deterministic,cocked_rotor,41.59,40.833,True,,,,
+40530,cocked_rotor,text_vector_vote,local,deterministic,cocked_rotor,40.0,1039.048,True,,,,
+40530,cocked_rotor,llm_vector_rag_groq,groq,llama-3.1-8b-instant,cocked_rotor,69.13,10847.292,True,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 69.13,
+  ""rationale"": ""A análise dos dados de vibração e aceleração sugere que o rotor está desalinhado, o que pode causar problemas de vibração e aceleração. Além disso, a temperatura do rotor está um pouco alta, o que pode indicar problemas de lubrificação ou desgaste. A combinação desses fatores sugere que o problema pode ser um cocked_rotor.""
+}
+```","{""prompt_tokens"": 1859, ""completion_tokens"": 124, ""total_tokens"": 1983}"
+40530,cocked_rotor,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,cocked_rotor,0.6872,20609.448,True,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 0.6872,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de falha 'cocked_rotor', com valores similares para RPM, temperatura e aceleração RMS em direção X e Z. A correlação entre os dados coletados e as características típicas do cocked rotor é alta.""
+}
+```","{""prompt_tokens"": 2008, ""completion_tokens"": 100, ""total_tokens"": 2108}"
+39814,cocked_rotor,euclidean_knn,local,deterministic,correia,80.0,121.202,False,,,,
+39814,cocked_rotor,mahalanobis_weighted_knn,local,deterministic,cocked_rotor,83.09,64.514,True,False,4.0597,,
+39814,cocked_rotor,cosine_knn,local,deterministic,correia,60.0,194.931,False,,,,
+39814,cocked_rotor,centroid_euclidean,local,deterministic,correia,31.99,21.243,False,,,,
+39814,cocked_rotor,text_vector_vote,local,deterministic,cocked_rotor,100.0,1082.56,True,,,,
+39814,cocked_rotor,llm_vector_rag_groq,groq,llama-3.1-8b-instant,cocked_rotor,94.09,9571.545,True,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 94.09,
+  ""rationale"": ""A maior confiança foi encontrada no evento de manutenção prescritiva com o rótulo 'Cocked rotor' e uma pontuação de 0,9409.""
+}
+```","{""prompt_tokens"": 1852, ""completion_tokens"": 72, ""total_tokens"": 1924}"
+39814,cocked_rotor,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,cocked_rotor,94.09,20050.04,True,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 94.09,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos fornecidos para falha 'cocked_rotor', incluindo valores de aceleração e velocidade RMS que estão dentro da faixa esperada para essa condição.""
+}
+```","{""prompt_tokens"": 2004, ""completion_tokens"": 85, ""total_tokens"": 2089}"
+7966,desbalanceamento,euclidean_knn,local,deterministic,desbalanceamento,80.0,70.203,True,,,,
+7966,desbalanceamento,mahalanobis_weighted_knn,local,deterministic,desbalanceamento,60.62,55.238,True,False,2.2398,,
+7966,desbalanceamento,cosine_knn,local,deterministic,desalinhamento,60.0,150.943,False,,,,
+7966,desbalanceamento,centroid_euclidean,local,deterministic,desalinhamento,42.94,31.602,False,,,,
+7966,desbalanceamento,text_vector_vote,local,deterministic,desalinhamento,80.0,1084.064,False,,,,
+7966,desbalanceamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desbalanceamento,66.34,11097.119,True,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 66.34,
+  ""rationale"": ""A maior similaridade com o evento de manutenção prescritiva foi encontrada com o procedimento de desbalanceamento, com uma pontuação de 0.6634. Isso sugere que o desbalanceamento é a falha mais provável.""
+}
+```","{""prompt_tokens"": 1819, ""completion_tokens"": 87, ""total_tokens"": 1906}"
+7966,desbalanceamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,0.6586,22150.343,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 0.6586,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de desalinhamento, com valores de velocidade RMS e aceleração RMS significativamente altos em um dos eixos (x_rms_velocity_mm_s: 2.201, x_peak_acceleration_g: 0.595). Além disso, os scores fornecidos pelos exemplos de desalinhamento são mais altos que para outros tipos de falhas.""
+}
+```","{""prompt_tokens"": 1962, ""completion_tokens"": 134, ""total_tokens"": 2096}"
+148059,desalinhamento,euclidean_knn,local,deterministic,desalinhamento,80.0,115.06,True,,,,
+148059,desalinhamento,mahalanobis_weighted_knn,local,deterministic,desalinhamento,80.52,58.235,True,False,1.9523,,
+148059,desalinhamento,cosine_knn,local,deterministic,desalinhamento,80.0,136.005,True,,,,
+148059,desalinhamento,centroid_euclidean,local,deterministic,desalinhamento,32.88,31.455,True,,,,
+148059,desalinhamento,text_vector_vote,local,deterministic,desalinhamento,100.0,1062.02,True,,,,
+148059,desalinhamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,73.86,9826.06,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 73.86,
+  ""rationale"": ""A maior parte das evidências de vibração e aceleração indicam um desalinhamento, com uma redução na vibração e temperatura em relação à condição inicial.""
+}
+```","{""prompt_tokens"": 1818, ""completion_tokens"": 73, ""total_tokens"": 1891}"
+148059,desalinhamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,90.0,20810.323,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 90.0,
+  ""rationale"": ""Os exemplos de eventos de manutenção prescritiva fornecidos têm um alto score (maior que 0.7) para a falha 'desalinhamento'. Além disso, os parâmetros como x_rms_velocity_mm_s e z_peak_acceleration_g estão dentro da faixa esperada para essa falha.""
+}
+```","{""prompt_tokens"": 1969, ""completion_tokens"": 106, ""total_tokens"": 2075}"
+5099,desbalanceamento,euclidean_knn,local,deterministic,desbalanceamento,100.0,120.486,True,,,,
+5099,desbalanceamento,mahalanobis_weighted_knn,local,deterministic,desbalanceamento,100.0,72.099,True,False,3.4779,,
+5099,desbalanceamento,cosine_knn,local,deterministic,desbalanceamento,80.0,153.849,True,,,,
+5099,desbalanceamento,centroid_euclidean,local,deterministic,desalinhamento,32.06,22.991,False,,,,
+5099,desbalanceamento,text_vector_vote,local,deterministic,desbalanceamento,40.0,1046.229,True,,,,
+5099,desbalanceamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desbalanceamento,89.86,9628.354,True,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 89.86,
+  ""rationale"": ""A maior confiança foi encontrada no desbalanceamento, com uma pontuação de 0,8986, indicando que é a falha mais provável.""
+}
+```","{""prompt_tokens"": 1838, ""completion_tokens"": 68, ""total_tokens"": 1906}"
+5099,desbalanceamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desbalanceamento,89.86,20672.027,True,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 89.86,
+  ""rationale"": ""O evento apresenta características típicas de desbalanceamento, como altos valores de x_peak_acceleration_g e z_peak_acceleration_g, além de kurtosis elevada em ambos os eixos (x e z). A correlação entre esses parâmetros e a presença de desbalanceamento foi confirmada por exemplos similares na base de dados.""
+}
+```","{""prompt_tokens"": 1987, ""completion_tokens"": 112, ""total_tokens"": 2099}"
+55419,rolamento_inner,euclidean_knn,local,deterministic,rolamento_inner,80.0,126.735,True,,,,
+55419,rolamento_inner,mahalanobis_weighted_knn,local,deterministic,rolamento_inner,100.0,123.51,True,False,1.8688,,
+55419,rolamento_inner,cosine_knn,local,deterministic,rolamento_inner,80.0,147.602,True,,,,
+55419,rolamento_inner,centroid_euclidean,local,deterministic,cocked_rotor,40.57,23.919,False,,,,
+55419,rolamento_inner,text_vector_vote,local,deterministic,rolamento_inner,60.0,1025.046,True,,,,
+55419,rolamento_inner,llm_vector_rag_groq,groq,llama-3.1-8b-instant,rolamento_inner,88.08,9842.418,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 88.08,
+  ""rationale"": ""A análise dos dados de vibração e aceleração indica que o problema está relacionado ao rolamento interno, com uma confiança de 88,08%""
+}
+```","{""prompt_tokens"": 1850, ""completion_tokens"": 70, ""total_tokens"": 1920}"
+55419,rolamento_inner,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,rolamento_inner,88.08,18737.668,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 88.08,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de rolamento inner race, com valores altos de x_rms_velocity_mm_s e z_peak_acceleration_g, além de um kurtosis elevado em ambas as direções.""
+}
+```","{""prompt_tokens"": 2004, ""completion_tokens"": 86, ""total_tokens"": 2090}"
+102898,correia,euclidean_knn,local,deterministic,cocked_rotor,60.0,72.876,False,,,,
+102898,correia,mahalanobis_weighted_knn,local,deterministic,correia,61.23,61.842,True,False,3.0623,,
+102898,correia,cosine_knn,local,deterministic,cocked_rotor,60.0,136.471,False,,,,
+102898,correia,centroid_euclidean,local,deterministic,cocked_rotor,33.38,15.451,False,,,,
+102898,correia,text_vector_vote,local,deterministic,correia,40.0,1042.204,True,,,,
+102898,correia,llm_vector_rag_groq,groq,llama-3.1-8b-instant,correia,89.07,9483.128,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 89.07,
+  ""rationale"": ""A análise dos dados de vibração e aceleração sugere que a correia está desgastada ou danificada, o que está de acordo com as características típicas de um desbalanceamento de correia.""
+}
+```
+
+Essa resposta é baseada na análise dos dados de vibração e aceleração fornecidos, que indicam uma vibração estável e uma presença de harmônicos, o que é típico de um desbalanceamento de correia. Além disso, a análise dos documentos de procedimento de manutenção prescritiva também sugere que a correia está desgastada ou danificada. Portanto, a confiança na classificação é de 89,07%.","{""prompt_tokens"": 1841, ""completion_tokens"": 193, ""total_tokens"": 2034}"
+102898,correia,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,correia,89.07,21980.093,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 89.07,
+  ""rationale"": ""O evento apresenta características semelhantes à correia, com valores de velocidade RMS e aceleração RMS significativamente altos no eixo X (2.644 mm/s e 0.778 g respectivamente), indicando vibrações significativas na direção horizontal. Além disso, os valores de fator de pico (3.449) são elevados, sugerindo impactos mecânicos ou desgaste na correia.""
+}
+```","{""prompt_tokens"": 1993, ""completion_tokens"": 137, ""total_tokens"": 2130}"
+110041,correia,euclidean_knn,local,deterministic,correia,100.0,38.386,True,,,,
+110041,correia,mahalanobis_weighted_knn,local,deterministic,correia,81.69,75.189,True,False,2.3377,,
+110041,correia,cosine_knn,local,deterministic,correia,100.0,131.619,True,,,,
+110041,correia,centroid_euclidean,local,deterministic,correia,39.24,25.181,True,,,,
+110041,correia,text_vector_vote,local,deterministic,desalinhamento,80.0,1162.8,False,,,,
+110041,correia,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,67.31,9450.255,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 67.31,
+  ""rationale"": ""A combinação de alta vibração, temperatura e ruído anormal nos dados de evento sugere desalinhamento. Além disso, a presença de procedimentos de desalinhamento nos documentos de manutenção prescritiva reforça essa hipótese.""
+}
+```","{""prompt_tokens"": 1837, ""completion_tokens"": 96, ""total_tokens"": 1933}"
+110041,correia,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,0.85,20964.04,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 0.85,
+  ""rationale"": ""Os exemplos fornecidos têm uma pontuação alta (maior que 0.6) para o desalinhamento e não há evidências significativas de outros tipos de falhas mencionados. O procedimento de desalinhamento também é mencionado nos documentos recuperados, indicando que este é um problema comum a ser diagnosticado.""
+}
+```","{""prompt_tokens"": 1982, ""completion_tokens"": 110, ""total_tokens"": 2092}"
+153802,desalinhamento,euclidean_knn,local,deterministic,desalinhamento,100.0,38.777,True,,,,
+153802,desalinhamento,mahalanobis_weighted_knn,local,deterministic,desalinhamento,60.92,62.973,True,False,2.0764,,
+153802,desalinhamento,cosine_knn,local,deterministic,desalinhamento,100.0,145.82,True,,,,
+153802,desalinhamento,centroid_euclidean,local,deterministic,desalinhamento,36.57,15.828,True,,,,
+153802,desalinhamento,text_vector_vote,local,deterministic,desalinhamento,60.0,1056.11,True,,,,
+153802,desalinhamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,89.99,9776.034,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 89.99,
+  ""rationale"": ""A maior similaridade com os exemplos de desalinhamento e a presença de características típicas de desalinhamento, como vibrações e acelerações anormais, indicam que a falha mais provável é desalinhamento.""
+}
+```","{""prompt_tokens"": 1853, ""completion_tokens"": 90, ""total_tokens"": 1943}"
+153802,desalinhamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,89.99,19909.316,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 89.99,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de desalinhamento, com altos valores de x_rms_velocity_mm_s e z_peak_acceleration_g, além de um kurtosis elevado em ambas as direções (x e z). A confiança é alta devido à alta pontuação do exemplo mais relevante.""
+}
+```","{""prompt_tokens"": 1997, ""completion_tokens"": 109, ""total_tokens"": 2106}"
+38223,cocked_rotor,euclidean_knn,local,deterministic,desbalanceamento,60.0,72.659,False,,,,
+38223,cocked_rotor,mahalanobis_weighted_knn,local,deterministic,desbalanceamento,61.35,60.295,False,False,1.6895,,
+38223,cocked_rotor,cosine_knn,local,deterministic,desbalanceamento,60.0,121.432,False,,,,
+38223,cocked_rotor,centroid_euclidean,local,deterministic,correia,43.82,14.068,False,,,,
+38223,cocked_rotor,text_vector_vote,local,deterministic,rolamento_inner,100.0,1046.8,False,,,,
+38223,cocked_rotor,llm_vector_rag_groq,groq,llama-3.1-8b-instant,rolamento_inner,0.6484,9666.394,False,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 0.6484,
+  ""rationale"": ""A análise dos dados de vibração e aceleração indica que o problema mais provável é um desgaste do rolamento interno, devido à alta temperatura e vibração excessiva detectadas.""
+}
+```","{""prompt_tokens"": 1844, ""completion_tokens"": 79, ""total_tokens"": 1923}"
+38223,cocked_rotor,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,rolamento_inner,0.98,21510.484,False,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 0.98,
+  ""rationale"": ""Os exemplos de eventos de manutenção prescritiva fornecidos têm uma pontuação muito alta (maior que 0.6) para a falha 'rolamento_inner', indicando que esses eventos são altamente semelhantes em termos de parâmetros e características. Além disso, os exemplos apresentam valores similares aos dos dados do evento atual, como RPM, temperatura e velocidades RMS e pico de aceleração.""
+}
+```","{""prompt_tokens"": 1998, ""completion_tokens"": 131, ""total_tokens"": 2129}"
+58865,rolamento_inner,euclidean_knn,local,deterministic,rolamento_inner,100.0,139.155,True,,,,
+58865,rolamento_inner,mahalanobis_weighted_knn,local,deterministic,rolamento_inner,100.0,70.906,True,False,2.6757,,
+58865,rolamento_inner,cosine_knn,local,deterministic,rolamento_inner,100.0,134.014,True,,,,
+58865,rolamento_inner,centroid_euclidean,local,deterministic,rolamento_inner,29.67,21.236,True,,,,
+58865,rolamento_inner,text_vector_vote,local,deterministic,desbalanceamento,60.0,1574.807,False,,,,
+58865,rolamento_inner,llm_vector_rag_groq,groq,llama-3.1-8b-instant,rolamento_inner,85.6,9486.988,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 85.6,
+  ""rationale"": ""A maior confiança foi atribuída ao rolamento inner devido à alta correlação entre as características de vibração e aceleração medidas e as características típicas de um rolamento inner em falha.""
+}
+```
+
+Essa resposta é baseada na análise das características de vibração e aceleração medidas no evento, que mostram uma alta correlação com as características típicas de um rolamento inner em falha. Além disso, a confiança atribuída ao rolamento inner é de 85,6%, o que é considerado alto.","{""prompt_tokens"": 1836, ""completion_tokens"": 155, ""total_tokens"": 1991}"
+58865,rolamento_inner,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,rolamento_inner,85.6,18246.178,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 85.6,
+  ""rationale"": ""O evento apresenta características semelhantes ao rolamento inner race, com valores de aceleração e velocidade RMS que estão dentro do intervalo típico para esse tipo de falha.""
+}
+```","{""prompt_tokens"": 1986, ""completion_tokens"": 75, ""total_tokens"": 2061}"
+144360,correia,euclidean_knn,local,deterministic,desalinhamento,60.0,49.667,False,,,,
+144360,correia,mahalanobis_weighted_knn,local,deterministic,desalinhamento,54.75,67.952,False,False,2.9919,,
+144360,correia,cosine_knn,local,deterministic,desalinhamento,80.0,138.471,False,,,,
+144360,correia,centroid_euclidean,local,deterministic,rolamento_inner,32.22,17.922,False,,,,
+144360,correia,text_vector_vote,local,deterministic,desbalanceamento,60.0,1185.569,False,,,,
+144360,correia,llm_vector_rag_groq,groq,llama-3.1-8b-instant,correia,90.18,9484.582,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 90.18,
+  ""rationale"": ""A maior similaridade foi encontrada com o procedimento de correia, com uma pontuação de 0.9018. Além disso, os sintomas comuns de problemas de correia, como assobios ou chiados, vibração excessiva e aquecimento, estão presentes no evento.""
+}
+```","{""prompt_tokens"": 1835, ""completion_tokens"": 99, ""total_tokens"": 1934}"
+144360,correia,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,correia,90.18,19737.75,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 90.18,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de correia, com valores altos de x_rms_velocity_mm_s e z_rms_velocity_mm_s, assim como kurtosis e crest factor elevados. A correlação mais alta entre os dados do evento e o exemplo de correia é de 0.9018.""
+}
+```","{""prompt_tokens"": 1984, ""completion_tokens"": 107, ""total_tokens"": 2091}"
+148441,desalinhamento,euclidean_knn,local,deterministic,desalinhamento,100.0,42.464,True,,,,
+148441,desalinhamento,mahalanobis_weighted_knn,local,deterministic,desalinhamento,60.81,72.78,True,False,4.1988,,
+148441,desalinhamento,cosine_knn,local,deterministic,desalinhamento,80.0,124.587,True,,,,
+148441,desalinhamento,centroid_euclidean,local,deterministic,desalinhamento,37.21,14.776,True,,,,
+148441,desalinhamento,text_vector_vote,local,deterministic,desalinhamento,80.0,1155.816,True,,,,
+148441,desalinhamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,88.86,9479.611,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 88.86,
+  ""rationale"": ""A maior confiança foi atribuída ao desalinhamento devido à alta correlação entre as características de vibração e aceleração medidas e os critérios de aceitação para desalinhamento.""
+}
+```
+
+Essa resposta é baseada na análise das características de vibração e aceleração medidas no evento, que mostram uma alta correlação com os critérios de aceitação para desalinhamento. Além disso, a confiança atribuída ao desalinhamento é alta, o que indica que a classificação é confiável.","{""prompt_tokens"": 1833, ""completion_tokens"": 159, ""total_tokens"": 1992}"
+148441,desalinhamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,89.0,20190.012,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 89,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de desalinhamento, com valores altos de x_rms_velocity_mm_s e z_rms_velocity_mm_s, indicando vibrações significativas. Além disso, os valores de aceleração e fatores de ondulação estão dentro da faixa esperada para este tipo de falha.""
+}
+```","{""prompt_tokens"": 1986, ""completion_tokens"": 110, ""total_tokens"": 2096}"
+52818,rolamento_inner,euclidean_knn,local,deterministic,rolamento_inner,100.0,90.879,True,,,,
+52818,rolamento_inner,mahalanobis_weighted_knn,local,deterministic,rolamento_inner,100.0,79.164,True,False,1.8853,,
+52818,rolamento_inner,cosine_knn,local,deterministic,rolamento_inner,100.0,158.271,True,,,,
+52818,rolamento_inner,centroid_euclidean,local,deterministic,rolamento_inner,33.62,14.291,True,,,,
+52818,rolamento_inner,text_vector_vote,local,deterministic,desbalanceamento,60.0,1168.224,False,,,,
+52818,rolamento_inner,llm_vector_rag_groq,groq,llama-3.1-8b-instant,rolamento_inner,87.94,9965.172,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 87.94,
+  ""rationale"": ""A maior confiança foi atribuída ao rolamento inner devido à alta correlação entre as características de vibração e aceleração medidas e as características típicas de um rolamento inner em falha.""
+}
+```
+
+Essa resposta foi gerada com base nas informações fornecidas no evento, incluindo as características de vibração e aceleração, e as informações de treinamento fornecidas pelas amostras de treinamento. A confiança de 87,94% foi atribuída ao rolamento inner devido à alta correlação entre as características medidas e as características típicas de um rolamento inner em falha.","{""prompt_tokens"": 1849, ""completion_tokens"": 171, ""total_tokens"": 2020}"
+52818,rolamento_inner,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,rolamento_inner,87.94,17760.365,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 87.94,
+  ""rationale"": ""O evento apresenta características semelhantes ao rolamento inner race, com valores de aceleração e velocidade RMS que estão dentro do intervalo típico para essa falha.""
+}
+```","{""prompt_tokens"": 1988, ""completion_tokens"": 74, ""total_tokens"": 2062}"
+10748,desbalanceamento,euclidean_knn,local,deterministic,desbalanceamento,100.0,44.093,True,,,,
+10748,desbalanceamento,mahalanobis_weighted_knn,local,deterministic,desbalanceamento,100.0,58.863,True,False,2.152,,
+10748,desbalanceamento,cosine_knn,local,deterministic,desbalanceamento,100.0,132.438,True,,,,
+10748,desbalanceamento,centroid_euclidean,local,deterministic,desbalanceamento,30.96,15.619,True,,,,
+10748,desbalanceamento,text_vector_vote,local,deterministic,correia,40.0,1049.819,False,,,,
+10748,desbalanceamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desbalanceamento,65.74,9725.977,True,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 65.74,
+  ""rationale"": ""A maior confiança foi atribuída ao desbalanceamento devido aos valores elevados de x_peak_acceleration_g e z_peak_acceleration_g, que indicam vibrações anormais no eixo x e z. Além disso, os valores de x_kurtosis e z_kurtosis também são elevados, o que sugere uma distribuição de vibrações não gaussiana, típica de desbalanceamentos.""
+}
+```","{""prompt_tokens"": 1839, ""completion_tokens"": 126, ""total_tokens"": 1965}"
+10748,desbalanceamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desbalanceamento,0.6876,20860.86,True,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 0.6876,
+  ""rationale"": ""O evento apresenta características semelhantes ao desbalanceamento, com altos valores de x_rms_velocity_mm_s e z_rms_velocity_mm_s, além de kurtosis e crest factor elevados, indicando fortes vibrações no eixo X e Z. O desbalanceamento é frequentemente associado a esses padrões de vibração.""
+}
+```","{""prompt_tokens"": 1985, ""completion_tokens"": 113, ""total_tokens"": 2098}"
+108824,correia,euclidean_knn,local,deterministic,correia,80.0,51.133,True,,,,
+108824,correia,mahalanobis_weighted_knn,local,deterministic,cocked_rotor,55.49,139.161,False,False,4.2184,,
+108824,correia,cosine_knn,local,deterministic,correia,80.0,219.647,True,,,,
+108824,correia,centroid_euclidean,local,deterministic,rolamento_inner,30.08,16.829,False,,,,
+108824,correia,text_vector_vote,local,deterministic,correia,100.0,1062.667,True,,,,
+108824,correia,llm_vector_rag_groq,groq,llama-3.1-8b-instant,correia,90.78,9670.462,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 90.78,
+  ""rationale"": ""A maior parte dos exemplos de manutenção prescritiva recuperados foi classificada como 'correia', com uma pontuação média de 0,9078. Além disso, o procedimento de correias foi recuperado com uma pontuação de 0,3832, o que sugere que a correia é a causa mais provável da falha.""
+}
+```","{""prompt_tokens"": 1846, ""completion_tokens"": 114, ""total_tokens"": 1960}"
+108824,correia,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,correia,90.0,21605.224,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 90,
+  ""rationale"": ""Os exemplos fornecidos têm uma pontuação alta (maior que 0.6) para a falha 'correia' e não há evidências significativas de outras falhas prescritivas como desalinhamento, desbalanceamento ou rolamento_inner. A correia é frequentemente associada a problemas como assobios, vibração excessiva, aquecimento, perda de velocidade e oscilação da correia.""
+}
+```","{""prompt_tokens"": 1997, ""completion_tokens"": 127, ""total_tokens"": 2124}"
+158579,desalinhamento,euclidean_knn,local,deterministic,desalinhamento,100.0,117.212,True,,,,
+158579,desalinhamento,mahalanobis_weighted_knn,local,deterministic,desalinhamento,100.0,53.162,True,False,2.213,,
+158579,desalinhamento,cosine_knn,local,deterministic,desalinhamento,100.0,124.793,True,,,,
+158579,desalinhamento,centroid_euclidean,local,deterministic,desalinhamento,38.59,16.766,True,,,,
+158579,desalinhamento,text_vector_vote,local,deterministic,desalinhamento,40.0,1171.404,True,,,,
+158579,desalinhamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,68.15,9764.695,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 68.15,
+  ""rationale"": ""A maior similaridade com o evento de manutenção prescritiva foi encontrada com o procedimento de desalinhamento, com uma pontuação de 68,15%.""
+}
+```
+
+Essa resposta foi baseada na análise dos dados fornecidos, onde o procedimento de desalinhamento apresentou a maior similaridade com o evento de manutenção prescritiva, com uma pontuação de 68,15%.","{""prompt_tokens"": 1810, ""completion_tokens"": 124, ""total_tokens"": 1934}"
+158579,desalinhamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desbalanceamento,0.6815,19435.266,False,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 0.6815,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de desbalanceamento, incluindo valores altos de x_rms_velocity_mm_s e z_rms_velocity_mm_s, além de padrões de aceleração e kurtosis consistentes com essa falha.""
+}
+```","{""prompt_tokens"": 1962, ""completion_tokens"": 93, ""total_tokens"": 2055}"
+129987,rolamento_inner,euclidean_knn,local,deterministic,desalinhamento,80.0,94.6,False,,,,
+129987,rolamento_inner,mahalanobis_weighted_knn,local,deterministic,desalinhamento,79.64,63.516,False,False,3.1518,,
+129987,rolamento_inner,cosine_knn,local,deterministic,desalinhamento,80.0,133.428,False,,,,
+129987,rolamento_inner,centroid_euclidean,local,deterministic,desalinhamento,32.83,22.59,False,,,,
+129987,rolamento_inner,text_vector_vote,local,deterministic,desalinhamento,80.0,1024.111,False,,,,
+129987,rolamento_inner,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,68.96,9482.271,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 68.96,
+  ""rationale"": ""A vibração elevada e o aumento de temperatura nos mancais são sintomas comuns de desalinhamento, conforme descrito no procedimento de desalinhamento.""
+}
+```
+
+Essa resposta é baseada na análise dos dados fornecidos e na comparação com os procedimentos de desalinhamento e desbalanceamento. A confiança é calculada com base na pontuação dos exemplos de treinamento e na pontuação dos documentos de busca.","{""prompt_tokens"": 1853, ""completion_tokens"": 134, ""total_tokens"": 1987}"
+129987,rolamento_inner,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,0.83,20491.22,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 0.83,
+  ""rationale"": ""Os exemplos fornecidos têm uma pontuação muito alta (maior que 0.67) para o desalinhamento, indicando que esses eventos são altamente semelhantes ao caso em questão. Além disso, os parâmetros de vibração e aceleração estão dentro da faixa esperada para um desalinhamento.""
+}
+```","{""prompt_tokens"": 2005, ""completion_tokens"": 112, ""total_tokens"": 2117}"
+148217,desalinhamento,euclidean_knn,local,deterministic,desalinhamento,100.0,63.49,True,,,,
+148217,desalinhamento,mahalanobis_weighted_knn,local,deterministic,desalinhamento,80.65,61.731,True,False,3.2887,,
+148217,desalinhamento,cosine_knn,local,deterministic,desalinhamento,100.0,137.051,True,,,,
+148217,desalinhamento,centroid_euclidean,local,deterministic,desalinhamento,30.3,36.82,True,,,,
+148217,desalinhamento,text_vector_vote,local,deterministic,desalinhamento,80.0,1064.131,True,,,,
+148217,desalinhamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,67.94,9832.045,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 67.94,
+  ""rationale"": ""A maior parte dos exemplos de manutenção prescritiva recuperados foi relacionada a desalinhamento, com uma pontuação média de 0.6616. Além disso, o procedimento de desalinhamento foi encontrado no conjunto de documentos recuperados, com uma pontuação de 0.3742.""
+}
+```","{""prompt_tokens"": 1842, ""completion_tokens"": 104, ""total_tokens"": 1946}"
+148217,desalinhamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,0.95,20285.488,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 0.95,
+  ""rationale"": ""Os exemplos fornecidos têm uma pontuação muito alta (maior que 0.6) para o desalinhamento e não há nenhum exemplo com uma pontuação significativamente maior para outras falhas. Além disso, os parâmetros de vibração e aceleração estão dentro dos padrões típicos do desalinhamento.""
+}
+```","{""prompt_tokens"": 1984, ""completion_tokens"": 111, ""total_tokens"": 2095}"
+42018,cocked_rotor,euclidean_knn,local,deterministic,cocked_rotor,100.0,88.927,True,,,,
+42018,cocked_rotor,mahalanobis_weighted_knn,local,deterministic,cocked_rotor,70.56,65.706,True,False,2.5419,,
+42018,cocked_rotor,cosine_knn,local,deterministic,cocked_rotor,60.0,133.532,True,,,,
+42018,cocked_rotor,centroid_euclidean,local,deterministic,correia,44.89,15.373,False,,,,
+42018,cocked_rotor,text_vector_vote,local,deterministic,cocked_rotor,100.0,1037.103,True,,,,
+42018,cocked_rotor,llm_vector_rag_groq,groq,llama-3.1-8b-instant,cocked_rotor,91.74,9458.895,True,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 91.74,
+  ""rationale"": ""A maior parte dos exemplos de manutenção prescritiva recuperados apresentam a falha de 'cocked_rotor' com uma pontuação alta, indicando que essa é a falha mais provável.""
+}
+```","{""prompt_tokens"": 1846, ""completion_tokens"": 79, ""total_tokens"": 1925}"
+42018,cocked_rotor,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,cocked_rotor,91.74,18747.039,True,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 91.74,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de falha 'cocked_rotor', com valores altos de aceleração e kurtosis, indicando uma possível desalinhamento ou correia danificada.""
+}
+```","{""prompt_tokens"": 1993, ""completion_tokens"": 85, ""total_tokens"": 2078}"
+144903,correia,euclidean_knn,local,deterministic,cocked_rotor,40.0,91.124,False,,,,
+144903,correia,mahalanobis_weighted_knn,local,deterministic,correia,100.0,66.6,True,False,3.0206,,
+144903,correia,cosine_knn,local,deterministic,correia,60.0,211.876,True,,,,
+144903,correia,centroid_euclidean,local,deterministic,rolamento_inner,32.88,32.07,False,,,,
+144903,correia,text_vector_vote,local,deterministic,correia,60.0,1038.969,True,,,,
+144903,correia,llm_vector_rag_groq,groq,llama-3.1-8b-instant,correia,90.57,9738.846,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 90.57,
+  ""rationale"": ""A maior confiança foi atribuída à classe 'correia' devido à presença de assobios ou chiados, vibração excessiva, aquecimento, perda de velocidade, oscilação da correia, partículas de borracha próximas ao equipamento, desgaste irregular e falhas recorrentes da correia, que são sintomas comuns de problemas de correia.""
+}
+```","{""prompt_tokens"": 1837, ""completion_tokens"": 124, ""total_tokens"": 1961}"
+144903,correia,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,correia,90.57,18846.668,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 90.57,
+  ""rationale"": ""A predição foi feita com base em um exemplo de evento de manutenção prescritiva que apresenta características semelhantes, incluindo valores de velocidade RMS e aceleração RMS consistentes com falhas de correia.""
+}
+```","{""prompt_tokens"": 1989, ""completion_tokens"": 86, ""total_tokens"": 2075}"
+70137,rolamento_inner,euclidean_knn,local,deterministic,rolamento_inner,100.0,36.553,True,,,,
+70137,rolamento_inner,mahalanobis_weighted_knn,local,deterministic,rolamento_inner,100.0,60.68,True,False,1.8984,,
+70137,rolamento_inner,cosine_knn,local,deterministic,rolamento_inner,100.0,135.368,True,,,,
+70137,rolamento_inner,centroid_euclidean,local,deterministic,correia,47.29,21.328,False,,,,
+70137,rolamento_inner,text_vector_vote,local,deterministic,desalinhamento,80.0,1254.366,False,,,,
+70137,rolamento_inner,llm_vector_rag_groq,groq,llama-3.1-8b-instant,cocked_rotor,67.05,9816.433,False,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 67.05,
+  ""rationale"": ""O evento de manutenção prescritiva apresenta características semelhantes ao cocked_rotor, com valores de rpm, temperatura e aceleração que se aproximam dos valores registrados em eventos de cocked_rotor.""
+}
+```","{""prompt_tokens"": 1867, ""completion_tokens"": 82, ""total_tokens"": 1949}"
+70137,rolamento_inner,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,0.67,20575.685,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 0.67,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de desalinhamento, com valores altos de x_rms_velocity_mm_s e z_rms_velocity_mm_s, além de kurtosis e crest factor elevados. O procedimento de desalinhamento é mencionado nos documentos recuperados.""
+}
+```","{""prompt_tokens"": 2016, ""completion_tokens"": 100, ""total_tokens"": 2116}"
+42143,cocked_rotor,euclidean_knn,local,deterministic,cocked_rotor,100.0,38.87,True,,,,
+42143,cocked_rotor,mahalanobis_weighted_knn,local,deterministic,cocked_rotor,61.48,59.776,True,False,3.0151,,
+42143,cocked_rotor,cosine_knn,local,deterministic,cocked_rotor,100.0,134.462,True,,,,
+42143,cocked_rotor,centroid_euclidean,local,deterministic,correia,44.51,17.443,False,,,,
+42143,cocked_rotor,text_vector_vote,local,deterministic,cocked_rotor,60.0,1125.715,True,,,,
+42143,cocked_rotor,llm_vector_rag_groq,groq,llama-3.1-8b-instant,cocked_rotor,85.62,10305.069,True,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 85.62,
+  ""rationale"": ""A maior confiança foi encontrada no evento de manutenção prescritiva com o rótulo 'Cocked rotor' com uma pontuação de 0,8562.""
+}
+```","{""prompt_tokens"": 1853, ""completion_tokens"": 72, ""total_tokens"": 1925}"
+42143,cocked_rotor,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,cocked_rotor,0.8562,20795.934,True,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 0.8562,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de falha 'cocked_rotor', com valores similares para RPM, velocidades RMS e acelerações RMS em eixos X e Z. A alta pontuação de confiança (0.8562) indica que a falha mais provável é um 'cocked_rotor'.""
+}
+```","{""prompt_tokens"": 2004, ""completion_tokens"": 115, ""total_tokens"": 2119}"
+175719,desbalanceamento,euclidean_knn,local,deterministic,cocked_rotor,60.0,113.632,False,,,,
+175719,desbalanceamento,mahalanobis_weighted_knn,local,deterministic,desbalanceamento,100.0,69.103,True,False,2.0679,,
+175719,desbalanceamento,cosine_knn,local,deterministic,desbalanceamento,60.0,151.967,True,,,,
+175719,desbalanceamento,centroid_euclidean,local,deterministic,correia,34.11,19.571,False,,,,
+175719,desbalanceamento,text_vector_vote,local,deterministic,desalinhamento,60.0,1067.398,False,,,,
+175719,desbalanceamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desbalanceamento,66.44,9466.225,True,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 66.44,
+  ""rationale"": ""A maior confiança foi atribuída ao desbalanceamento devido à presença de características de vibração anormal nas direções x e z, bem como a presença de ruído anormal e desgaste excessivo nas pás.""
+}
+```
+
+Essa resposta foi baseada na análise das características de vibração e ruído anormal presentes no evento, que são comuns em casos de desbalanceamento. Além disso, a presença de soldas localizadas e troca de componentes sem rebalanceamento no procedimento de desbalanceamento também aponta para essa classe de falha.","{""prompt_tokens"": 1853, ""completion_tokens"": 165, ""total_tokens"": 2018}"
+175719,desbalanceamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desbalanceamento,0.6644,18686.578,True,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 0.6644,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de desbalanceamento, com valores altos de x_rms_velocity_mm_s e z_peak_acceleration_g, indicando vibrações significativas no eixo horizontal e vertical.""
+}
+```","{""prompt_tokens"": 2004, ""completion_tokens"": 85, ""total_tokens"": 2089}"
+66814,rolamento_inner,euclidean_knn,local,deterministic,rolamento_inner,100.0,126.489,True,,,,
+66814,rolamento_inner,mahalanobis_weighted_knn,local,deterministic,rolamento_inner,100.0,53.762,True,False,2.6095,,
+66814,rolamento_inner,cosine_knn,local,deterministic,rolamento_inner,100.0,122.311,True,,,,
+66814,rolamento_inner,centroid_euclidean,local,deterministic,rolamento_inner,34.87,14.541,True,,,,
+66814,rolamento_inner,text_vector_vote,local,deterministic,rolamento_inner,40.0,1581.47,True,,,,
+66814,rolamento_inner,llm_vector_rag_groq,groq,llama-3.1-8b-instant,correia,66.16,9472.42,False,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 66.16,
+  ""rationale"": ""A maior similaridade foi encontrada com o procedimento de correias, com sintomas comuns como assobios ou chiados, vibração excessiva, aquecimento, perda de velocidade, oscilação da correia, partículas de borracha próximas ao equipamento, desgaste irregular e falhas recorrentes da correia.""
+}
+```","{""prompt_tokens"": 1844, ""completion_tokens"": 111, ""total_tokens"": 1955}"
+66814,rolamento_inner,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,correia,0.6616,18228.665,False,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 0.6616,
+  ""rationale"": ""O evento apresenta características semelhantes à correia, como vibração excessiva e assobios ou chiados, conforme mencionado nos exemplos recuperados.""
+}
+```","{""prompt_tokens"": 1992, ""completion_tokens"": 73, ""total_tokens"": 2065}"
+118758,desbalanceamento,euclidean_knn,local,deterministic,desbalanceamento,100.0,41.017,True,,,,
+118758,desbalanceamento,mahalanobis_weighted_knn,local,deterministic,desbalanceamento,61.02,81.343,True,False,1.1574,,
+118758,desbalanceamento,cosine_knn,local,deterministic,desbalanceamento,100.0,149.988,True,,,,
+118758,desbalanceamento,centroid_euclidean,local,deterministic,desalinhamento,37.54,26.337,False,,,,
+118758,desbalanceamento,text_vector_vote,local,deterministic,desalinhamento,80.0,1051.157,False,,,,
+118758,desbalanceamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,74.45,9875.588,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 74.45,
+  ""rationale"": ""A maior parte dos exemplos de manutenção prescritiva recuperados foi classificada como desalinhamento, com uma pontuação média de 0,7445. Além disso, o título e o resumo do procedimento de desalinhamento recuperado também apontam para essa classificação.""
+}
+```","{""prompt_tokens"": 1851, ""completion_tokens"": 102, ""total_tokens"": 1953}"
+118758,desbalanceamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,0.74,18521.695,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 0.74,
+  ""rationale"": ""Os exemplos fornecidos têm uma pontuação alta (maior que 0.7) para falha de desalinhamento, indicando que essa é a falha mais provável com base nos dados disponíveis.""
+}
+```","{""prompt_tokens"": 2000, ""completion_tokens"": 81, ""total_tokens"": 2081}"
+36437,cocked_rotor,euclidean_knn,local,deterministic,cocked_rotor,60.0,60.519,True,,,,
+36437,cocked_rotor,mahalanobis_weighted_knn,local,deterministic,cocked_rotor,39.53,108.88,True,False,2.1985,,
+36437,cocked_rotor,cosine_knn,local,deterministic,desalinhamento,60.0,166.255,False,,,,
+36437,cocked_rotor,centroid_euclidean,local,deterministic,desalinhamento,33.62,15.192,False,,,,
+36437,cocked_rotor,text_vector_vote,local,deterministic,desbalanceamento,60.0,1136.013,False,,,,
+36437,cocked_rotor,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,69.72,10012.738,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 69.72,
+  ""rationale"": ""A maior confiança foi encontrada no evento de manutenção prescritiva com desalinhamento, com uma pontuação de 69,72%.""
+}
+```
+
+Essa resposta é baseada na análise dos dados fornecidos, onde o evento de manutenção prescritiva com desalinhamento tem a maior pontuação de confiança, com 69,72%.","{""prompt_tokens"": 1797, ""completion_tokens"": 115, ""total_tokens"": 1912}"
+36437,cocked_rotor,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desalinhamento,0.85,22812.806,False,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 0.85,
+  ""rationale"": ""Os exemplos de eventos de manutenção prescritiva fornecidos têm uma alta pontuação para falhas de desalinhamento (69.72% e 67.81%). Além disso, os parâmetros como x_rms_velocity_mm_s, z_rms_velocity_mm_s, x_peak_acceleration_g e z_peak_acceleration_g estão dentro do intervalo típico para falhas de desalinhamento. O procedimento de desalinhamento também é mencionado nos exemplos recuperados.""
+}
+```","{""prompt_tokens"": 1943, ""completion_tokens"": 148, ""total_tokens"": 2091}"
+60079,rolamento_inner,euclidean_knn,local,deterministic,rolamento_inner,100.0,46.911,True,,,,
+60079,rolamento_inner,mahalanobis_weighted_knn,local,deterministic,rolamento_inner,100.0,70.699,True,False,2.136,,
+60079,rolamento_inner,cosine_knn,local,deterministic,rolamento_inner,100.0,151.073,True,,,,
+60079,rolamento_inner,centroid_euclidean,local,deterministic,desbalanceamento,38.73,14.059,False,,,,
+60079,rolamento_inner,text_vector_vote,local,deterministic,desbalanceamento,40.0,1836.505,False,,,,
+60079,rolamento_inner,llm_vector_rag_groq,groq,llama-3.1-8b-instant,rolamento_inner,87.79,9312.815,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 87.79,
+  ""rationale"": ""A maior confiança foi atribuída ao rolamento inner devido à alta correlação entre as características de vibração e aceleração medidas e as características típicas de um rolamento inner em falha.""
+}
+```","{""prompt_tokens"": 1822, ""completion_tokens"": 79, ""total_tokens"": 1901}"
+60079,rolamento_inner,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,rolamento_inner,87.79,20560.549,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 87.79,
+  ""rationale"": ""O evento de manutenção prescritiva apresenta características semelhantes ao rolamento inner race, com valores altos de aceleração e velocidade RMS no eixo X e Z, além de um fator de pico elevado em ambos os eixos. A pontuação de confiança é alta (87.79%) baseada nos exemplos fornecidos.""
+}
+```","{""prompt_tokens"": 1967, ""completion_tokens"": 118, ""total_tokens"": 2085}"
+159346,desalinhamento,euclidean_knn,local,deterministic,desalinhamento,80.0,89.215,True,,,,
+159346,desalinhamento,mahalanobis_weighted_knn,local,deterministic,desalinhamento,100.0,56.748,True,False,2.0628,,
+159346,desalinhamento,cosine_knn,local,deterministic,desalinhamento,100.0,128.172,True,,,,
+159346,desalinhamento,centroid_euclidean,local,deterministic,desalinhamento,49.61,21.526,True,,,,
+159346,desalinhamento,text_vector_vote,local,deterministic,cocked_rotor,60.0,1187.699,False,,,,
+159346,desalinhamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desalinhamento,68.41,9565.368,True,,,"```json
+{
+  ""predicted_fault"": ""desalinhamento"",
+  ""confidence_pct"": 68.41,
+  ""rationale"": ""A maior similaridade foi encontrada com o procedimento de desalinhamento, com uma pontuação de 0.6841. Além disso, os valores de x_rms_velocity_mm_s e z_rms_velocity_mm_s estão dentro do intervalo esperado para desalinhamento.""
+}
+```
+
+Essa resposta é baseada na análise dos dados fornecidos, onde o procedimento de desalinhamento tem a maior pontuação de similaridade (0,6841) e os valores de x_rms_velocity_mm_s e z_rms_velocity_mm_s estão dentro do intervalo esperado para desalinhamento.","{""prompt_tokens"": 1862, ""completion_tokens"": 165, ""total_tokens"": 2027}"
+159346,desalinhamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,cocked_rotor,0.68,20489.382,False,,,"```json
+{
+  ""predicted_fault"": ""cocked_rotor"",
+  ""confidence_pct"": 0.68,
+  ""rationale"": ""Os exemplos de eventos de manutenção prescritiva fornecidos têm uma pontuação alta para falhas do tipo 'cocked_rotor' (Cocked rotor), com scores acima de 0.67. Além disso, os parâmetros de vibração e aceleração registrados estão dentro dos padrões típicos para essa falha.""
+}
+```","{""prompt_tokens"": 2014, ""completion_tokens"": 113, ""total_tokens"": 2127}"
+40379,cocked_rotor,euclidean_knn,local,deterministic,cocked_rotor,100.0,41.336,True,,,,
+40379,cocked_rotor,mahalanobis_weighted_knn,local,deterministic,cocked_rotor,61.34,76.387,True,False,2.663,,
+40379,cocked_rotor,cosine_knn,local,deterministic,cocked_rotor,100.0,135.495,True,,,,
+40379,cocked_rotor,centroid_euclidean,local,deterministic,correia,36.0,17.257,False,,,,
+40379,cocked_rotor,text_vector_vote,local,deterministic,rolamento_inner,40.0,1127.271,False,,,,
+40379,cocked_rotor,llm_vector_rag_groq,groq,llama-3.1-8b-instant,rolamento_inner,75.26,9712.039,False,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 75.26,
+  ""rationale"": ""A análise dos dados de vibração e aceleração sugere que o problema está relacionado ao rolamento interno, com uma confiança de 75,26%""
+}
+```","{""prompt_tokens"": 1865, ""completion_tokens"": 71, ""total_tokens"": 1936}"
+40379,cocked_rotor,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,rolamento_inner,0.7356,20360.921,False,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 0.7356,
+  ""rationale"": ""Os exemplos fornecidos têm uma pontuação alta para a falha 'rolamento_inner' (Rolamento inner race) e apresentam características semelhantes aos parâmetros do evento atual, como RPM, temperatura e velocidades de vibração. A confiança é calculada com base na média das pontuações dos exemplos recuperados.""
+}
+```","{""prompt_tokens"": 2010, ""completion_tokens"": 112, ""total_tokens"": 2122}"
+121872,desbalanceamento,euclidean_knn,local,deterministic,cocked_rotor,60.0,38.623,False,,,,
+121872,desbalanceamento,mahalanobis_weighted_knn,local,deterministic,desbalanceamento,100.0,68.987,True,False,1.7396,,
+121872,desbalanceamento,cosine_knn,local,deterministic,desbalanceamento,80.0,135.277,True,,,,
+121872,desbalanceamento,centroid_euclidean,local,deterministic,correia,47.42,14.934,False,,,,
+121872,desbalanceamento,text_vector_vote,local,deterministic,desalinhamento,40.0,1147.244,False,,,,
+121872,desbalanceamento,llm_vector_rag_groq,groq,llama-3.1-8b-instant,desbalanceamento,93.46,9251.511,True,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 93.46,
+  ""rationale"": ""A maior confiança foi atribuída ao desbalanceamento devido à alta correlação entre os dados de vibração e aceleração, indicando uma possível causa de desbalanceamento.""
+}
+```
+
+Essa resposta foi gerada com base nos dados de vibração e aceleração fornecidos, que indicam uma possível causa de desbalanceamento. A confiança de 93,46% é baseada na similaridade entre os dados de vibração e aceleração e os exemplos de desbalanceamento fornecidos.","{""prompt_tokens"": 1849, ""completion_tokens"": 147, ""total_tokens"": 1996}"
+121872,desbalanceamento,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,desbalanceamento,93.46,19984.553,True,,,"```json
+{
+  ""predicted_fault"": ""desbalanceamento"",
+  ""confidence_pct"": 93.46,
+  ""rationale"": ""O evento apresenta características altamente semelhantes ao desbalanceamento, com valores significativamente elevados em x_rms_velocity_mm_s e x_peak_acceleration_g, além de um kurtosis alto no eixo X. O desbalanceamento é a falha mais provável dentre as opções fornecidas.""
+}
+```","{""prompt_tokens"": 1999, ""completion_tokens"": 104, ""total_tokens"": 2103}"
+69544,rolamento_inner,euclidean_knn,local,deterministic,rolamento_inner,60.0,41.117,True,,,,
+69544,rolamento_inner,mahalanobis_weighted_knn,local,deterministic,rolamento_inner,84.97,59.909,True,False,2.4969,,
+69544,rolamento_inner,cosine_knn,local,deterministic,rolamento_inner,80.0,127.913,True,,,,
+69544,rolamento_inner,centroid_euclidean,local,deterministic,desalinhamento,49.51,13.683,False,,,,
+69544,rolamento_inner,text_vector_vote,local,deterministic,desalinhamento,60.0,1121.824,False,,,,
+69544,rolamento_inner,llm_vector_rag_groq,groq,llama-3.1-8b-instant,rolamento_inner,87.49,9103.859,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 87.49,
+  ""rationale"": ""A maior confiança foi encontrada no evento de manutenção prescritiva com o rolamento inner race, com uma pontuação de 0,8749. Isso indica que o rolamento inner é o mais provável problema de manutenção prescritiva.""
+}
+```","{""prompt_tokens"": 1845, ""completion_tokens"": 90, ""total_tokens"": 1935}"
+69544,rolamento_inner,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,rolamento_inner,87.49,18555.088,True,,,"```json
+{
+  ""predicted_fault"": ""rolamento_inner"",
+  ""confidence_pct"": 87.49,
+  ""rationale"": ""O evento apresenta características semelhantes aos exemplos de rolamento inner race, com valores altos de x_rms_velocity_mm_s e z_peak_acceleration_g, indicando problemas relacionados à roda interna do motor.""
+}
+```","{""prompt_tokens"": 1998, ""completion_tokens"": 84, ""total_tokens"": 2082}"
+104759,correia,euclidean_knn,local,deterministic,correia,80.0,41.551,True,,,,
+104759,correia,mahalanobis_weighted_knn,local,deterministic,correia,100.0,56.584,True,False,3.1075,,
+104759,correia,cosine_knn,local,deterministic,correia,80.0,125.183,True,,,,
+104759,correia,centroid_euclidean,local,deterministic,correia,39.88,14.438,True,,,,
+104759,correia,text_vector_vote,local,deterministic,desbalanceamento,40.0,1039.957,False,,,,
+104759,correia,llm_vector_rag_groq,groq,llama-3.1-8b-instant,correia,89.88,9209.649,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 89.88,
+  ""rationale"": ""A maior confiança foi encontrada na classe 'correia' com uma pontuação de 89,88%.""
+}
+```
+
+Essa resposta é baseada na análise dos dados fornecidos, onde a classe ""correia"" tem a maior pontuação de confiança (0,8988) entre as classes permitidas.","{""prompt_tokens"": 1822, ""completion_tokens"": 104, ""total_tokens"": 1926}"
+104759,correia,llm_vector_rag_ollama_small,ollama,qwen2.5-coder:7b,correia,89.88,18118.723,True,,,"```json
+{
+  ""predicted_fault"": ""correia"",
+  ""confidence_pct"": 89.88,
+  ""rationale"": ""A correia tem o maior score entre os exemplos recuperados (0.8988), indicando que é a falha mais provável com base nos dados fornecidos.""
+}
+```","{""prompt_tokens"": 1971, ""completion_tokens"": 74, ""total_tokens"": 2045}"

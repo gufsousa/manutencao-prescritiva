@@ -1,0 +1,6 @@
+﻿provider,model,rows,accuracy,macro_f1,avg_latency_ms
+groq,llama-3.1-8b-instant,50,0.74,0.7443,18628.429
+groq,llama-3.3-70b-versatile,50,0.72,0.7245,16122.016
+groq,openai/gpt-oss-120b,39,0.6923,0.6922,15045.655
+groq,openai/gpt-oss-20b,50,0.54,0.4939,16432.156
+groq,qwen/qwen3.6-27b,50,0.02,0.0303,28011.274

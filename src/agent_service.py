@@ -181,11 +181,13 @@ class PrescriptiveAgent:
         refusal_reason = ""
         if not validation.get("valid", True):
             refusal_reason = "Evento invalido segundo validacao fisica."
+        elif history.get("ood_flag"):
+            refusal_reason = "Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica."
         elif not documents and not is_state_label(candidate_fault):
             refusal_reason = "Nao ha documento tecnico suficiente para sustentar prescricao."
         return {
             "probable_fault": candidate_fault,
-            "confidence_pct": float(history["fault_distribution"][0]["pct"]) if history["fault_distribution"] else 0.0,
+            "confidence_pct": float(history.get("confidence_pct") or (history["fault_distribution"][0]["pct"] if history["fault_distribution"] else 0.0)),
             "executive_summary": (
                 f"O evento sugere {format_fault_label_pt(candidate_fault)} com base em evidencias historicas."
                 if not refusal_reason
@@ -193,6 +195,10 @@ class PrescriptiveAgent:
             ),
             "evidence_points": [
                 history["summary"],
+                (
+                    f"Guardrail OOD: status={history.get('ood_status')} | score={history.get('ood_score')} "
+                    f"| limite95={history.get('ood_threshold_95')} | limite99={history.get('ood_threshold_99')}"
+                ),
                 *[f"Validacao: {warning}" for warning in validation.get("warnings", [])],
             ],
             "recommended_actions": (
@@ -208,6 +214,7 @@ class PrescriptiveAgent:
             "risk_notes": [
                 "Usar a recomendacao apenas dentro do contexto operacional semelhante.",
                 "Requer validacao humana antes de intervencao fisica.",
+                "A classificacao historica usa Mahalanobis + k-NN ponderado com deteccao OOD.",
             ],
             "refusal_reason": refusal_reason,
             "cited_documents": [doc["title"] for doc in documents],
@@ -518,11 +525,7 @@ class PrescriptiveAgent:
         event = HISTORY_SERVICE.normalize_event(self._parse_event_input(raw_input))
         validation = HISTORY_SERVICE.validate_event(event)
         history_result = HISTORY_SERVICE.search_similar_events(event, top_k=SETTINGS.top_k_history)
-        candidate_fault = (
-            history_result.fault_distribution[0]["canonical_fault"]
-            if history_result.fault_distribution
-            else canonicalize_fault_label(event.get("fault"))
-        )
+        candidate_fault = history_result.candidate_fault or canonicalize_fault_label(event.get("fault"))
         document_query = self._event_query_text(event, candidate_fault)
         document_result = DOCUMENT_SERVICE.search_chunks(
             query_text=document_query,
@@ -536,6 +539,14 @@ class PrescriptiveAgent:
             history={
                 "neighbors": history_result.neighbors,
                 "fault_distribution": history_result.fault_distribution,
+                "confidence_pct": history_result.confidence_pct,
+                "candidate_fault": history_result.candidate_fault,
+                "similarity_metric": history_result.similarity_metric,
+                "ood_score": history_result.ood_score,
+                "ood_threshold_95": history_result.ood_threshold_95,
+                "ood_threshold_99": history_result.ood_threshold_99,
+                "ood_flag": history_result.ood_flag,
+                "ood_status": history_result.ood_status,
                 "summary": history_result.summary,
             },
             documents=document_result.chunks,
@@ -553,6 +564,15 @@ class PrescriptiveAgent:
                 "history_summary": history_result.summary,
                 "history_distribution": history_result.fault_distribution,
                 "history_neighbors": history_result.neighbors,
+                "history_similarity_metric": history_result.similarity_metric,
+                "history_confidence_pct": history_result.confidence_pct,
+                "ood": {
+                    "flag": history_result.ood_flag,
+                    "status": history_result.ood_status,
+                    "score": history_result.ood_score,
+                    "threshold_95": history_result.ood_threshold_95,
+                    "threshold_99": history_result.ood_threshold_99,
+                },
                 "document_summary": document_result.summary,
                 "document_chunks": [
                     {
@@ -590,6 +610,14 @@ class PrescriptiveAgent:
             "history": {
                 "neighbors": history_result.neighbors,
                 "fault_distribution": history_result.fault_distribution,
+                "confidence_pct": history_result.confidence_pct,
+                "candidate_fault": history_result.candidate_fault,
+                "similarity_metric": history_result.similarity_metric,
+                "ood_score": history_result.ood_score,
+                "ood_threshold_95": history_result.ood_threshold_95,
+                "ood_threshold_99": history_result.ood_threshold_99,
+                "ood_flag": history_result.ood_flag,
+                "ood_status": history_result.ood_status,
                 "summary": history_result.summary,
             },
             "documents": {

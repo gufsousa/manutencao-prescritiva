@@ -69,6 +69,10 @@ class MongoStore:
         }
         return mapping[logical_name]
 
+    def _batched(self, documents: list[dict[str, Any]], batch_size: int = 1000):
+        for start in range(0, len(documents), batch_size):
+            yield documents[start : start + batch_size]
+
     def replace_many(self, logical_name: str, documents: list[dict[str, Any]]) -> int:
         collection_name = self._collection_name(logical_name)
         db = self.get_database()
@@ -76,7 +80,8 @@ class MongoStore:
             collection = db[collection_name]
             collection.delete_many({})
             if documents:
-                collection.insert_many([deepcopy(item) for item in documents])
+                for batch in self._batched(documents):
+                    collection.insert_many([deepcopy(item) for item in batch], ordered=False)
             return len(documents)
         self._local_state[collection_name] = documents
         self._save_local_state()

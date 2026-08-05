@@ -8,7 +8,7 @@ Este documento foi feito para estudo rapido da implementacao atual. A ideia e re
 - como funciona na pratica;
 - o que e MVP e o que ainda e evolucao futura.
 
-Data de referencia desta analise: **4 de agosto de 2026**.
+Data de referencia desta analise: **5 de agosto de 2026**.
 
 ## Resumo executivo
 
@@ -20,11 +20,11 @@ O projeto implementa um **copiloto de manutencao prescritiva LLM-first** com int
 
 O sistema usa:
 
-- **Groq API** como backend de LLM;
+- **abstracao de provedor de LLM** com suporte a **Groq API** e **Ollama local**;
 - **MongoDB** como persistencia opcional;
 - **fallback local em JSON/JSONL** quando Mongo esta desabilitado;
 - **HashingVectorizer + similaridade cosseno** para embeddings locais;
-- **busca historica numerica** com `StandardScaler` + distancia Euclidiana;
+- **busca historica numerica** com `StandardScaler` + `Mahalanobis` + `k-NN` ponderado + `OOD`;
 - **taxonomia semantica de falhas** em YAML;
 - **prompts externos** em pasta separada;
 - **observabilidade** por logs de inferencia e benchmark.
@@ -34,11 +34,11 @@ O sistema usa:
 | Pergunta da banca | Resposta curta | Onde esta no codigo |
 | --- | --- | --- |
 | Qual e a interface principal? | Streamlit multipage com chat como tela central. | [Home.py](C:\Projetos\Manutencao-prescritiva-main\Home.py:112), [src/sidebar.py](C:\Projetos\Manutencao-prescritiva-main\src\sidebar.py:46) |
-| O sistema usa LLM? | Sim. Usa Groq para roteamento de intencao e sintese da resposta. | [src/agent_service.py](C:\Projetos\Manutencao-prescritiva-main\src\agent_service.py:25), [src/agent_service.py](C:\Projetos\Manutencao-prescritiva-main\src\agent_service.py:457) |
+| O sistema usa LLM? | Sim. Usa camada abstrata para Groq ou Ollama no roteamento de intencao e na sintese da resposta. | [src/agent_service.py](C:\Projetos\Manutencao-prescritiva-main\src\agent_service.py:25), [src/agent_service.py](C:\Projetos\Manutencao-prescritiva-main\src\agent_service.py:457) |
 | O sistema usa RAG? | Sim, um RAG documental local: extrai PDF, quebra em chunks, vetoriza e ranqueia por similaridade cosseno. | [src/document_service.py](C:\Projetos\Manutencao-prescritiva-main\src\document_service.py:43), [src/document_service.py](C:\Projetos\Manutencao-prescritiva-main\src\document_service.py:56), [src/document_service.py](C:\Projetos\Manutencao-prescritiva-main\src\document_service.py:161), [src/vectorization.py](C:\Projetos\Manutencao-prescritiva-main\src\vectorization.py:26) |
 | Usa banco vetorial nativo? | Nao. Hoje os vetores sao gerados e comparados na aplicacao. Mongo guarda vetores e documentos, mas a busca vetorial nao usa Atlas Vector Search nativo. | [src/document_service.py](C:\Projetos\Manutencao-prescritiva-main\src\document_service.py:97), [src/document_service.py](C:\Projetos\Manutencao-prescritiva-main\src\document_service.py:167), [src/mongo_store.py](C:\Projetos\Manutencao-prescritiva-main\src\mongo_store.py:72) |
 | Usa MongoDB Atlas? | Pode usar. O projeto conecta via `pymongo` se `MONGO_ENABLED=true` e houver connection string. | [src/settings.py](C:\Projetos\Manutencao-prescritiva-main\src\settings.py:46), [src/mongo_store.py](C:\Projetos\Manutencao-prescritiva-main\src\mongo_store.py:33), [src/mongo_store.py](C:\Projetos\Manutencao-prescritiva-main\src\mongo_store.py:36) |
-| Como e feita a busca historica? | Normaliza features, aplica `StandardScaler`, calcula distancia Euclidiana para achar vizinhos mais proximos. | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:86), [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:127), [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:140) |
+| Como e feita a busca historica? | Normaliza features, aplica `StandardScaler`, usa distancia de Mahalanobis, voto ponderado e guardrail OOD. | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:132), [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:138), [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:195) |
 | Tem validacao fisica do evento? | Sim. Temperatura, RPM e vibracao passam por guardrails simples antes da prescricao. | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:98) |
 | Tem semantica de falhas? | Sim. Rotulos livres sao canonizados por um lexico YAML. | [config/fault_lexicon.yaml](C:\Projetos\Manutencao-prescritiva-main\config\fault_lexicon.yaml), [src/fault_semantics.py](C:\Projetos\Manutencao-prescritiva-main\src\fault_semantics.py:52) |
 | Os prompts sao editaveis fora do codigo? | Sim. O projeto carrega prompts da pasta `prompts/`. | [src/prompt_loader.py](C:\Projetos\Manutencao-prescritiva-main\src\prompt_loader.py:10), [prompts](C:\Projetos\Manutencao-prescritiva-main\prompts) |
@@ -46,19 +46,20 @@ O sistema usa:
 
 ## Stack usada
 
-| Categoria | Tecnologia | Como entra no projeto | Onde esta |
-| --- | --- | --- | --- |
-| Frontend | Streamlit | Chat, sidebar, paginas, graficos e tabelas | [Home.py](C:\Projetos\Manutencao-prescritiva-main\Home.py:112), [pages](C:\Projetos\Manutencao-prescritiva-main\pages) |
-| LLM | Groq API | Roteamento de intencao e resposta final | [src/agent_service.py](C:\Projetos\Manutencao-prescritiva-main\src\agent_service.py:25), [src/agent_service.py](C:\Projetos\Manutencao-prescritiva-main\src\agent_service.py:377), [src/agent_service.py](C:\Projetos\Manutencao-prescritiva-main\src\agent_service.py:491) |
-| Persistencia | MongoDB via `pymongo` | Guarda historico, documentos, chunks, logs, benchmarks e conversas | [src/mongo_store.py](C:\Projetos\Manutencao-prescritiva-main\src\mongo_store.py:17) |
-| Fallback | JSON e JSONL local | Continua funcionando sem Mongo | [src/mongo_store.py](C:\Projetos\Manutencao-prescritiva-main\src\mongo_store.py:14), [src/observability.py](C:\Projetos\Manutencao-prescritiva-main\src\observability.py:12), [src/conversation_store.py](C:\Projetos\Manutencao-prescritiva-main\src\conversation_store.py:12) |
-| Vetorizacao | `HashingVectorizer` | Gera embeddings locais sem chamar API externa | [src/vectorization.py](C:\Projetos\Manutencao-prescritiva-main\src\vectorization.py:11) |
-| Similaridade textual | Cosseno | Rankeia chunks documentais | [src/vectorization.py](C:\Projetos\Manutencao-prescritiva-main\src\vectorization.py:38), [src/document_service.py](C:\Projetos\Manutencao-prescritiva-main\src\document_service.py:171) |
-| Similaridade numerica | `StandardScaler` + distancia Euclidiana | Busca vizinhos no historico | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:86), [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:140) |
-| PDFs | `pypdf` | Extrai texto dos documentos | [src/document_service.py](C:\Projetos\Manutencao-prescritiva-main\src\document_service.py:43) |
-| Dados tabulares | `pandas`, `numpy` | Limpeza, carga, distancias e benchmark | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:9), [src/benchmark_service.py](C:\Projetos\Manutencao-prescritiva-main\src\benchmark_service.py:8) |
-| Configuracao | `.env` + `dotenv` | Modelos, Mongo e parametros | [src/settings.py](C:\Projetos\Manutencao-prescritiva-main\src\settings.py:17), [.env.example](C:\Projetos\Manutencao-prescritiva-main\.env.example) |
-| Semantica | YAML | Lexico de falhas e aliases | [config/fault_lexicon.yaml](C:\Projetos\Manutencao-prescritiva-main\config\fault_lexicon.yaml), [src/fault_semantics.py](C:\Projetos\Manutencao-prescritiva-main\src\fault_semantics.py:30) |
+| Biblioteca ou tecnologia | Papel no projeto | Onde aparece |
+| --- | --- | --- |
+| `Python` | linguagem base que organiza toda a aplicacao | [Home.py](C:\Projetos\Manutencao-prescritiva-main\Home.py), [src](C:\Projetos\Manutencao-prescritiva-main\src) |
+| `Streamlit` | interface principal com chat, sidebar, paginas e visualizacao | [Home.py](C:\Projetos\Manutencao-prescritiva-main\Home.py:112), [pages](C:\Projetos\Manutencao-prescritiva-main\pages) |
+| `Groq API` e `Ollama` | camada de execucao de LLM por meio de um provider abstrato | [src/agent_service.py](C:\Projetos\Manutencao-prescritiva-main\src\agent_service.py:25), [src/settings.py](C:\Projetos\Manutencao-prescritiva-main\src\settings.py:17) |
+| `pandas` e `numpy` | base de manipulacao tabular, carga, benchmark e calculo numerico | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:9), [src/benchmark_service.py](C:\Projetos\Manutencao-prescritiva-main\src\benchmark_service.py:8) |
+| `scikit-learn` | escalonamento numerico e vetorizacao textual local | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:12), [src/vectorization.py](C:\Projetos\Manutencao-prescritiva-main\src\vectorization.py:11) |
+| `StandardScaler` + `Mahalanobis` + `k-NN` ponderado + `OOD` | motor historico numerico auditavel para busca de similares e classificacao | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:132), [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:195) |
+| `HashingVectorizer` + similaridade cosseno | RAG documental local sem dependencia de embedding externo | [src/vectorization.py](C:\Projetos\Manutencao-prescritiva-main\src\vectorization.py:11), [src/document_service.py](C:\Projetos\Manutencao-prescritiva-main\src\document_service.py:171) |
+| `pypdf` | leitura e extracao de texto dos PDFs usados na base documental | [src/document_service.py](C:\Projetos\Manutencao-prescritiva-main\src\document_service.py:43) |
+| `MongoDB` via `pymongo` | persistencia opcional de historico, documentos, chunks, logs, benchmarks e conversas | [src/mongo_store.py](C:\Projetos\Manutencao-prescritiva-main\src\mongo_store.py:17) |
+| `JSON` e `JSONL` local | fallback quando Mongo esta desabilitado ou indisponivel | [src/mongo_store.py](C:\Projetos\Manutencao-prescritiva-main\src\mongo_store.py:14), [src/observability.py](C:\Projetos\Manutencao-prescritiva-main\src\observability.py:12), [src/conversation_store.py](C:\Projetos\Manutencao-prescritiva-main\src\conversation_store.py:12) |
+| `.env` + `dotenv` | configuracao de provider, modelo, Mongo e parametros operacionais | [src/settings.py](C:\Projetos\Manutencao-prescritiva-main\src\settings.py:17), [.env.example](C:\Projetos\Manutencao-prescritiva-main\.env.example) |
+| `YAML` | taxonomia semantica de falhas e aliases fora do core Python | [config/fault_lexicon.yaml](C:\Projetos\Manutencao-prescritiva-main\config\fault_lexicon.yaml), [src/fault_semantics.py](C:\Projetos\Manutencao-prescritiva-main\src\fault_semantics.py:30) |
 
 ## Arquitetura da aplicacao
 
@@ -78,7 +79,7 @@ O sistema usa:
 | --- | --- | --- |
 | `Home.py` | Chat principal, streaming e experiencia do usuario | "a aplicacao abre no chat e o resto sao superficies auxiliares" |
 | `src/agent_service.py` | Motor cognitivo do copiloto | "decide o fluxo e sintetiza a resposta final" |
-| `src/history_service.py` | Historico operacional | "faz validacao e busca de similares numericos" |
+| `src/history_service.py` | Historico operacional | "faz validacao, busca Mahalanobis ponderada e deteccao OOD" |
 | `src/document_service.py` | Base documental | "ingere PDFs, gera chunks e recupera trechos" |
 | `src/vectorization.py` | Embeddings locais | "gera vetores locais para RAG sem dependencia externa" |
 | `src/mongo_store.py` | Persistencia | "encapsula Mongo e fallback local" |
@@ -204,28 +205,32 @@ O historico operacional e tratado como uma base numerica para achar eventos pare
 | --- | --- | --- |
 | Definicao das features | Lista de 12 grandezas numericas | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:19) |
 | Leitura do dataset | `banner.csv` via pandas | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:55) |
-| Canonizacao da falha | Gera `canonical_fault` | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:58) |
-| Escalonamento | `StandardScaler` sobre medianas | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:86) |
-| Corte por RPM | Prioriza mesma rotacao quando houver amostra suficiente | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:132) |
-| Distancia | `np.linalg.norm` entre evento e historico | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:140) |
-| Resultado | Vizinho + distribuicao de falhas | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:143), [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:158) |
+| Canonizacao da falha | Gera `canonical_fault` | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:59) |
+| Escalonamento | `StandardScaler` sobre medianas | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:97) |
+| Corte por RPM | Prioriza mesma rotacao quando houver amostra suficiente | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:185) |
+| Distancia | Mahalanobis com pseudo-inversa da covariancia | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:138), [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:141) |
+| Voto | `k-NN` ponderado por distancia | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:160), [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:195) |
+| OOD | Limiar estatistico por qui-quadrado aproximado | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:145), [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:199) |
+| Resultado | Vizinho + distribuicao ponderada + sinal OOD | [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:214), [src/history_service.py](C:\Projetos\Manutencao-prescritiva-main\src\history_service.py:235) |
 
 ### Resposta curta para a banca
 
-- "A busca historica e um mecanismo de similaridade numerica. As features do evento sao padronizadas com `StandardScaler` e comparadas ao historico via distancia Euclidiana."
+- "A busca historica e um mecanismo de similaridade numerica robusta. As features do evento sao padronizadas com `StandardScaler`, comparadas ao historico por distancia de Mahalanobis, classificadas por `k-NN` ponderado e protegidas por um guardrail OOD."
 
 ### Ponto forte
 
-- simples;
+- robusto a correlacao entre variaveis;
 - auditavel;
 - barato para MVP;
-- faz sentido para dados tabulares numericos.
+- faz sentido para dados tabulares numericos;
+- sabe sinalizar quando o evento saiu do envelope estatistico esperado.
 
 ### Ponto fraco
 
 - nao e um modelo temporal;
 - nao considera sequencia de janelas no tempo;
-- ainda nao trata aprendizado online nem proximidade mais sofisticada.
+- ainda nao trata aprendizado online;
+- o OOD atual e estatistico, nao semantico.
 
 ## Validacao fisica do evento
 
@@ -356,6 +361,64 @@ O benchmark foi pensado para comparar modelos Groq em cenarios do proprio datase
 Resposta de banca:
 
 - "O benchmark nao mede so texto bonito. Ele mede latencia, documentos recuperados, confianca e recusas por modelo."
+
+### Resultado consolidado mais recente
+
+Na rodada completa executada em **5 de agosto de 2026** com **50 amostras balanceadas**, os principais resultados foram:
+
+| Tecnica | Provider | Modelo | Accuracy | Macro-F1 |
+| --- | --- | --- | --- | --- |
+| `mahalanobis_weighted_knn` | local | deterministic | `0.92` | `0.9195` |
+| `euclidean_knn` | local | deterministic | `0.80` | `0.8027` |
+| `cosine_knn` | local | deterministic | `0.80` | `0.7942` |
+| `llm_vector_rag_groq` | groq | `llama-3.1-8b-instant` | `0.74` | `0.7443` |
+| `llm_vector_rag_ollama_small` | ollama | `qwen2.5-coder:7b` | `0.68` | `0.6900` |
+| `centroid_euclidean` | local | deterministic | `0.48` | `0.4654` |
+| `text_vector_vote` | local | deterministic | `0.44` | `0.4248` |
+
+Leitura para a banca:
+
+- "O melhor baseline geral foi o `Mahalanobis + k-NN` ponderado, o que reforca que a parte numerica ainda carrega o sinal mais forte desta base."
+- "O `llm_vector_rag` com Groq ficou competitivo como camada de orquestracao e sintese, mas nao superou o motor numerico."
+- "O teste com Ollama local mostrou queda de qualidade, mas preservou a viabilidade do modo edge com modelo menor."
+
+### Sweep Groq por modelo
+
+Tambem foi executado um sweep adicional no Groq, em **5 de agosto de 2026**, para comparar diferentes modelos no mesmo pipeline `llm_vector_rag`.
+
+| Modelo Groq | Amostras validas | Accuracy | Macro-F1 | Observacao |
+| --- | --- | --- | --- | --- |
+| `llama-3.1-8b-instant` | `50` | `0.74` | `0.7443` | melhor resultado no pipeline atual |
+| `llama-3.3-70b-versatile` | `50` | `0.72` | `0.7245` | muito proximo do melhor |
+| `openai/gpt-oss-120b` | `39` | `0.6923` | `0.6922` | execucao parcial por limite de TPM |
+| `openai/gpt-oss-20b` | `50` | `0.54` | `0.4939` | abaixo dos dois Llama |
+| `qwen/qwen3.6-27b` | `50` | `0.02` | `0.0303` | baixa aderencia ao prompt atual |
+
+Resposta curta:
+
+- "No sweep mais recente, o melhor modelo Groq para esse caso foi o `llama-3.1-8b-instant`, nao um modelo maior."
+- "Isso sugere que o gargalo atual esta mais na representacao do evento, no prompt e na recuperacao do que apenas no tamanho do modelo."
+
+## Literatura contra usar LLM como motor numerico direto
+
+Duas referencias fortes e recentes para sustentar a decisao arquitetural:
+
+1. Boye e Moell, **Large Language Models and Mathematical Reasoning Failures**.
+   Data no arXiv: **17 de fevereiro de 2025**, revisado em **21 de fevereiro de 2025**.
+   Link: https://arxiv.org/abs/2502.11574
+   Leitura util para a banca:
+   O artigo mostra que, mesmo em modelos fortes, persistem erros de aritmetica, planejamento e raciocinio em varias etapas, inclusive com respostas finais aparentemente corretas mas baseadas em logica falha.
+
+2. Li et al., **Exposing Numeracy Gaps: A Benchmark to Evaluate Fundamental Numerical Abilities in Large Language Models**.
+   Publicacao: **Findings of ACL 2025**, julho de **2025**.
+   Link: https://aclanthology.org/2025.findings-acl.1026/
+   Leitura util para a banca:
+   O artigo mostra fraquezas persistentes em aritmetica, comparacao de magnitude, recuperacao numerica e raciocinio em varias etapas, defendendo que LLMs ainda falham justamente nas capacidades numericas basicas exigidas em cenarios reais.
+
+Resposta curta recomendada:
+
+- "A literatura recente reforca que LLM e excelente para sintese, explicacao e RAG, mas ainda nao e a melhor opcao para inferencia numerica bruta e auditavel."
+- "Por isso a arquitetura separa motor simbolico numerico e motor neural semantico."
 
 ## Prompts e estilo agentic
 
@@ -495,10 +558,12 @@ Resposta segura:
 
 Se precisar resumir em 30 segundos:
 
-> "O projeto e um copiloto de manutencao prescritiva LLM-first em Streamlit. O chat e a interface principal. O agente decide se a entrada e evento ou pergunta livre. Para evento, ele valida o payload, busca similares no historico com `StandardScaler` e distancia Euclidiana, consulta trechos documentais via chunks vetorizados com `HashingVectorizer` e similaridade cosseno, e sintetiza a resposta com Groq. MongoDB funciona como persistencia opcional, com fallback local para garantir portabilidade. Os prompts e a taxonomia de falhas ficam externos ao codigo para facilitar governanca e evolucao." 
+> "O projeto e um copiloto de manutencao prescritiva LLM-first em Streamlit. O chat e a interface principal. O agente decide se a entrada e evento ou pergunta livre. Para evento, ele valida o payload, busca similares no historico com `StandardScaler`, distancia de Mahalanobis, `k-NN` ponderado e guardrail OOD, consulta trechos documentais via chunks vetorizados com `HashingVectorizer` e similaridade cosseno, e sintetiza a resposta por uma camada abstrata que pode usar Groq ou Ollama local. MongoDB funciona como persistencia opcional, com fallback local para garantir portabilidade. Os prompts e a taxonomia de falhas ficam externos ao codigo para facilitar governanca e evolucao." 
 
 ## Leitura complementar no proprio repositorio
 
 - [README.md](C:\Projetos\Manutencao-prescritiva-main\README.md)
 - [docs/analise_markdown/04_confronto_literatura_web.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\04_confronto_literatura_web.md)
 - [docs/analise_markdown/05_plano_mvp_streamlit_llm_first.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\05_plano_mvp_streamlit_llm_first.md)
+- [docs/analise_markdown/09_benchmark_full_inferencia_2026-08-05.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\09_benchmark_full_inferencia_2026-08-05.md)
+- [docs/analise_markdown/10_benchmark_groq_model_sweep_2026-08-05.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\10_benchmark_groq_model_sweep_2026-08-05.md)
