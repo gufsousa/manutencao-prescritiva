@@ -97,7 +97,6 @@ app/
   Home.py
   pages/
     1_Entrada_de_Evento.py
-    2_Diagnostico_Prescritivo.py
     3_Base_Documental.py
     4_Historico_e_Similaridade.py
     5_Benchmark_de_Modelos.py
