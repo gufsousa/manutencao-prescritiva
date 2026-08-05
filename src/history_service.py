@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-from src.fault_semantics import canonicalize_fault_label, format_fault_label_pt
+from src.fault_semantics import canonicalize_fault_label, format_fault_label_pt, is_fault_label, is_state_label
 from src.mongo_store import STORE
 from src.settings import RAW_DATA_DIR
 
@@ -203,7 +203,7 @@ class HistoryService:
         centroid = class_matrix.mean(axis=0, keepdims=True)
         return float(self._mahalanobis_distances(centroid, scaled_event, inv_cov)[0])
 
-    def build_representative_sample(self, sample_fraction: float = 0.10, random_state: int = 42) -> pd.DataFrame:
+    def build_representative_sample(self, sample_fraction: float = 0.20, random_state: int = 42) -> pd.DataFrame:
         df = self.load_dataset().sort_values(["created_at", "id"]).reset_index(drop=True)
         if df.empty:
             return df
@@ -359,10 +359,17 @@ class HistoryService:
 
     def dataset_metrics(self) -> dict[str, Any]:
         df = self.load_history_frame()
+        canonical_series = df["canonical_fault"].dropna()
+        state_labels = sorted({label for label in canonical_series.unique().tolist() if is_state_label(label)})
+        fault_labels = sorted({label for label in canonical_series.unique().tolist() if is_fault_label(label)})
         return {
             "rows": len(df),
             "raw_faults": int(df["fault"].nunique()),
             "canonical_faults": int(df["canonical_fault"].nunique()),
+            "state_labels": len(state_labels),
+            "fault_labels": len(fault_labels),
+            "state_catalog": state_labels,
+            "fault_catalog": fault_labels,
             "min_date": df["created_at"].min(),
             "max_date": df["created_at"].max(),
             "rpm_counts": df["rpm"].value_counts().sort_index().to_dict(),

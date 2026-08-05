@@ -105,11 +105,20 @@ def get_fault_family(value: Any) -> str:
     return entry.family if entry else "desconhecido"
 
 
+def get_label_kind(value: Any) -> str:
+    entry = get_fault_entry(value)
+    return entry.kind if entry else "unknown"
+
+
 def is_state_label(value: Any) -> bool:
     return canonicalize_fault_label(value) in STATE_KEYS
 
 
-def get_fault_catalog(include_other: bool = False) -> list[dict[str, str]]:
+def is_fault_label(value: Any) -> bool:
+    return canonicalize_fault_label(value) in FAULT_KEYS
+
+
+def get_fault_catalog(include_other: bool = False, kind: str | None = None) -> list[dict[str, str]]:
     items = [
         {
             "key": entry.key,
@@ -118,7 +127,16 @@ def get_fault_catalog(include_other: bool = False) -> list[dict[str, str]]:
             "family": entry.family,
         }
         for entry in FAULT_CATALOG
+        if kind in (None, "", "all") or entry.kind == kind
     ]
     if include_other:
         items.append({"key": "other", "label_pt": "Outro / rotulo livre", "kind": "custom", "family": "custom"})
     return items
+
+
+def get_state_catalog() -> list[dict[str, str]]:
+    return get_fault_catalog(kind="state")
+
+
+def get_fault_only_catalog() -> list[dict[str, str]]:
+    return get_fault_catalog(kind="fault")

@@ -51,7 +51,7 @@ def render_shared_sidebar(current_page: str = "chat") -> None:
     counts = STORE.get_counts()
     metrics = HISTORY_SERVICE.dataset_metrics()
     storage_metrics = HISTORY_SERVICE.storage_metrics()
-    sample_target = math.ceil(storage_metrics["csv_rows"] * 0.10)
+    sample_target = math.ceil(storage_metrics["csv_rows"] * 0.20)
 
     with st.sidebar:
         st.markdown("## Copiloto")
@@ -119,8 +119,12 @@ def render_shared_sidebar(current_page: str = "chat") -> None:
             st.write(f"Docs: {counts['documents']}")
             st.write(f"Chunks: {counts['document_chunks']}")
             st.write(f"Modelo base: {st.session_state.selected_model or 'n/a'}")
+            st.write(
+                "Camada semantica: "
+                f"{metrics['fault_labels']} falhas | {metrics['state_labels']} estados"
+            )
             st.caption(
-                "Mongo gratis configurado com amostra representativa de 10% "
+                "Mongo gratis configurado com amostra representativa de 20% "
                 f"(meta: {sample_target:,} registros).".replace(",", ".")
             )
             st.caption("A reingestao do historico fica disponivel apenas na pagina Historico operacional.")

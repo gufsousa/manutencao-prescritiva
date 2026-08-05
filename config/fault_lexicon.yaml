@@ -6,6 +6,11 @@ entries:
     family: operacao
     aliases:
       - motordesligado
+      - motor_desligado
+      - motor parado
+      - motor_parado
+      - motorparado
+      - parado
       - mortordesligado
       - motor_desligado_novo
 
@@ -15,6 +20,9 @@ entries:
     family: operacao
     aliases:
       - baseline
+      - baseline_operacional
+      - referencia
+      - referencia_operacional
       - new_baseline
 
   - key: acelerando
@@ -23,6 +31,8 @@ entries:
     family: operacao
     aliases:
       - acelerando
+      - aceleracao
+      - partida
 
   - key: normal
     label_pt: Operacao normal
@@ -30,6 +40,12 @@ entries:
     family: operacao
     aliases:
       - normal
+      - operacao normal
+      - operacao_normal
+      - funcionamento normal
+      - funcionamento_normal
+      - saudavel
+      - healthy
       - normal_2
       - normal_3
       - normal_novo
@@ -54,6 +70,8 @@ entries:
     family: operacao
     aliases:
       - teste
+      - teste_bancada
+      - bancada
       - new_tes
       - new_teste
       - normal_novo_teste
