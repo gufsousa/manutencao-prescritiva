@@ -291,6 +291,15 @@ Este projeto pode ser publicado no `Streamlit Community Cloud`, mas com uma leit
 - use `MongoDB Atlas` apenas se quiser persistencia remota no deploy;
 - se preferir simplicidade, publique primeiro com `MONGO_ENABLED=false`.
 
+Link publico atual de demonstracao:
+
+- https://manutencao-prescritiva-lqwura4kbh7d6zrhdzngxa.streamlit.app/
+
+Observacao:
+
+- antes da apresentacao, vale validar conectividade com `Groq` e `MongoDB Atlas`;
+- se houver qualquer indisponibilidade externa, o projeto continua podendo ser apresentado localmente como fallback.
+
 ### 1. Preparar o repositorio
 
 O entrypoint da aplicacao para deploy e:
