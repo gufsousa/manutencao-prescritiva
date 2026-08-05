@@ -61,6 +61,10 @@ class HistoryService:
     def __init__(self) -> None:
         self._df_cache: pd.DataFrame | None = None
 
+    def _invalidate_cached_metrics(self) -> None:
+        self.__dict__.pop("_dataset_metrics_cache", None)
+        self.__dict__.pop("_storage_metrics_cache", None)
+
     def load_dataset(self) -> pd.DataFrame:
         if self._df_cache is None:
             df = pd.read_csv(DATASET_PATH)
@@ -104,6 +108,7 @@ class HistoryService:
         else:
             inserted = STORE.replace_many("history", records)
             skipped = 0
+        self._invalidate_cached_metrics()
         return {
             "inserted": inserted,
             "skipped": skipped,
@@ -366,7 +371,8 @@ class HistoryService:
             summary=summary,
         )
 
-    def dataset_metrics(self) -> dict[str, Any]:
+    @cached_property
+    def _dataset_metrics_cache(self) -> dict[str, Any]:
         df = self.load_dataset()
         canonical_series = df["canonical_fault"].dropna()
         state_labels = sorted({label for label in canonical_series.unique().tolist() if is_state_label(label)})
@@ -393,9 +399,16 @@ class HistoryService:
             "state_counts": state_counts,
         }
 
+    def dataset_metrics(self) -> dict[str, Any]:
+        return dict(self._dataset_metrics_cache)
+
     def storage_metrics(self) -> dict[str, Any]:
-        csv_rows = len(self.load_dataset())
-        stored_rows = len(STORE.find_all("history", limit=500000))
+        return dict(self._storage_metrics_cache)
+
+    @cached_property
+    def _storage_metrics_cache(self) -> dict[str, Any]:
+        csv_rows = self.dataset_metrics()["rows"]
+        stored_rows = STORE.get_counts()["history"]
         gap = csv_rows - stored_rows
         coverage_pct = round((stored_rows / csv_rows) * 100, 2) if csv_rows else 0.0
         return {
