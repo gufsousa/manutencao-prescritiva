@@ -1,0 +1,418 @@
+{
+  "date": "2026-08-06",
+  "total": 41,
+  "pass": 41,
+  "fail": 0,
+  "results": [
+    {
+      "name": "casual_01",
+      "prompt": "oi",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "casual_chat",
+      "observed_answer_type": "casual_chat",
+      "status": "PASS",
+      "markdown_preview": "Oi. Posso te ajudar com uma pergunta tecnica, listar documentos da base, analisar um evento JSON ou resumir a arquitetura do projeto."
+    },
+    {
+      "name": "casual_02",
+      "prompt": "boa tarde",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "casual_chat",
+      "observed_answer_type": "casual_chat",
+      "status": "PASS",
+      "markdown_preview": "Oi. Posso te ajudar com uma pergunta tecnica, listar documentos da base, analisar um evento JSON ou resumir a arquitetura do projeto."
+    },
+    {
+      "name": "casual_03",
+      "prompt": "obrigado",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "casual_chat",
+      "observed_answer_type": "casual_chat",
+      "status": "PASS",
+      "markdown_preview": "De nada. Se quiser, seguimos com a parte tecnica."
+    },
+    {
+      "name": "casual_04",
+      "prompt": "kkk",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "casual_chat",
+      "observed_answer_type": "casual_chat",
+      "status": "PASS",
+      "markdown_preview": "Boa. Se quiser, eu continuo no modo leve ou volto para a analise tecnica."
+    },
+    {
+      "name": "casual_05",
+      "prompt": "conte uma piada",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "casual_chat",
+      "observed_answer_type": "casual_chat",
+      "status": "PASS",
+      "markdown_preview": "Claro. Versao manutencao preditiva: o sensor falou que estava tudo normal, mas era so o rolamento tentando manter a postura profissional.\n\nPosso tambem:\n- Se quiser, depois eu volto para o modo serio e explico qualquer p"
+    },
+    {
+      "name": "doc_01",
+      "prompt": "Quais documentos existem na base?",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nA base documental atual possui 6 documentos indexados, cada um associado a uma familia tecnica de falha ou procedimento.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Rolamentos**\n- Document"
+    },
+    {
+      "name": "doc_02",
+      "prompt": "quais documento tem sobre rolamento",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a rolamentos na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Rolamentos**\n- 1 documento(s) encontrado(s) para rolamentos.\n- Procedim"
+    },
+    {
+      "name": "doc_03",
+      "prompt": "liste documentos de rolamento",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a rolamentos na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Rolamentos**\n- 1 documento(s) encontrado(s) para rolamentos.\n- Procedim"
+    },
+    {
+      "name": "doc_04",
+      "prompt": "listar documentos de correias",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Correia na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Correias**\n- 1 documento(s) encontrado(s) para Correia.\n- Procedimento de "
+    },
+    {
+      "name": "doc_05",
+      "prompt": "documentos de polia",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Polia na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Polias**\n- 1 documento(s) encontrado(s) para Polia.\n- Procedimento de Polias"
+    },
+    {
+      "name": "doc_06",
+      "prompt": "quais arquivos cobrem cocked rotor",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Cocked rotor na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Cocked Rotor**\n- 1 documento(s) encontrado(s) para Cocked rotor.\n- Pr"
+    },
+    {
+      "name": "doc_07",
+      "prompt": "me diga os documentos da base documental",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nA base documental atual possui 6 documentos indexados, cada um associado a uma familia tecnica de falha ou procedimento.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Rolamentos**\n- Document"
+    },
+    {
+      "name": "doc_08",
+      "prompt": "tem procedimento sobre desalinhamento?",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Desalinhamento na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Desalinhamento**\n- 1 documento(s) encontrado(s) para Desalinhamento"
+    },
+    {
+      "name": "doc_09",
+      "prompt": "tem documento de desbalanceamento",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Desbalanceamento na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Desbalanceamento**\n- 1 documento(s) encontrado(s) para Desbalance"
+    },
+    {
+      "name": "free_01",
+      "prompt": "o que sao rolamentos?",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "Os rolamentos são componentes essenciais em máquinas rotativas, responsáveis por reduzir vibrações excessivas e aumentar a confiabilidade operacional. Eles podem ser afetados por problemas como desgaste, desalinhamento o"
+    },
+    {
+      "name": "free_02",
+      "prompt": "Explique a diferenca entre desbalanceamento e desalinhamento.",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "O desbalanceamento e o desalinhamento são dois problemas comuns em máquinas rotativas, mas têm características e consequências diferentes.\n\nPosso tambem:\n- Verificar a distribuição de massa do rotor: Para detectar desbal"
+    },
+    {
+      "name": "free_03",
+      "prompt": "O que e FFT e por que ela importa?",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nPosso tambem:\n- Se quiser, posso explicar FFT conceitualmente ou con"
+    },
+    {
+      "name": "free_04",
+      "prompt": "Usa RAG?",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "RAG e a combinacao de recuperacao de contexto com geracao de resposta pelo modelo.\n\nPosso tambem:\n- Se quiser, posso explicar o RAG do projeto em linguagem simples ou em termos mais tecnicos."
+    },
+    {
+      "name": "free_05",
+      "prompt": "O Mongo esta como persistencia ou motor vetorial?",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "Hoje o MongoDB atua principalmente como persistencia opcional; a busca vetorial principal ainda e calculada na aplicacao.\n\nPosso tambem:\n- Se quiser, posso explicar a diferenca entre o estado atual e uma migracao futura "
+    },
+    {
+      "name": "free_06",
+      "prompt": "se eu adicionar uma falha nova sem historico o sistema inventa?",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "O sistema não inventa falhas novas sem histórico. A resposta é baseada nos procedimentos de manutenção prescritiva industrial recuperados.\n\nPosso tambem:\n- Verificar a documentação de manutenção prescritiva industrial: P"
+    },
+    {
+      "name": "free_07",
+      "prompt": "o LLM faz a inferencia numerica principal?",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "No projeto atual, o LLM nao executa o motor numerico principal; ele orquestra o fluxo, resume evidencias e sintetiza a resposta final.\n\nPosso tambem:\n- Se quiser, posso detalhar a separacao entre motor numerico, RAG docu"
+    },
+    {
+      "name": "free_08",
+      "prompt": "o projeto calcula FFT no pipeline atual?",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nPosso tambem:\n- Se quiser, posso explicar FFT conceitualmente ou con"
+    },
+    {
+      "name": "free_09",
+      "prompt": "me explique a arquitetura em 30 segundos",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "A arquitetura da manutenção prescritiva industrial é composta por procedimentos específicos para diagnóstico e correção de problemas em diferentes sistemas, incluindo rolamentos, desalinhamento, desbalanceamento, correia"
+    },
+    {
+      "name": "free_10",
+      "prompt": "o que sao rolamentos e qual documento fala disso?",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "Rolamentos sao elementos mecanicos que reduzem atrito, suportam cargas e estabilizam o movimento rotativo entre eixos e mancais.\n\nPosso tambem:\n- Se quiser, posso resumir o Procedimento de Rolamentos ou listar os princip"
+    },
+    {
+      "name": "event_01",
+      "prompt": "{\"temperature_c\": 24.7, \"rpm\": 1000, \"x_rms_velocity_mm_s\": 2.0, \"z_rms_velocity_mm_s\": 1.517, \"x_peak_acceleration_g\": 0.631, \"z_peak_acceleration_g\": 0.484, \"x_rms_acceleration_g\": 0.114, \"z_rms_acceleration_g\": 0.09, \"x_kurtosis\": 2.77, \"z_kurtosis\": 2.392, \"x_crest_factor\": 4.269, \"z_crest_factor\": 3.747}",
+      "expected_route": "event_json",
+      "observed_route": "event_json",
+      "expected_answer_type": null,
+      "observed_answer_type": null,
+      "status": "PASS",
+      "markdown_preview": "### Diagnostico provavel\n- **Falha:** `cocked_rotor`\n- **Confianca:** `88.67%`\n\n### Resumo executivo\nO evento sugere Cocked rotor com base em evidencias historicas.\n\n### Prescricao recomendada\n- Executar procedimento tec"
+    },
+    {
+      "name": "event_02",
+      "prompt": "{\"temperature_c\": 23.5, \"rpm\": 0, \"x_rms_velocity_mm_s\": 0.05, \"z_rms_velocity_mm_s\": 0.04, \"x_peak_acceleration_g\": 0.02, \"z_peak_acceleration_g\": 0.02, \"x_rms_acceleration_g\": 0.01, \"z_rms_acceleration_g\": 0.01, \"x_kurtosis\": 2.1, \"z_kurtosis\": 2.0, \"x_crest_factor\": 1.8, \"z_crest_factor\": 1.7, \"fault\": \"motor parado\"}",
+      "expected_route": "event_json",
+      "observed_route": "event_json",
+      "expected_answer_type": null,
+      "observed_answer_type": null,
+      "status": "PASS",
+      "markdown_preview": "### Diagnostico provavel\n- **Estado operacional:** `motor_desligado`\n- **Confianca:** `100.0%`\n\n### Resumo executivo\nO evento foi analisado, mas a resposta foi limitada: Evento fora do envelope estatistico historico (OOD"
+    },
+    {
+      "name": "event_03",
+      "prompt": "{'temperature_c': 30, 'rpm': 1800, 'x_rms_velocity_mm_s': 6.2, 'z_rms_velocity_mm_s': 4.9}",
+      "expected_route": "event_json",
+      "observed_route": "event_json",
+      "expected_answer_type": null,
+      "observed_answer_type": null,
+      "status": "PASS",
+      "markdown_preview": "### Diagnostico provavel\n- **Falha:** `ventoinha`\n- **Confianca:** `100.0%`\n\n### Resumo executivo\nO evento foi analisado, mas a resposta foi limitada: Evento fora do envelope estatistico historico (OOD). Requer validacao"
+    },
+    {
+      "name": "event_04",
+      "prompt": "{\"temperature_c\": 500, \"rpm\": -10, \"x_rms_velocity_mm_s\": -1, \"z_rms_velocity_mm_s\": -2}",
+      "expected_route": "event_json",
+      "observed_route": "event_json",
+      "expected_answer_type": null,
+      "observed_answer_type": null,
+      "status": "PASS",
+      "markdown_preview": "### Diagnostico provavel\n- **Status:** `evento_invalido`\n- **Confianca:** `0.0%`\n\n### Resumo executivo\nO evento foi bloqueado por validacao fisica antes de qualquer prescricao automatica.\n\n### Prescricao recomendada\n- Va"
+    },
+    {
+      "name": "hybrid_01",
+      "prompt": "Tenho um documento novo sobre cavitacao. O que o sistema faz se nao houver historico?",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "Se aparecer uma falha nova como cavitacao sem historico comparavel, o sistema deve admitir limitacao no motor numerico e, no maximo, apoiar a resposta com base documental.\n\nPosso tambem:\n- Adicionar historico rotulado de"
+    },
+    {
+      "name": "hybrid_02",
+      "prompt": "Tem documentos de rolamento e o que sao rolamentos?",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "Rolamentos sao elementos mecanicos que reduzem atrito, suportam cargas e estabilizam o movimento rotativo entre eixos e mancais.\n\nPosso tambem:\n- Se quiser, posso resumir o Procedimento de Rolamentos ou listar os princip"
+    },
+    {
+      "name": "hybrid_03",
+      "prompt": "Liste documentos de rolamento e resuma o procedimento.",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a rolamentos na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Rolamentos**\n- 1 documento(s) encontrado(s) para rolamentos.\n- Procedim"
+    },
+    {
+      "name": "hybrid_04",
+      "prompt": "Quais documentos existem na base e qual deles fala de polia?",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Polia na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Polias**\n- 1 documento(s) encontrado(s) para Polia.\n- Procedimento de Polias"
+    },
+    {
+      "name": "hybrid_05",
+      "prompt": "me mande um json de exemplo de evento",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "example_event",
+      "observed_answer_type": "example_event",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nUm exemplo de evento de desbalanceamento de rotor é apresentado.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Desbalanceamento**\n- Documento: Procedimento de Desbalanceamento | familia: des"
+    },
+    {
+      "name": "edge_01",
+      "prompt": "rolamento",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "O rolamento é um componente crítico em muitos sistemas mecânicos, e problemas relacionados a ele podem causar vibração, desgaste prematuro e até mesmo falha do sistema. É importante realizar inspeções regulares e mediçõe"
+    },
+    {
+      "name": "edge_02",
+      "prompt": "documento rolamento",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a rolamentos na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Rolamentos**\n- 1 documento(s) encontrado(s) para rolamentos.\n- Procedim"
+    },
+    {
+      "name": "edge_03",
+      "prompt": "sobre rolamento",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a rolamentos na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Rolamentos**\n- 1 documento(s) encontrado(s) para rolamentos.\n- Procedim"
+    },
+    {
+      "name": "edge_04",
+      "prompt": "sobre rolamentos",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a rolamentos na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Rolamentos**\n- 1 documento(s) encontrado(s) para rolamentos.\n- Procedim"
+    },
+    {
+      "name": "edge_05",
+      "prompt": "desalinhamento",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "O desalinhamento ocorre quando os eixos de um motor elétrico não estão alinhados corretamente, causando vibração, esforço mecânico nos mancais, desgaste prematuro do acoplamento e perda de eficiência operacional.\n\nPosso "
+    },
+    {
+      "name": "edge_06",
+      "prompt": "tem doc de polia?",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Polia na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Polias**\n- 1 documento(s) encontrado(s) para Polia.\n- Procedimento de Polias"
+    },
+    {
+      "name": "edge_07",
+      "prompt": "quais arquivos de correia",
+      "expected_route": "document_query",
+      "observed_route": "document_query",
+      "expected_answer_type": "document_query",
+      "observed_answer_type": "document_query",
+      "status": "PASS",
+      "markdown_preview": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Correia na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Correias**\n- 1 documento(s) encontrado(s) para Correia.\n- Procedimento de "
+    },
+    {
+      "name": "edge_08",
+      "prompt": "o que é rolamento",
+      "expected_route": "freeform_question",
+      "observed_route": "freeform_question",
+      "expected_answer_type": "freeform_question",
+      "observed_answer_type": "freeform_question",
+      "status": "PASS",
+      "markdown_preview": "O rolamento é um componente crítico em máquinas rotativas, responsável por reduzir a fricção e permitir o movimento suave das partes móveis. No entanto, problemas de rolamento podem causar vibrações excessivas, aumento d"
+    }
+  ]
+}

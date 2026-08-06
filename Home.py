@@ -5,7 +5,6 @@ import json
 import time
 
 import streamlit as st
-import streamlit.components.v1 as components
 
 from src.agent_service import AGENT
 from src.benchmark_service import BENCHMARK_SERVICE
@@ -15,6 +14,22 @@ from src.ui import inject_theme
 
 
 inject_theme()
+
+SCROLL_TO_BOTTOM = st.components.v2.component(
+    "scroll_to_bottom",
+    js="""
+    export default function(component) {
+        const scrollNow = () => {
+            const app = document.querySelector('.stApp');
+            const targetHeight = app ? app.scrollHeight : document.body.scrollHeight;
+            window.scrollTo({ top: targetHeight, behavior: 'smooth' });
+        };
+
+        setTimeout(scrollNow, 60);
+        setTimeout(scrollNow, 220);
+    }
+    """,
+)
 
 EMPTY_STATE_TITLE = "Ative sempre que precisar"
 EMPTY_STATE_SUBTITLE = (
@@ -183,22 +198,7 @@ def _render_empty_state() -> None:
 
 
 def _scroll_to_chat_bottom() -> None:
-    components.html(
-        """
-        <script>
-        const scrollNow = () => {
-          const parentWindow = window.parent;
-          const parentDocument = parentWindow.document;
-          const app = parentDocument.querySelector('.stApp');
-          const targetHeight = app ? app.scrollHeight : parentDocument.body.scrollHeight;
-          parentWindow.scrollTo({ top: targetHeight, behavior: 'smooth' });
-        };
-        setTimeout(scrollNow, 60);
-        setTimeout(scrollNow, 220);
-        </script>
-        """,
-        height=0,
-    )
+    SCROLL_TO_BOTTOM()
 
 
 _init_state()

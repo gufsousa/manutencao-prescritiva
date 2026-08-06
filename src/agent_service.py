@@ -116,16 +116,41 @@ class PrescriptiveAgent:
             return "freeform_question"
         if self._extract_json(text):
             return "event_json"
+        try:
+            parsed_event = self._parse_event_input(text)
+            if isinstance(parsed_event, dict) and parsed_event:
+                return "event_json"
+        except Exception:
+            pass
+        if self._is_compound_freeform(text):
+            return "freeform_question"
 
         lowered = text.lower()
         document_patterns = [
             "quais documentos",
+            "quais documento",
             "liste documentos",
+            "liste documento",
             "listar documentos",
+            "listar documento",
             "que documentos",
+            "que documento",
             "documentos tem",
+            "documento tem",
             "documentos de",
             "documento de",
+            "documento ",
+            "doc de",
+            "tem doc",
+            "tem docs",
+            "sobre rolamento",
+            "sobre rolamentos",
+            "sobre correia",
+            "sobre correias",
+            "sobre polia",
+            "sobre polias",
+            "sobre desalinhamento",
+            "sobre desbalanceamento",
             "lista de documentos",
             "base documental",
             "base de dados",
@@ -159,9 +184,25 @@ class PrescriptiveAgent:
         try:
             return json.loads(raw_input)
         except json.JSONDecodeError:
-            match = re.search(r"\{.*\}", raw_input, re.DOTALL)
-            if match:
-                return json.loads(match.group(0))
+            pass
+
+        normalized_input = str(raw_input).strip()
+        try:
+            normalized_input = re.sub(r"'", '"', normalized_input)
+            return json.loads(normalized_input)
+        except json.JSONDecodeError:
+            pass
+
+        match = re.search(r"\{.*\}", raw_input, re.DOTALL)
+        if match:
+            candidate = match.group(0)
+            try:
+                return json.loads(candidate)
+            except json.JSONDecodeError:
+                try:
+                    return json.loads(re.sub(r"'", '"', candidate))
+                except json.JSONDecodeError:
+                    pass
         raise ValueError("Nao foi possivel interpretar o evento como JSON valido.")
 
     def _extract_document_focus(self, user_text: str, documents_catalog: list[dict[str, Any]]) -> str | None:
@@ -184,13 +225,109 @@ class PrescriptiveAgent:
                 return fault_family
         return None
 
-    def _casual_response(self, lowered: str) -> dict[str, Any] | None:
-        greeting_patterns = ["oi", "ola", "ol?", "bom dia", "boa tarde", "boa noite"]
-        thanks_patterns = ["obrigado", "obrigada", "valeu"]
-        joke_patterns = ["piada", "conte uma piada", "me conta uma piada"]
-        laugh_patterns = ["kkk", "haha", "rsrs"]
+    def _is_compound_freeform(self, text: str) -> bool:
+        lowered = str(text or "").lower()
+        asks_document = any(
+            token in lowered
+            for token in [
+                "documento",
+                "documentos",
+                "arquivo",
+                "arquivos",
+                "base documental",
+                "na base",
+            ]
+        )
+        asks_concept_or_behavior = any(
+            token in lowered
+            for token in [
+                "o que e",
+                "o que sao",
+                "o que é",
+                "o que são",
+                "explique",
+                "qual a diferenca",
+                "qual a diferença",
+                "como funciona",
+                "o que o sistema faz",
+                "sem historico",
+                "sem histórico",
+                "se nao houver historico",
+                "se não houver histórico",
+            ]
+        )
+        return asks_document and asks_concept_or_behavior
 
-        if any(pattern in lowered for pattern in joke_patterns):
+    def _compound_freeform_response(
+        self,
+        raw_input: str,
+        documents_catalog: list[dict[str, Any]],
+        requested_fault_family: str | None,
+    ) -> dict[str, Any] | None:
+        lowered = str(raw_input or "").lower()
+        if not self._is_compound_freeform(raw_input):
+            return None
+
+        focused_documents = (
+            [item for item in documents_catalog if canonicalize_fault_label(item.get("fault_family")) == requested_fault_family]
+            if requested_fault_family
+            else documents_catalog
+        )
+
+        if "rolament" in lowered and ("o que sao" in lowered or "o que são" in lowered or "o que e" in lowered or "o que é" in lowered):
+            cited = [item.get("title") for item in focused_documents if item.get("title")]
+            evidence = []
+            if focused_documents:
+                evidence.extend(
+                    [
+                        f"{item.get('title')} | familia: {'rolamentos' if requested_fault_family == 'rolamento_inner' else format_fault_label_pt(item.get('fault_family'))}"
+                        for item in focused_documents
+                    ]
+                )
+            return {
+                "answer_type": "freeform_question",
+                "executive_summary": (
+                    "Rolamentos sao elementos mecanicos que reduzem atrito, suportam cargas e estabilizam o movimento rotativo entre eixos e mancais."
+                ),
+                "evidence_points": evidence[:3],
+                "recommended_actions": [
+                    "Se quiser, posso resumir o Procedimento de Rolamentos ou listar os principais sinais de desgaste cobertos na base."
+                ],
+                "cited_documents": cited,
+                "refusal_reason": "",
+            }
+
+        if "cavita" in lowered and ("sem historico" in lowered or "sem histórico" in lowered or "o que o sistema faz" in lowered):
+            cited = [item.get("title") for item in focused_documents if item.get("title")]
+            evidence = ["Sem historico rotulado de cavitacao, o sistema nao deve inventar diagnostico numerico confiavel."]
+            if focused_documents:
+                evidence.append("Se houver documento indexado sobre a falha, o copiloto ainda pode apoiar por lastro textual e checklist.")
+            return {
+                "answer_type": "freeform_question",
+                "executive_summary": (
+                    "Se aparecer uma falha nova como cavitacao sem historico comparavel, o sistema deve admitir limitacao no motor numerico e, no maximo, apoiar a resposta com base documental."
+                ),
+                "evidence_points": evidence,
+                "recommended_actions": [
+                    "Adicionar historico rotulado dessa falha melhora a parte numerica.",
+                    "Se quiser, posso explicar a diferenca entre apoio documental e inferencia historica nesse caso."
+                ],
+                "cited_documents": cited,
+                "refusal_reason": "",
+            }
+
+        return None
+
+    def _casual_response(self, lowered: str) -> dict[str, Any] | None:
+        normalized = re.sub(r"[^a-zA-ZÀ-ÿ0-9\s]", " ", lowered).strip()
+        normalized = re.sub(r"\s+", " ", normalized)
+
+        greeting_patterns = {"oi", "ola", "olá", "bom dia", "boa tarde", "boa noite"}
+        thanks_patterns = {"obrigado", "obrigada", "valeu"}
+        joke_patterns = {"piada", "conte uma piada", "me conta uma piada"}
+        laugh_patterns = {"kkk", "haha", "rsrs"}
+
+        if normalized in joke_patterns:
             return {
                 "answer_type": "casual_chat",
                 "executive_summary": (
@@ -205,7 +342,7 @@ class PrescriptiveAgent:
                 "refusal_reason": "",
             }
 
-        if any(pattern in lowered for pattern in greeting_patterns):
+        if normalized in greeting_patterns:
             return {
                 "answer_type": "casual_chat",
                 "executive_summary": (
@@ -218,7 +355,7 @@ class PrescriptiveAgent:
                 "refusal_reason": "",
             }
 
-        if any(pattern in lowered for pattern in thanks_patterns):
+        if normalized in thanks_patterns:
             return {
                 "answer_type": "casual_chat",
                 "executive_summary": "De nada. Se quiser, seguimos com a parte tecnica.",
@@ -228,7 +365,7 @@ class PrescriptiveAgent:
                 "refusal_reason": "",
             }
 
-        if any(pattern in lowered for pattern in laugh_patterns):
+        if normalized in laugh_patterns:
             return {
                 "answer_type": "casual_chat",
                 "executive_summary": "Boa. Se quiser, eu continuo no modo leve ou volto para a analise tecnica.",
@@ -711,6 +848,29 @@ class PrescriptiveAgent:
         documents_catalog = DOCUMENT_SERVICE.list_documents()
         lowered_input = raw_input.lower()
         requested_fault_family = self._extract_document_focus(raw_input, documents_catalog)
+        compound_payload = self._compound_freeform_response(raw_input, documents_catalog, requested_fault_family)
+        if compound_payload is not None:
+            runtime = {
+                "provider": self._provider,
+                "model": selected_model,
+                "elapsed_ms": round((time.perf_counter() - started) * 1000, 2),
+                "used_llm": False,
+            }
+            markdown = self._render_freeform_markdown(compound_payload)
+            payload = {
+                **compound_payload,
+                "response_markdown": markdown,
+            }
+            return {
+                "agent_response": payload,
+                "documents": {
+                    "summary": f"{len(documents_catalog)} documento(s) indexado(s) na base documental.",
+                    "chunks": [],
+                },
+                "runtime": runtime,
+                "usage": {},
+                "input_type": answer_type,
+            }
         if answer_type == "document_query":
             document_result = DOCUMENT_SERVICE.search_chunks(query_text="catalogo documentos base documental", top_k=0)
             document_result.chunks = []
