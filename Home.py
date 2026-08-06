@@ -109,30 +109,32 @@ def _render_streaming_assistant_message(content: str) -> None:
             placeholder.markdown(streamed)
 
 
-def _run_agent_from_text(raw_text: str) -> None:
+def _run_agent_from_text(raw_text: str, status_placeholder) -> None:
     if not raw_text.strip():
         return
 
+    st.session_state.composer_text = ""
     _render_user_message(raw_text)
     _append_message("user", raw_text)
     composed_prompt = _build_prompt(raw_text, st.session_state.persona)
 
-    with st.status("Analisando evento, historico e documentos...", expanded=False) as status_box:
-        try:
-            result = AGENT.infer_event(composed_prompt, model_name=st.session_state.selected_model or None)
-            st.session_state.last_result = result
-            markdown_response = result["agent_response"].get("response_markdown") or result["agent_response"].get(
-                "executive_summary", "Resposta gerada."
-            )
-            status_box.update(label="Analise concluida", state="complete")
-            _render_streaming_assistant_message(markdown_response)
-            _append_message("assistant", markdown_response)
-        except Exception as exc:
-            error_text = f"Falha ao executar a analise: {exc}"
-            st.error(error_text)
-            status_box.update(label="Falha na analise", state="error")
-            _append_message("assistant", error_text)
-    st.session_state.composer_text = ""
+    with status_placeholder.container():
+        with st.status("Analisando evento, historico e documentos...", expanded=False) as status_box:
+            try:
+                result = AGENT.infer_event(composed_prompt, model_name=st.session_state.selected_model or None)
+                st.session_state.last_result = result
+                markdown_response = result["agent_response"].get("response_markdown") or result["agent_response"].get(
+                    "executive_summary", "Resposta gerada."
+                )
+                status_box.update(label="Analise concluida", state="complete")
+                _render_streaming_assistant_message(markdown_response)
+                _append_message("assistant", markdown_response)
+            except Exception as exc:
+                error_text = f"Falha ao executar a analise: {exc}"
+                st.error(error_text)
+                status_box.update(label="Falha na analise", state="error")
+                _append_message("assistant", error_text)
+    status_placeholder.empty()
 
 
 def _render_last_result() -> None:
@@ -185,6 +187,7 @@ else:
             _render_assistant_message(message["content"])
 
     _render_last_result()
+status_placeholder = st.empty()
 st.markdown("</div>", unsafe_allow_html=True)
 
 with st.bottom:
@@ -212,13 +215,13 @@ with st.bottom:
                 st.session_state.composer_text = "Recebi uma anomalia. Quero hipotese de falha, inspecao e procedimento rastreavel."
                 st.rerun()
     with composer_mid:
-        st.session_state.composer_text = st.text_input(
+        st.text_input(
             "Mensagem",
-            value=st.session_state.composer_text,
             placeholder="Envie um evento JSON ou descreva a situacao",
             label_visibility="collapsed",
+            key="composer_text",
         )
     with composer_right:
         if st.button("", icon=":material/arrow_upward:", width="stretch"):
-            _run_agent_from_text(st.session_state.composer_text)
+            _run_agent_from_text(st.session_state.composer_text, status_placeholder)
             st.rerun()
