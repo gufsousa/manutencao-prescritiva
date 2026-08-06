@@ -120,9 +120,6 @@ def _run_agent_from_text(raw_text: str, status_placeholder) -> None:
     if not raw_text.strip():
         return
 
-    st.session_state.clear_composer = True
-    _render_user_message(raw_text)
-    _append_message("user", raw_text)
     with status_placeholder.container():
         with st.status("Analisando evento, historico e documentos...", expanded=False) as status_box:
             try:
@@ -132,7 +129,6 @@ def _run_agent_from_text(raw_text: str, status_placeholder) -> None:
                     "executive_summary", "Resposta gerada."
                 )
                 status_box.update(label="Analise concluida", state="complete")
-                _render_streaming_assistant_message(markdown_response)
                 _append_message("assistant", markdown_response)
             except Exception as exc:
                 error_text = f"Falha ao executar a analise: {exc}"
@@ -188,6 +184,11 @@ def _render_empty_state() -> None:
 _init_state()
 render_shared_sidebar(current_page="chat")
 
+pending_prompt = st.session_state.pending_prompt.strip()
+if pending_prompt:
+    st.session_state.pending_prompt = ""
+    _append_message("user", pending_prompt)
+
 st.markdown('<div class="chat-shell">', unsafe_allow_html=True)
 if not st.session_state.chat_messages:
     _render_empty_state()
@@ -200,10 +201,9 @@ else:
 
     _render_last_result()
 status_placeholder = st.empty()
-if st.session_state.pending_prompt:
-    pending_prompt = st.session_state.pending_prompt
-    st.session_state.pending_prompt = ""
+if pending_prompt:
     _run_agent_from_text(pending_prompt, status_placeholder)
+    st.rerun()
 st.markdown("</div>", unsafe_allow_html=True)
 
 with st.bottom:
