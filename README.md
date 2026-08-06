@@ -13,6 +13,8 @@ O projeto foi estruturado para a prova com foco em uma leitura **LLM-first em es
 
 > A solucao foi arquitetada para rodar **on-premise (Edge)**, respeitando o limite operacional de **16 GB de VRAM** na estacao de trabalho. O repositorio ja separa a camada de modelo da aplicacao, permitindo alternancia entre execucao remota via `Groq` e execucao local via `Ollama`, sem acoplamento forte ao provedor.
 
+**Deploy Streamlit Cloud**: https://manutencao-prescritiva-lqwura4kbh7d6zrhdzngxa.streamlit.app/
+
 ## Sumario
 
 - [Problema e solucao](#problema-e-solucao)
@@ -24,6 +26,7 @@ O projeto foi estruturado para a prova com foco em uma leitura **LLM-first em es
 - [Prompts e organizacao agentic](#prompts-e-organizacao-agentic)
 - [Estrutura de pastas](#estrutura-de-pastas)
 - [Observabilidade e logs](#observabilidade-e-logs)
+- [Deploy](#deploy)
 - [Como executar localmente](#como-executar-localmente)
 - [Validacao](#validacao)
 - [Analise exploratoria e insights](#analise-exploratoria-e-insights)
@@ -252,6 +255,12 @@ Leitura pratica:
 - os logs ajudam a auditar se a resposta teve base historica e documental;
 - os CSVs em `docs/analise_markdown/` resumem os experimentos de benchmark ja executados;
 - os graficos HTML em `docs/analise_markdown/benchmark_graficos_2026-08-05/` servem como apoio visual para apresentacao e comparacao entre tecnicas.
+
+## Deploy
+
+- **Aplicacao publicada**: https://manutencao-prescritiva-lqwura4kbh7d6zrhdzngxa.streamlit.app/
+- o deploy foi feito em `Streamlit Cloud` para facilitar a demonstracao e a avaliacao do projeto;
+- a aplicacao pode operar com `MongoDB` opcional ou fallback local, dependendo da configuracao disponivel no ambiente.
 
 ## Como executar localmente
 
