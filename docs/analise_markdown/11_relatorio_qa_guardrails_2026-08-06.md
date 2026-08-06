@@ -82,6 +82,60 @@ O objetivo foi verificar se o motor numerico continuava estavel mesmo com contam
 
 O caso de `rolamento_inner` permaneceu estavel no teste de vies, mas convergiu para `rolamento_outer` em todas as variantes. Isso nao quebrou o guardrail de vies por rotulo, porem indica uma proximidade semantica/numerica nessa familia que merece revisao futura com mais profundidade.
 
+## Extensao: matriz de 100 testes
+
+Depois da suite inicial de `15` verificacoes, foi executada uma matriz mais ampla com `100` casos cobrindo:
+
+- catalogo documental;
+- perguntas sobre arquitetura;
+- FFT e limites do pipeline;
+- guardrails fisicos;
+- estados operacionais;
+- OOD;
+- ausencia de base documental;
+- vies por rotulo;
+- fluxo de chat;
+- comparacao Python vs Mongo.
+
+Resultado consolidado da matriz ampliada:
+
+- Total de verificacoes: `100`
+- Aprovadas: `90`
+- Falhas: `10`
+- JSON gerado: `docs/analise_markdown/quality_matrix_100_results_2026-08-06.json`
+
+## Principais fragilidades encontradas
+
+As `10` falhas da matriz ampliada se concentraram em tres grupos principais:
+
+1. Perguntas arquiteturais ainda incompletas
+
+- `arch_03`: a pergunta sobre banco vetorial nativo ainda pode cair em resposta documental genérica;
+- `arch_05`: a pergunta sobre queda do Mongo ainda nao responde de forma deterministica em todos os enunciados equivalentes.
+
+2. Guardrail documental ainda permissivo
+
+- `doc_guard_05`: mesmo sem documentos indexados, a resposta ainda pode manter estrutura de diagnostico e checklist mais forte do que o ideal para um caso sem lastro.
+
+3. Separacao fraca entre algumas familias de falha
+
+- `bias_label_09`, `bias_label_10`, `bias_label_11`: amostras de `rolamento_inner` convergiram para `rolamento_outer`;
+- `bias_label_12`: um caso de `cocked_rotor` caiu para `desalinhamento`;
+- `bias_label_14`: um caso de `polia` caiu para `normal`;
+- `bias_label_20`: estabilidade media das classes ficou em `20%`, abaixo do limiar esperado.
+
+4. Disputa entre semantica de estado e OOD extremo
+
+- `ood_08`: ao combinar evento extremo com rotulo de estado, o sistema preservou o OOD, mas nao manteve a classificacao como estado operacional.
+
+## Melhorias futuras recomendadas
+
+- ampliar o roteamento deterministico para perguntas de arquitetura, fallback e banco vetorial;
+- endurecer a politica de resposta quando nao houver documento, reduzindo checklist e prescricao residual;
+- revisar a separacao entre `rolamento_inner` e `rolamento_outer`, incluindo features, proximidade estatistica e criterios de classe;
+- revisar classes mais frageis como `cocked_rotor`, `polia` e estados operacionais sob OOD extremo;
+- introduzir uma politica explicita para conflitos entre `state`, `fault` e `OOD`, priorizando a semantica correta do caso.
+
 ## Comando de reproducao
 
 ```powershell

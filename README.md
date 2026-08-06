@@ -11,7 +11,7 @@ Aplicacao em Streamlit para manutencao prescritiva industrial com chat como supe
 
 O projeto foi estruturado para a prova com foco em uma leitura **LLM-first em estacao de trabalho**, usando o modelo como camada de orquestracao e sintese, com ferramentas tecnicas auxiliares para historico, validacao, semantica e RAG documental.
 
-> A solucao foi integralmente arquitetada para rodar **on-premise (Edge)**, respeitando o limite operacional de **16 GB de VRAM** na estacao de trabalho. No repositorio, a organizacao do projeto e os pontos de integracao ja foram pensados para deploy local de modelo open-source. Entretanto, como a maquina de desenvolvimento usada nesta apresentacao possui restricoes fisicas de hardware para manter fluidez durante a demonstracao, a aplicacao foi configurada para consumir o **mesmo tipo de modelo open-source via Groq**. Na pratica, a aplicacao nao depende do provedor em si, porque o endpoint do modelo foi abstraido na camada de servico.
+> A solucao foi arquitetada para rodar **on-premise (Edge)**, respeitando o limite operacional de **16 GB de VRAM** na estacao de trabalho. O repositorio ja separa a camada de modelo da aplicacao, permitindo alternancia entre execucao remota via `Groq` e execucao local via `Ollama`, sem acoplamento forte ao provedor.
 
 ## Sumario
 
@@ -23,10 +23,10 @@ O projeto foi estruturado para a prova com foco em uma leitura **LLM-first em es
 - [Prompts e organizacao agentic](#prompts-e-organizacao-agentic)
 - [Estrutura de pastas](#estrutura-de-pastas)
 - [Como executar localmente](#como-executar-localmente)
-- [Deploy no Streamlit Community Cloud](#deploy-no-streamlit-community-cloud)
 - [Validacao](#validacao)
 - [Analise exploratoria e insights](#analise-exploratoria-e-insights)
 - [Benchmark das tecnicas](#benchmark-das-tecnicas)
+- [Qualidade atual e melhorias futuras](#qualidade-atual-e-melhorias-futuras)
 - [Documentacao produzida](#documentacao-produzida)
 - [Roadmap imediato](#roadmap-imediato)
 
@@ -56,7 +56,7 @@ Observacao importante sobre o dado de entrada:
 ## Funcionalidades principais
 
 - Chat principal com historico de conversa e nova conversa pela sidebar.
-- Resposta em markdown com estilo operacional para PCP e manutencao.
+- Resposta em markdown com rastreio tecnico e limitacoes explicitas.
 - Roteamento de intencao entre `event_json`, `document_query` e `freeform_question`.
 - Busca historica sobre `data/raw/banner.csv` com normalizacao semantica de falhas.
 - Motor historico com `Mahalanobis + k-NN ponderado + OOD` para decisao numerica auditavel.
@@ -146,7 +146,7 @@ Exemplo: `o que e FFT?`
 
 ## Prompts e organizacao agentic
 
-Inspirado na organizacao do repositorio `gufsousa/projeto-ia-gen` e na referencia local `C:\Projetos\Manutencao-prescritva`, os prompts ficam fora do codigo Python para facilitar iteracao.
+Os prompts ficam fora do codigo Python para facilitar iteracao.
 
 Arquivos principais:
 
@@ -282,115 +282,6 @@ Depois abra:
 http://localhost:8501
 ```
 
-## Deploy no Streamlit Community Cloud
-
-Este projeto pode ser publicado no `Streamlit Community Cloud`, mas com uma leitura pratica importante:
-
-- use `Groq` como provider de LLM no deploy;
-- nao use `Ollama` no Streamlit Cloud, porque ele depende de um runtime local que nao existira no ambiente hospedado;
-- use `MongoDB Atlas` apenas se quiser persistencia remota no deploy;
-- se preferir simplicidade, publique primeiro com `MONGO_ENABLED=false`.
-
-Link publico atual de demonstracao:
-
-- https://manutencao-prescritiva-lqwura4kbh7d6zrhdzngxa.streamlit.app/
-
-Observacao:
-
-- antes da apresentacao, vale validar conectividade com `Groq` e `MongoDB Atlas`;
-- se houver qualquer indisponibilidade externa, o projeto continua podendo ser apresentado localmente como fallback.
-
-### 1. Preparar o repositorio
-
-O entrypoint da aplicacao para deploy e:
-
-```text
-Home.py
-```
-
-O projeto ja possui:
-
-- `requirements.txt` na raiz;
-- estrutura multipage compativel com Streamlit;
-- exemplo de secrets em [.streamlit/secrets.toml.example](C:\Projetos\Manutencao-prescritiva-main\.streamlit\secrets.toml.example).
-
-### 2. Criar o app no Streamlit Community Cloud
-
-Pelas instrucoes oficiais do Streamlit Community Cloud, o fluxo de deploy e:
-
-1. conectar sua conta GitHub ao Streamlit;
-2. clicar em `Create app`;
-3. escolher o repositorio, branch e arquivo principal `Home.py`;
-4. abrir `Advanced settings`;
-5. colar seus secrets;
-6. clicar em `Deploy`.
-
-Fontes oficiais:
-
-- https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app
-- https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/file-organization
-- https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/app-dependencies
-- https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/secrets-management
-
-### 3. Secrets recomendados
-
-No painel de `Secrets` do Streamlit Cloud, voce pode colar algo neste formato:
-
-```toml
-LLM_PROVIDER = "groq"
-GROQ_API_KEY = "sua_chave_groq"
-DEFAULT_LLM_MODEL = "llama-3.1-8b-instant"
-FALLBACK_LLM_MODELS = "llama-3.1-8b-instant,llama-3.3-70b-versatile"
-
-MONGO_ENABLED = "false"
-TOP_K_DOCUMENTS = "5"
-TOP_K_HISTORY = "5"
-VECTOR_DIMENSIONS = "256"
-```
-
-Se quiser usar MongoDB Atlas no deploy, adicione tambem:
-
-```toml
-MONGO_ENABLED = "true"
-MONGO_CONNECTION_STRING = "sua_string_do_atlas"
-MONGO_DATABASE = "manutencao_prescritiva"
-MONGO_HISTORY_COLLECTION = "historical_events"
-MONGO_DOCUMENTS_COLLECTION = "documents"
-MONGO_DOCUMENT_CHUNKS_COLLECTION = "document_chunks"
-MONGO_LOGS_COLLECTION = "inference_logs"
-MONGO_BENCHMARKS_COLLECTION = "benchmark_runs"
-MONGO_CONVERSATIONS_COLLECTION = "conversations"
-```
-
-### 4. Melhor configuracao para primeiro deploy
-
-Para reduzir chance de erro no primeiro deploy:
-
-- `LLM_PROVIDER=groq`
-- `MONGO_ENABLED=false`
-- manter a base documental e o dataset versionados no repositorio
-
-Depois que o app subir e estabilizar, voce pode testar:
-
-- ativar `MongoDB Atlas`;
-- revisar latencia;
-- avaliar se faz sentido mover persistencia ou busca vetorial para infraestrutura remota.
-
-### 5. Nuances importantes
-
-- O Streamlit Community Cloud instala dependencias a partir do `requirements.txt` na raiz do repositorio.
-- O Streamlit tambem permite usar secrets como variaveis de ambiente em runtime, o que combina com a leitura atual feita em `src/settings.py` via `os.getenv(...)`.
-- O `banner.csv` e os PDFs estao no repositorio e devem estar acessiveis no deploy, mas aumentam o peso do app.
-- O gargalo principal do pipeline `llm_vector_rag_groq` continua sendo a chamada ao LLM, nao a interface Streamlit em si.
-
-### 6. Ordem recomendada de deploy
-
-1. subir o repositorio atualizado no GitHub;
-2. publicar com `Groq` e `MONGO_ENABLED=false`;
-3. validar chat, historico, base documental e benchmark;
-4. se quiser persistencia remota, ativar `MongoDB Atlas`;
-5. so depois avaliar refinamentos de latencia ou busca vetorial nativa.
-
 ## Validacao
 
 ### Teste de fumaca
@@ -441,6 +332,25 @@ Resultado de leitura rapida em **5 de agosto de 2026**:
 - o melhor pipeline LLM foi `llm_vector_rag_groq` com `llama-3.1-8b-instant`, em `accuracy=0.74`;
 - isso reforca a decisao arquitetural de manter o motor numerico como nucleo diagnostico e o LLM como camada de orquestracao e explicacao.
 
+## Qualidade atual e melhorias futuras
+
+Na matriz ampliada de `100` testes automatizados, o projeto fechou:
+
+- `90/100 PASS`
+- `10/100 FAIL`
+
+Leitura pratica:
+
+- o fluxo principal do copiloto, os guardrails fisicos, o catalogo documental e a comparacao Python vs Mongo ficaram consistentes;
+- as fragilidades restantes se concentraram em perguntas arquiteturais equivalentes, politica de resposta sem documentos e separacao entre algumas familias de falha.
+
+Melhorias futuras recomendadas:
+
+- ampliar o roteamento deterministico para perguntas de arquitetura como banco vetorial nativo, fallback e queda do Mongo;
+- endurecer a resposta quando nao houver documento, reduzindo checklist e prescricao residual sem lastro;
+- revisar a separacao entre `rolamento_inner` e `rolamento_outer`, alem de casos frageis como `cocked_rotor` e `polia`;
+- definir uma politica mais explicita para conflitos entre `state`, `fault` e `OOD`.
+
 ## Documentacao produzida
 
 - [docs/analise_markdown/01_visao_geral_repositorio.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\01_visao_geral_repositorio.md)
@@ -453,6 +363,7 @@ Resultado de leitura rapida em **5 de agosto de 2026**:
 - [docs/analise_markdown/08_pente_fino_tecnico_banca.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\08_pente_fino_tecnico_banca.md)
 - [docs/analise_markdown/09_benchmark_full_inferencia_2026-08-05.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\09_benchmark_full_inferencia_2026-08-05.md)
 - [docs/analise_markdown/10_benchmark_groq_model_sweep_2026-08-05.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\10_benchmark_groq_model_sweep_2026-08-05.md)
+- [docs/analise_markdown/11_relatorio_qa_guardrails_2026-08-06.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\11_relatorio_qa_guardrails_2026-08-06.md)
 
 ## Benchmark resumido
 

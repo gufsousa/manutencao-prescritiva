@@ -5,6 +5,7 @@ import json
 import time
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 from src.agent_service import AGENT
 from src.benchmark_service import BENCHMARK_SERVICE
@@ -181,6 +182,25 @@ def _render_empty_state() -> None:
     )
 
 
+def _scroll_to_chat_bottom() -> None:
+    components.html(
+        """
+        <script>
+        const scrollNow = () => {
+          const parentWindow = window.parent;
+          const parentDocument = parentWindow.document;
+          const app = parentDocument.querySelector('.stApp');
+          const targetHeight = app ? app.scrollHeight : parentDocument.body.scrollHeight;
+          parentWindow.scrollTo({ top: targetHeight, behavior: 'smooth' });
+        };
+        setTimeout(scrollNow, 60);
+        setTimeout(scrollNow, 220);
+        </script>
+        """,
+        height=0,
+    )
+
+
 _init_state()
 render_shared_sidebar(current_page="chat")
 
@@ -205,6 +225,9 @@ if pending_prompt:
     _run_agent_from_text(pending_prompt, status_placeholder)
     st.rerun()
 st.markdown("</div>", unsafe_allow_html=True)
+
+if st.session_state.chat_messages:
+    _scroll_to_chat_bottom()
 
 with st.bottom:
     st.markdown('<div class="composer-dock">', unsafe_allow_html=True)
