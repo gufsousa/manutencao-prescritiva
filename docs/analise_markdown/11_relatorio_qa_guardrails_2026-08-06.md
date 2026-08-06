@@ -128,6 +128,48 @@ As `10` falhas da matriz ampliada se concentraram em tres grupos principais:
 
 - `ood_08`: ao combinar evento extremo com rotulo de estado, o sistema preservou o OOD, mas nao manteve a classificacao como estado operacional.
 
+## Leitura adicional sobre proximidade entre classes
+
+Foi executada uma checagem numerica direta no dataset completo, usando as `12` features do motor historico escaladas com `StandardScaler` e comparacao entre centroides de classe.
+
+Pares mais proximos observados:
+
+- `cocked_rotor <-> correia`: distancia `0.2910`
+- `rolamento_ball <-> rolamento_inner`: distancia `0.3130`
+- `rolamento_ball <-> rolamento_outer`: distancia `0.3628`
+- `rolamento_inner <-> rolamento_outer`: distancia `0.4272`
+- `desalinhamento <-> normal`: distancia `0.4523`
+- `desbalanceamento <-> polia`: distancia `0.5876`
+
+Leitura tecnica:
+
+- parte das confusoes encontradas nao parece ser apenas erro de prompt ou de UI;
+- existe proximidade estatistica real entre algumas familias no espaco de features disponiveis;
+- isso ajuda a explicar por que `rolamento_inner`, `rolamento_outer`, `cocked_rotor`, `correia`, `polia` e `normal` ainda se misturam em certos casos.
+
+## O `llm_vector_rag` infere melhor nesses casos?
+
+No benchmark consolidado de **5 de agosto de 2026**, a resposta curta e: **nao**.
+
+Evidencias:
+
+- `mahalanobis_weighted_knn`: `accuracy=0.92`, `macro_f1=0.9195`
+- `llm_vector_rag_groq`: `accuracy=0.74`, `macro_f1=0.7443`
+
+Confusoes relevantes do pipeline `llm_vector_rag_groq`:
+
+- `desbalanceamento -> desalinhamento`: `3` ocorrencias
+- `cocked_rotor -> rolamento_inner`: `2` ocorrencias
+- `correia -> desalinhamento`: `2` ocorrencias
+- `rolamento_inner -> desalinhamento`: `1` ocorrencia
+- `rolamento_inner -> correia`: `1` ocorrencia
+
+Conclusao pratica:
+
+- o LLM melhora a camada de explicacao, prescricao textual e orquestracao;
+- ele nao eliminou melhor do que o motor numerico as ambiguidades entre classes proximas;
+- no estado atual, a melhoria mais promissora esta em separar melhor as classes, revisar features e ampliar o lastro documental, e nao apenas trocar o modelo gerador.
+
 ## Melhorias futuras recomendadas
 
 - ampliar o roteamento deterministico para perguntas de arquitetura, fallback e banco vetorial;

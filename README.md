@@ -19,9 +19,11 @@ O projeto foi estruturado para a prova com foco em uma leitura **LLM-first em es
 - [Funcionalidades principais](#funcionalidades-principais)
 - [Python e bibliotecas principais](#python-e-bibliotecas-principais)
 - [Arquitetura](#arquitetura)
+- [Screenshots](#screenshots)
 - [Fluxos do copiloto](#fluxos-do-copiloto)
 - [Prompts e organizacao agentic](#prompts-e-organizacao-agentic)
 - [Estrutura de pastas](#estrutura-de-pastas)
+- [Observabilidade e logs](#observabilidade-e-logs)
 - [Como executar localmente](#como-executar-localmente)
 - [Validacao](#validacao)
 - [Analise exploratoria e insights](#analise-exploratoria-e-insights)
@@ -115,6 +117,20 @@ graph LR
     C --> G
 ```
 
+## Screenshots
+
+### Chat principal
+
+![Chat principal](docs/Screenshot-home.png)
+
+### Base documental
+
+![Base documental](docs/Screenshot-base-documental.png)
+
+### Dashboard e BI
+
+![Dashboard](docs/Screenshot-dashboard.png)
+
 ## Fluxos do copiloto
 
 ### 1. Evento JSON
@@ -206,6 +222,36 @@ Manutencao-prescritiva-main/
 ├── requirements.txt                # Dependencias Python
 └── README.md                       # Visao geral do projeto
 ```
+
+## Observabilidade e logs
+
+O projeto registra inferencias e benchmarks em dois niveis:
+
+- persistencia opcional no `MongoDB`;
+- fallback local em `jsonl`.
+
+Arquivos locais principais:
+
+- `data/app_state/logs/inference_logs.jsonl`
+- `data/app_state/logs/benchmark_logs.jsonl`
+
+Campos mais relevantes nos logs de inferencia:
+
+- `created_at`
+- `model`
+- `elapsed_ms`
+- `probable_fault`
+- `confidence_pct`
+- `documents_count`
+- `history_neighbors`
+- `refusal_reason`
+- `usage`
+
+Leitura pratica:
+
+- os logs ajudam a auditar se a resposta teve base historica e documental;
+- os CSVs em `docs/analise_markdown/` resumem os experimentos de benchmark ja executados;
+- os graficos HTML em `docs/analise_markdown/benchmark_graficos_2026-08-05/` servem como apoio visual para apresentacao e comparacao entre tecnicas.
 
 ## Como executar localmente
 
@@ -332,6 +378,14 @@ Resultado de leitura rapida em **5 de agosto de 2026**:
 - o melhor pipeline LLM foi `llm_vector_rag_groq` com `llama-3.1-8b-instant`, em `accuracy=0.74`;
 - isso reforca a decisao arquitetural de manter o motor numerico como nucleo diagnostico e o LLM como camada de orquestracao e explicacao.
 
+Leitura adicional sobre classes proximas:
+
+- no proprio dataset, algumas familias ficam proximas no espaco de features ja extraidas;
+- exemplos observados na analise numerica: `cocked_rotor <-> correia`, `rolamento_inner <-> rolamento_ball`, `rolamento_inner <-> rolamento_outer`, `desalinhamento <-> normal` e `desbalanceamento <-> polia`;
+- no benchmark atual, o `llm_vector_rag_groq` nao resolveu melhor essas ambiguidades do que o motor numerico;
+- as principais confusoes observadas no pipeline LLM foram `desbalanceamento -> desalinhamento`, `cocked_rotor -> rolamento_inner` e `rolamento_inner -> correia/desalinhamento`;
+- isso sugere que o gargalo principal hoje esta mais na separacao estatistica das classes, na representacao das features e no corpus de lastro do que apenas na troca do modelo gerador.
+
 ## Qualidade atual e melhorias futuras
 
 Na matriz ampliada de `100` testes automatizados, o projeto fechou:
@@ -349,6 +403,7 @@ Melhorias futuras recomendadas:
 - ampliar o roteamento deterministico para perguntas de arquitetura como banco vetorial nativo, fallback e queda do Mongo;
 - endurecer a resposta quando nao houver documento, reduzindo checklist e prescricao residual sem lastro;
 - revisar a separacao entre `rolamento_inner` e `rolamento_outer`, alem de casos frageis como `cocked_rotor` e `polia`;
+- revisar pares estruturalmente proximos no dataset, como `cocked_rotor/correia`, `rolamento_inner/rolamento_outer` e `desbalanceamento/polia`;
 - definir uma politica mais explicita para conflitos entre `state`, `fault` e `OOD`.
 
 ## Documentacao produzida
