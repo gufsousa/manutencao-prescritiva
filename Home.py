@@ -27,8 +27,6 @@ def _init_state() -> None:
         st.session_state.chat_messages = []
     if "last_result" not in st.session_state:
         st.session_state.last_result = None
-    if "persona" not in st.session_state:
-        st.session_state.persona = "PCP"
     if "conversation_id" not in st.session_state:
         st.session_state.conversation_id = None
     if "selected_model" not in st.session_state:
@@ -50,14 +48,6 @@ def _append_message(role: str, content: str) -> None:
             conversation_id=st.session_state.conversation_id,
         )
         st.session_state.conversation_id = saved["id"]
-
-
-def _build_prompt(raw_text: str, persona: str) -> str:
-    if persona == "PCP":
-        prefix = "Usuario do PCP: priorize impacto operacional, urgencia, risco e recomendacao objetiva.\n\n"
-    else:
-        prefix = "Usuario da manutencao: priorize inspecao, hipotese de falha, procedimento e acao tecnica.\n\n"
-    return f"{prefix}{raw_text}"
 
 
 def _scenario_prompt(name: str) -> str:
@@ -131,12 +121,10 @@ def _run_agent_from_text(raw_text: str, status_placeholder) -> None:
     st.session_state.clear_composer = True
     _render_user_message(raw_text)
     _append_message("user", raw_text)
-    composed_prompt = _build_prompt(raw_text, st.session_state.persona)
-
     with status_placeholder.container():
         with st.status("Analisando evento, historico e documentos...", expanded=False) as status_box:
             try:
-                result = AGENT.infer_event(composed_prompt, model_name=st.session_state.selected_model or None)
+                result = AGENT.infer_event(raw_text, model_name=st.session_state.selected_model or None)
                 st.session_state.last_result = result
                 markdown_response = result["agent_response"].get("response_markdown") or result["agent_response"].get(
                     "executive_summary", "Resposta gerada."
@@ -206,7 +194,8 @@ status_placeholder = st.empty()
 st.markdown("</div>", unsafe_allow_html=True)
 
 with st.bottom:
-    composer_left, composer_mid, composer_right = st.columns([0.08, 0.78, 0.14], vertical_alignment="bottom")
+    st.markdown('<div class="composer-dock">', unsafe_allow_html=True)
+    composer_left, composer_mid, composer_right = st.columns([0.08, 0.80, 0.12], vertical_alignment="bottom")
     with composer_left:
         with st.popover("", icon=":material/add_circle:", width="content"):
             st.markdown("#### Contexto da conversa")
@@ -222,13 +211,6 @@ with st.bottom:
             if st.session_state.selected_scenario_name and st.button("Inserir cenario no composer", width="stretch"):
                 st.session_state.composer_text = _scenario_prompt(st.session_state.selected_scenario_name)
                 st.rerun()
-            st.markdown("#### Atalhos")
-            if st.button("Prompt PCP", width="stretch"):
-                st.session_state.composer_text = "Recebi uma anomalia. Quero impacto operacional, prioridade e risco."
-                st.rerun()
-            if st.button("Prompt Manutencao", width="stretch"):
-                st.session_state.composer_text = "Recebi uma anomalia. Quero hipotese de falha, inspecao e procedimento rastreavel."
-                st.rerun()
     with composer_mid:
         if st.session_state.clear_composer:
             st.session_state.composer_text = ""
@@ -240,6 +222,7 @@ with st.bottom:
             key="composer_text",
         )
     with composer_right:
-        if st.button("", icon=":material/arrow_upward:", width="stretch"):
+        if st.button("", icon=":material/arrow_upward:", width="stretch", key="send_message_button"):
             _run_agent_from_text(st.session_state.composer_text, status_placeholder)
             st.rerun()
+    st.markdown("</div>", unsafe_allow_html=True)

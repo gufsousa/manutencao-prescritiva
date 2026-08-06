@@ -244,6 +244,34 @@ THEME_CSS = """
   background: linear-gradient(180deg, rgba(8,12,18,0) 0%, rgba(8,12,18,0.82) 18%, rgba(8,12,18,0.96) 100%);
   padding-top: 1.2rem;
 }
+.composer-dock {
+  width: min(1180px, calc(100vw - 5.5rem));
+  margin: 0 auto;
+}
+[data-testid="stBottomBlockContainer"] [data-testid="stHorizontalBlock"] {
+  align-items: flex-end;
+}
+[data-testid="stBottomBlockContainer"] [data-testid="column"] {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+[data-testid="stBottomBlockContainer"] [data-testid="column"]:last-child > div {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+[data-testid="stBottomBlockContainer"] button[kind="secondary"][data-testid="stBaseButton-secondary"] {
+  min-height: 3rem;
+}
+div[data-testid="stButton"] > button[kind="secondary"][data-testid="stBaseButton-secondary"] p {
+  line-height: 1;
+}
+@media (max-width: 900px) {
+  .composer-dock {
+    width: min(100%, calc(100vw - 2rem));
+  }
+}
 </style>
 """
 

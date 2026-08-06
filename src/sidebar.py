@@ -17,8 +17,6 @@ def _ensure_core_session_state() -> None:
         st.session_state.chat_messages = []
     if "last_result" not in st.session_state:
         st.session_state.last_result = None
-    if "persona" not in st.session_state:
-        st.session_state.persona = "PCP"
     if "conversation_id" not in st.session_state:
         st.session_state.conversation_id = None
     if "selected_model" not in st.session_state:
@@ -72,13 +70,6 @@ def render_shared_sidebar(current_page: str = "chat") -> None:
         if st.button("Nova conversa", width="stretch", icon=":material/edit_square:"):
             start_new_conversation()
             st.switch_page("Home.py")
-
-        st.session_state.persona = st.radio(
-            "Perfil do usuario",
-            ["PCP", "Manutencao"],
-            index=0 if st.session_state.persona == "PCP" else 1,
-            label_visibility="collapsed",
-        )
 
         sidebar_section_title("Recentes")
         conversation_search = st.text_input(

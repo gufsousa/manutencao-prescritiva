@@ -15,7 +15,7 @@ inject_theme()
 render_shared_sidebar(current_page="dashboard")
 hero(
     "BI de Inferencias",
-    "Superficie executiva para PCP e coordenacao: volume, latencia, distribuicao de falhas e comportamento do copiloto.",
+    "Superficie executiva com volume, latencia, distribuicao de falhas e comportamento do copiloto.",
     eyebrow="business intelligence",
 )
 
