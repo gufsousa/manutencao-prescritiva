@@ -47,11 +47,9 @@ def load_conversation_to_session(conversation_id: str) -> bool:
 
 def render_shared_sidebar(current_page: str = "chat") -> None:
     _ensure_core_session_state()
-    status = STORE.ping()
-    counts = STORE.get_counts()
     metrics = HISTORY_SERVICE.dataset_metrics()
-    storage_metrics = HISTORY_SERVICE.storage_metrics()
-    sample_target = math.ceil(storage_metrics["csv_rows"] * 0.20)
+    csv_rows = int(metrics["rows"])
+    sample_target = math.ceil(csv_rows * 0.20)
 
     with st.sidebar:
         st.markdown("## Copiloto")
@@ -109,15 +107,10 @@ def render_shared_sidebar(current_page: str = "chat") -> None:
             st.caption("Nenhuma conversa recente ainda.")
 
         with st.expander("Estado do sistema", expanded=False):
-            st.write(f"Mongo: {'Conectado' if status.get('connected') else 'Fallback local'}")
+            st.write(f"Mongo: {'Configurado' if STORE.enabled() else 'Fallback local'}")
             st.write(f"Historico: {metrics['rows']:,}".replace(",", "."))
-            st.write(
-                "Historico persistido: "
-                f"{storage_metrics['stored_rows']:,} / {storage_metrics['csv_rows']:,} "
-                f"({storage_metrics['coverage_pct']}%)".replace(",", ".")
-            )
-            st.write(f"Docs: {counts['documents']}")
-            st.write(f"Chunks: {counts['document_chunks']}")
+            st.write("Historico persistido: consultar pagina Historico operacional")
+            st.write("Docs e chunks: consultar Base documental")
             st.write(f"Modelo base: {st.session_state.selected_model or 'n/a'}")
             st.write(
                 "Camada semantica: "

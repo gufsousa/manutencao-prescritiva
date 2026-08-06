@@ -1,0 +1,80 @@
+{
+  "rows": 166796,
+  "raw_faults": 151,
+  "canonical_faults": 18,
+  "state_labels": 5,
+  "fault_labels": 12,
+  "state_catalog": [
+    "acelerando",
+    "baseline",
+    "motor_desligado",
+    "normal",
+    "teste"
+  ],
+  "fault_catalog": [
+    "cocked_rotor",
+    "correia",
+    "desalinhamento",
+    "desbalanceamento",
+    "eccentric_rotor",
+    "falta_fase",
+    "polia",
+    "rolamento_ball",
+    "rolamento_combination",
+    "rolamento_inner",
+    "rolamento_outer",
+    "ventoinha"
+  ],
+  "fault_rows": 151064,
+  "state_rows": 15682,
+  "min_date": "2026-04-30 17:17:41.549800+00:00",
+  "max_date": "2026-06-16 18:59:43.447238+00:00",
+  "rpm_counts": {
+    "0.0": 658,
+    "500.0": 55857,
+    "1000.0": 53414,
+    "2000.0": 55160,
+    "3000.0": 1707
+  },
+  "fault_counts": {
+    "rolamento_inner": 17712,
+    "eccentric_rotor": 16497,
+    "normal": 14958,
+    "rolamento_outer": 14813,
+    "rolamento_combination": 14550,
+    "cocked_rotor": 14275,
+    "rolamento_ball": 13704,
+    "desbalanceamento": 13237,
+    "ventoinha": 12299,
+    "polia": 12000,
+    "correia": 11999,
+    "desalinhamento": 9178,
+    "falta_fase": 800,
+    "motor_desligado": 447,
+    "teste": 201,
+    "baseline": 69,
+    "mortor_desligado_novo": 50,
+    "acelerando": 7
+  },
+  "real_fault_counts": {
+    "rolamento_inner": 17712,
+    "eccentric_rotor": 16497,
+    "rolamento_outer": 14813,
+    "rolamento_combination": 14550,
+    "cocked_rotor": 14275,
+    "rolamento_ball": 13704,
+    "desbalanceamento": 13237,
+    "ventoinha": 12299,
+    "polia": 12000,
+    "correia": 11999,
+    "desalinhamento": 9178,
+    "falta_fase": 800
+  },
+  "state_counts": {
+    "normal": 14958,
+    "motor_desligado": 447,
+    "teste": 201,
+    "baseline": 69,
+    "acelerando": 7
+  }
+}

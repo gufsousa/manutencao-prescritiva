@@ -6,6 +6,7 @@ from statistics import NormalDist
 from typing import Any
 import json
 import math
+from copy import deepcopy
 
 import numpy as np
 import pandas as pd
@@ -13,10 +14,11 @@ from sklearn.preprocessing import StandardScaler
 
 from src.fault_semantics import canonicalize_fault_label, format_fault_label_pt, is_fault_label, is_state_label
 from src.mongo_store import STORE
-from src.settings import RAW_DATA_DIR
+from src.settings import CONFIG_DIR, RAW_DATA_DIR
 
 
 DATASET_PATH = RAW_DATA_DIR / "banner.csv"
+DATASET_METRICS_SNAPSHOT_PATH = CONFIG_DIR / "dataset_metrics_snapshot.json"
 FEATURE_COLUMNS = [
     "temperature_c",
     "rpm",
@@ -69,7 +71,9 @@ class HistoryService:
         if self._df_cache is None:
             df = pd.read_csv(DATASET_PATH)
             df["created_at"] = pd.to_datetime(df["created_at"], utc=True)
-            df["canonical_fault"] = df["fault"].map(canonicalize_fault_label)
+            unique_faults = df["fault"].dropna().astype(str).unique().tolist()
+            canonical_map = {fault_label: canonicalize_fault_label(fault_label) for fault_label in unique_faults}
+            df["canonical_fault"] = df["fault"].map(lambda value: canonical_map.get(str(value), canonicalize_fault_label(value)))
             for column in FEATURE_COLUMNS:
                 df[column] = pd.to_numeric(df[column], errors="coerce")
             self._df_cache = df
@@ -373,6 +377,9 @@ class HistoryService:
 
     @cached_property
     def _dataset_metrics_cache(self) -> dict[str, Any]:
+        if DATASET_METRICS_SNAPSHOT_PATH.exists():
+            return json.loads(DATASET_METRICS_SNAPSHOT_PATH.read_text(encoding="utf-8"))
+
         df = self.load_dataset()
         canonical_series = df["canonical_fault"].dropna()
         state_labels = sorted({label for label in canonical_series.unique().tolist() if is_state_label(label)})
@@ -400,10 +407,10 @@ class HistoryService:
         }
 
     def dataset_metrics(self) -> dict[str, Any]:
-        return dict(self._dataset_metrics_cache)
+        return deepcopy(self._dataset_metrics_cache)
 
     def storage_metrics(self) -> dict[str, Any]:
-        return dict(self._storage_metrics_cache)
+        return deepcopy(self._storage_metrics_cache)
 
     @cached_property
     def _storage_metrics_cache(self) -> dict[str, Any]:
