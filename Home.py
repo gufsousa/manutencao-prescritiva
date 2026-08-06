@@ -38,6 +38,8 @@ def _init_state() -> None:
         st.session_state.clear_composer = False
     if "selected_scenario_name" not in st.session_state:
         st.session_state.selected_scenario_name = ""
+    if "pending_prompt" not in st.session_state:
+        st.session_state.pending_prompt = ""
 
 
 def _append_message(role: str, content: str) -> None:
@@ -140,6 +142,13 @@ def _run_agent_from_text(raw_text: str, status_placeholder) -> None:
     status_placeholder.empty()
 
 
+def _queue_prompt_submission(raw_text: str) -> None:
+    if not raw_text.strip():
+        return
+    st.session_state.pending_prompt = raw_text
+    st.session_state.clear_composer = True
+
+
 def _render_last_result() -> None:
     result = st.session_state.last_result
     if not result:
@@ -191,6 +200,10 @@ else:
 
     _render_last_result()
 status_placeholder = st.empty()
+if st.session_state.pending_prompt:
+    pending_prompt = st.session_state.pending_prompt
+    st.session_state.pending_prompt = ""
+    _run_agent_from_text(pending_prompt, status_placeholder)
 st.markdown("</div>", unsafe_allow_html=True)
 
 with st.bottom:
@@ -223,6 +236,6 @@ with st.bottom:
         )
     with composer_right:
         if st.button("", icon=":material/arrow_upward:", width="stretch", key="send_message_button"):
-            _run_agent_from_text(st.session_state.composer_text, status_placeholder)
+            _queue_prompt_submission(st.session_state.composer_text)
             st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)

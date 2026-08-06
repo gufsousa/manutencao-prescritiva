@@ -276,6 +276,35 @@ class PrescriptiveAgent:
         refusal_reason = ""
         lowered = user_text.lower()
 
+        casual_patterns = [
+            "oi",
+            "ola",
+            "olá",
+            "bom dia",
+            "boa tarde",
+            "boa noite",
+            "obrigado",
+            "obrigada",
+            "valeu",
+            "kkk",
+            "haha",
+            "piada",
+            "brinca",
+            "brinca comigo",
+        ]
+        if any(pattern in lowered for pattern in casual_patterns) and len(lowered.split()) <= 12:
+            return {
+                "answer_type": "casual_chat",
+                "executive_summary": (
+                    "Posso conversar de forma mais leve tambem. "
+                    "Se quiser, me mande uma pergunta tecnica, um evento JSON ou ate uma curiosidade sobre o projeto."
+                ),
+                "evidence_points": [],
+                "recommended_actions": [],
+                "cited_documents": [],
+                "refusal_reason": "",
+            }
+
         if answer_type == "document_query":
             if cited_documents:
                 summary = "A base documental atual possui documentos tecnicos indexados para consulta do copiloto."
@@ -465,6 +494,21 @@ class PrescriptiveAgent:
             return " | ".join(pieces) if pieces else json.dumps(item, ensure_ascii=False)
         return str(item)
 
+    def _stringify_action_item(self, item: Any) -> str:
+        if isinstance(item, str):
+            return item
+        if isinstance(item, dict):
+            action = item.get("action")
+            description = item.get("description")
+            if action and description:
+                return f"{action}: {description}"
+            if action:
+                return str(action)
+            if description:
+                return str(description)
+            return json.dumps(item, ensure_ascii=False)
+        return str(item)
+
     def _normalize_cited_documents(self, payload: dict[str, Any], fallback_documents: list[dict[str, Any]]) -> None:
         raw_documents = payload.get("cited_documents") or []
         normalized: list[str] = []
@@ -494,6 +538,9 @@ class PrescriptiveAgent:
                 payload[key] = [value]
             elif value is None:
                 payload[key] = []
+        payload["recommended_actions"] = [self._stringify_action_item(item) for item in payload.get("recommended_actions", [])]
+        payload["inspection_checklist"] = [self._stringify_action_item(item) for item in payload.get("inspection_checklist", [])]
+        payload["risk_notes"] = [self._stringify_action_item(item) for item in payload.get("risk_notes", [])]
         self._normalize_cited_documents(payload, fallback_documents)
         self._normalize_evidence_points(payload)
         return payload
@@ -506,8 +553,24 @@ class PrescriptiveAgent:
         refusal_reason = payload.get("refusal_reason", "")
         answer_type = payload.get("answer_type", "freeform_question")
 
+        if answer_type == "casual_chat":
+            return summary or "Posso conversar com voce por aqui tambem."
+
+        if answer_type == "freeform_question":
+            lines = [summary or "Sem resposta consolidada."]
+
+            if actions:
+                lines.extend(["", "Se quiser, eu posso:"])
+                for item in actions[:3]:
+                    lines.append(f"- {item}")
+
+            if refusal_reason:
+                lines.extend(["", f"Limitacao atual: {refusal_reason}"])
+
+            return "\n".join(lines)
+
         lines = [
-            "### Base documental" if answer_type == "document_query" else "### Resposta tecnica",
+            "### Base documental",
             summary or "Sem resposta consolidada.",
             "",
             "### Evidencias e lastro",
@@ -553,7 +616,7 @@ class PrescriptiveAgent:
         )
         raw_llm_response = None
         usage = {}
-        skip_llm = answer_type == "document_query" or any(
+        skip_llm = response_payload.get("answer_type") == "casual_chat" or answer_type == "document_query" or any(
             marker in lowered_input
             for marker in [
                 "fft",
