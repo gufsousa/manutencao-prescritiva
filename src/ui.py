@@ -149,13 +149,16 @@ THEME_CSS = """
   margin: 1.1rem 0;
 }
 .user-bubble {
-  max-width: min(76%, 780px);
+  max-width: min(84%, 920px);
   background: linear-gradient(180deg, rgba(33,43,61,0.96) 0%, rgba(27,36,51,0.96) 100%);
   border: 1px solid rgba(142, 164, 192, 0.16);
   border-radius: 22px;
   padding: 0.9rem 1.05rem;
   color: #eef4fb;
   box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+}
+.user-bubble-json {
+  max-width: min(92%, 1040px);
 }
 .user-bubble-header {
   display: flex;
@@ -180,6 +183,20 @@ THEME_CSS = """
   background: rgba(109, 207, 255, 0.14);
   border: 1px solid rgba(110,231,249,0.2);
   color: #dff7fb;
+}
+.user-bubble-body {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.user-json {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  overflow-wrap: normal;
+  word-break: normal;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.94rem;
+  line-height: 1.55;
 }
 .assistant-block {
   display: grid;

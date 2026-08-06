@@ -72,16 +72,29 @@ def _stream_markdown(text: str, delay: float = 0.004):
 
 
 def _render_user_message(content: str) -> None:
-    safe_content = html.escape(content).replace("\n", "<br>")
+    bubble_class = "user-bubble"
+    body_class = "user-bubble-body"
+    rendered_content = html.escape(content).replace("\n", "<br>")
+
+    stripped = content.strip()
+    if stripped.startswith("{") or stripped.startswith("["):
+        try:
+            payload = json.loads(content)
+            rendered_content = html.escape(json.dumps(payload, ensure_ascii=False, indent=2, default=str))
+            bubble_class += " user-bubble-json"
+            body_class = "user-json"
+        except Exception:
+            pass
+
     st.markdown(
         f"""
         <div class="user-row">
-          <div class="user-bubble">
+          <div class="{bubble_class}">
             <div class="user-bubble-header">
               <span>Usuario</span>
               <span class="avatar-chip avatar-user">U</span>
             </div>
-            <div style="white-space: normal; overflow-wrap: anywhere;">{safe_content}</div>
+            <div class="{body_class}">{rendered_content}</div>
           </div>
         </div>
         """,
