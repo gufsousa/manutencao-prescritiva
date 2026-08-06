@@ -166,23 +166,55 @@ def _render_last_result() -> None:
     if not result:
         return
 
+    agent_response = result.get("agent_response", {})
+    history = result.get("history")
+    documents = result.get("documents")
+    validation = result.get("validation")
+    runtime = result.get("runtime")
+
     with st.expander("Evidencias da ultima resposta", expanded=False):
         tabs = st.tabs(["Resposta estruturada", "Historico", "Documentos", "Validacao"])
         with tabs[0]:
-            st.json(result["agent_response"], expanded=True)
+            st.json(agent_response, expanded=True)
         with tabs[1]:
-            st.write(result["history"]["summary"])
-            st.dataframe(result["history"]["neighbors"], width="stretch", hide_index=True)
-            st.dataframe(result["history"]["fault_distribution"], width="stretch", hide_index=True)
+            if history:
+                st.write(history.get("summary", "Sem resumo historico."))
+                neighbors = history.get("neighbors") or []
+                fault_distribution = history.get("fault_distribution") or []
+                if neighbors:
+                    st.dataframe(neighbors, width="stretch", hide_index=True)
+                else:
+                    st.caption("Sem vizinhos historicos para exibir nesta resposta.")
+                if fault_distribution:
+                    st.dataframe(fault_distribution, width="stretch", hide_index=True)
+                else:
+                    st.caption("Sem distribuicao historica para exibir nesta resposta.")
+            else:
+                st.caption("Esta resposta nao utilizou o bloco historico estruturado.")
         with tabs[2]:
-            st.write(result["documents"]["summary"])
-            for chunk in result["documents"]["chunks"]:
-                with st.expander(f"{chunk['title']} | score={chunk['score']}"):
-                    st.caption(chunk["source_file"])
-                    st.write(chunk["chunk_text"])
+            if documents:
+                st.write(documents.get("summary", "Sem resumo documental."))
+                chunks = documents.get("chunks") or []
+                if chunks:
+                    for chunk in chunks:
+                        title = chunk.get("title", "Documento")
+                        score = chunk.get("score", "n/a")
+                        with st.expander(f"{title} | score={score}"):
+                            st.caption(chunk.get("source_file", "origem nao informada"))
+                            st.write(chunk.get("chunk_text", "Sem trecho textual."))
+                else:
+                    st.caption("Sem chunks documentais detalhados para exibir nesta resposta.")
+            else:
+                st.caption("Esta resposta nao utilizou o bloco documental estruturado.")
         with tabs[3]:
-            st.json(result["validation"], expanded=True)
-            st.json(result["runtime"], expanded=False)
+            if validation:
+                st.json(validation, expanded=True)
+            else:
+                st.caption("Sem validacao estruturada para esta resposta.")
+            if runtime:
+                st.json(runtime, expanded=False)
+            else:
+                st.caption("Sem metadados de runtime para esta resposta.")
 
 
 def _render_empty_state() -> None:
