@@ -36,6 +36,8 @@ def _init_state() -> None:
         st.session_state.selected_model = models[0] if models else ""
     if "composer_text" not in st.session_state:
         st.session_state.composer_text = ""
+    if "clear_composer" not in st.session_state:
+        st.session_state.clear_composer = False
     if "selected_scenario_name" not in st.session_state:
         st.session_state.selected_scenario_name = ""
 
@@ -113,7 +115,7 @@ def _run_agent_from_text(raw_text: str, status_placeholder) -> None:
     if not raw_text.strip():
         return
 
-    st.session_state.composer_text = ""
+    st.session_state.clear_composer = True
     _render_user_message(raw_text)
     _append_message("user", raw_text)
     composed_prompt = _build_prompt(raw_text, st.session_state.persona)
@@ -215,6 +217,9 @@ with st.bottom:
                 st.session_state.composer_text = "Recebi uma anomalia. Quero hipotese de falha, inspecao e procedimento rastreavel."
                 st.rerun()
     with composer_mid:
+        if st.session_state.clear_composer:
+            st.session_state.composer_text = ""
+            st.session_state.clear_composer = False
         st.text_input(
             "Mensagem",
             placeholder="Envie um evento JSON ou descreva a situacao",
