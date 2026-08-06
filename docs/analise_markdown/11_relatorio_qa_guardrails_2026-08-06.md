@@ -87,11 +87,12 @@ Esse ponto foi corrigido:
 - o historico persistido parcial continua valido para persistencia;
 - a inferencia diagnostica volta automaticamente para o `banner.csv` completo enquanto a cobertura do Mongo nao estiver praticamente sincronizada.
 
-## Extensao: matriz de 100 testes
+## Extensao: matriz ampliada de 110 testes
 
-Depois da suite inicial de `15` verificacoes, foi executada uma matriz mais ampla com `100` casos cobrindo:
+Depois da suite inicial de `15` verificacoes, foi executada uma matriz mais ampla com `110` casos cobrindo:
 
 - catalogo documental;
+- variacoes de linguagem para listar documentos por familia;
 - perguntas sobre arquitetura;
 - FFT e limites do pipeline;
 - guardrails fisicos;
@@ -100,12 +101,14 @@ Depois da suite inicial de `15` verificacoes, foi executada uma matriz mais ampl
 - ausencia de base documental;
 - vies por rotulo;
 - fluxo de chat;
+- naturalidade em conversa curta;
+- capacidade de sintese em perguntas livres;
 - comparacao Python vs Mongo.
 
 Resultado consolidado final da matriz ampliada:
 
-- Total de verificacoes: `100`
-- Aprovadas: `100`
+- Total de verificacoes: `110`
+- Aprovadas: `110`
 - Falhas: `0`
 - JSON gerado: `docs/analise_markdown/quality_matrix_100_results_2026-08-06.json`
 
@@ -132,6 +135,12 @@ Os casos que falhavam na rodada inicial foram tratados em quatro frentes:
 
 - a inferencia deixou de usar historico parcial do Mongo para similaridade diagnostica;
 - o fallback para o dataset completo eliminou vies por amostragem incompleta na comparacao historica.
+
+5. Naturalidade e consulta documental
+
+- consultas como `liste documentos de rolamentos` passaram a cair corretamente no fluxo documental;
+- respostas curtas como `oi`, `obrigado` e `conte uma piada` deixaram de responder de forma generica demais;
+- perguntas sobre `RAG` passaram a responder o conceito do projeto, em vez de desviar para interpretacoes erradas do termo.
 
 ## Leitura adicional sobre proximidade entre classes
 

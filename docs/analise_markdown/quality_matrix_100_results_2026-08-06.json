@@ -32,7 +32,7 @@
   {
     "name": "doc_catalog_07",
     "status": "PASS",
-    "observed": "{'Procedimento de Polias', 'Procedimento de Cocked Rotor', 'Procedimento de Rolamentos', 'Procedimento de Desbalanceamento', 'Procedimento de Desalinhamento', 'Procedimento de Correias'}"
+    "observed": "{'Procedimento de Correias', 'Procedimento de Desalinhamento', 'Procedimento de Desbalanceamento', 'Procedimento de Rolamentos', 'Procedimento de Cocked Rotor', 'Procedimento de Polias'}"
   },
   {
     "name": "doc_catalog_08",
@@ -47,57 +47,57 @@
   {
     "name": "doc_catalog_10",
     "status": "PASS",
-    "observed": "Os documentos recuperados cobrem as seguintes falhas: desalinhamento, desbalanceamento, correias e polias.\n\nSe quiser, eu posso:\n- Verificar o alinhamento dos eixos\n- Realizar o re"
+    "observed": "Os documentos recuperados cobrem os seguintes tipos de falhas: desalinhamento, desbalanceamento, correias e polias.\n\nPosso tambem:\n- Realizar inspeção e manutenção regular de polia"
   },
   {
     "name": "fft_01",
     "status": "PASS",
-    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nSe quiser, eu posso:\n- Se qu"
+    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nPosso tambem:\n- Se quiser, p"
   },
   {
     "name": "fft_02",
     "status": "PASS",
-    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nSe quiser, eu posso:\n- Se qu"
+    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nPosso tambem:\n- Se quiser, p"
   },
   {
     "name": "fft_03",
     "status": "PASS",
-    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nSe quiser, eu posso:\n- Se qu"
+    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nPosso tambem:\n- Se quiser, p"
   },
   {
     "name": "fft_04",
     "status": "PASS",
-    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nSe quiser, eu posso:\n- Se qu"
+    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nPosso tambem:\n- Se quiser, p"
   },
   {
     "name": "fft_05",
     "status": "PASS",
-    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nSe quiser, eu posso:\n- Se qu"
+    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nPosso tambem:\n- Se quiser, p"
   },
   {
     "name": "arch_01",
     "status": "PASS",
-    "observed": "No projeto atual, o LLM nao executa o motor numerico principal; ele orquestra o fluxo, resume evidencias e sintetiza a resposta final.\n\nSe quiser, eu posso:\n- Se quiser, posso deta"
+    "observed": "No projeto atual, o LLM nao executa o motor numerico principal; ele orquestra o fluxo, resume evidencias e sintetiza a resposta final.\n\nPosso tambem:\n- Se quiser, posso detalhar a "
   },
   {
     "name": "arch_02",
     "status": "PASS",
-    "observed": "Hoje o MongoDB atua principalmente como persistencia opcional; a busca vetorial principal ainda e calculada na aplicacao.\n\nSe quiser, eu posso:\n- Se quiser, posso explicar a difere"
+    "observed": "Hoje o MongoDB atua principalmente como persistencia opcional; a busca vetorial principal ainda e calculada na aplicacao.\n\nPosso tambem:\n- Se quiser, posso explicar a diferenca ent"
   },
   {
     "name": "arch_03",
     "status": "PASS",
-    "observed": "No estado atual, o projeto nao usa banco vetorial nativo; a vetorizacao e o ranking documental continuam locais na aplicacao.\n\nSe quiser, eu posso:\n- Se quiser, posso contrastar o "
+    "observed": "No estado atual, o projeto nao usa banco vetorial nativo; a vetorizacao e o ranking documental continuam locais na aplicacao.\n\nPosso tambem:\n- Se quiser, posso contrastar o estado "
   },
   {
     "name": "arch_04",
     "status": "PASS",
-    "observed": "O RAG (Red, Amarelo, Verde) é um sistema de classificação de condições de manutenção que ajuda a identificar problemas e priorizar ações de correção. Ele é amplamente utilizado em "
+    "observed": "RAG e a combinacao de recuperacao de contexto com geracao de resposta pelo modelo.\n\nPosso tambem:\n- Se quiser, posso explicar o RAG do projeto em linguagem simples ou em termos mai"
   },
   {
     "name": "arch_05",
     "status": "PASS",
-    "observed": "Se o Mongo ficar indisponivel, o sistema nao precisa parar; o projeto usa fallback local para continuar operando.\n\nSe quiser, eu posso:\n- Se quiser, posso detalhar como funciona o "
+    "observed": "Se o Mongo ficar indisponivel, o sistema nao precisa parar; o projeto usa fallback local para continuar operando.\n\nPosso tambem:\n- Se quiser, posso detalhar como funciona o fallbac"
   },
   {
     "name": "guard_phys_01",
@@ -282,7 +282,7 @@
   {
     "name": "doc_guard_07",
     "status": "PASS",
-    "observed": "O desbalanceamento e o desalinhamento são dois conceitos importantes em manutenção mecânica, mas muitas vezes são confundidos.\n\nSe quiser, eu posso:\n- Realizar testes de equilíbrio"
+    "observed": "Consigo responder livremente, mas neste caso nao encontrei lastro suficiente na base para sustentar a orientacao tecnica.\n\nPosso tambem:\n- Refine a pergunta com o componente, sinto"
   },
   {
     "name": "doc_guard_08",
@@ -292,12 +292,12 @@
   {
     "name": "doc_guard_09",
     "status": "PASS",
-    "observed": "Sem historico rotulado de cavitacao, o sistema nao deveria inventar diagnostico numerico confiavel; no maximo, ele consegue apoiar por documento, se houver lastro textual.\n\nSe quis"
+    "observed": "Sem historico rotulado de cavitacao, o sistema nao deveria inventar diagnostico numerico confiavel; no maximo, ele consegue apoiar por documento, se houver lastro textual.\n\nPosso t"
   },
   {
     "name": "doc_guard_10",
     "status": "PASS",
-    "observed": "Sem historico rotulado de cavitacao, o sistema nao deveria inventar diagnostico numerico confiavel; no maximo, ele consegue apoiar por documento, se houver lastro textual.\n\nSe quis"
+    "observed": "Sem historico rotulado de cavitacao, o sistema nao deveria inventar diagnostico numerico confiavel; no maximo, ele consegue apoiar por documento, se houver lastro textual.\n\nPosso t"
   },
   {
     "name": "bias_label_01",
@@ -412,7 +412,7 @@
   {
     "name": "chat_flow_03",
     "status": "PASS",
-    "observed": "O sistema está funcionando dentro dos parâmetros normais, com temperatura de 25°C e velocidade de 1000 rpm. Não há indícios de problemas de desbalanceamento, desalinhamento ou desg"
+    "observed": "A temperatura de 25°C e a velocidade de 1000 rpm não indicam problemas de desbalanceamento ou desalinhamento. No entanto, é importante verificar a vibração e a temperatura do siste"
   },
   {
     "name": "chat_flow_04",
@@ -427,7 +427,7 @@
   {
     "name": "chat_flow_06",
     "status": "PASS",
-    "observed": "O desbalanceamento e o desalinhamento são dois problemas comuns em motores elétricos que podem causar vibrações e desgaste prematuro. O desbalanceamento ocorre quando há uma distri"
+    "observed": "O desbalanceamento e o desalinhamento são dois problemas comuns em sistemas de rotação, mas têm características e consequências diferentes.\n\nPosso tambem:\n- Verificar o alinhamento"
   },
   {
     "name": "chat_flow_07",
@@ -450,6 +450,56 @@
     "observed": "### Diagnostico provavel\n- **Status:** `evento_invalido`\n- **Confianca:** `0.0%`\n\n### Resumo executivo\nO evento foi bloqueado por validacao fisica antes de qualquer prescricao auto"
   },
   {
+    "name": "natural_01",
+    "status": "PASS",
+    "observed": "document_query"
+  },
+  {
+    "name": "natural_02",
+    "status": "PASS",
+    "observed": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a rolamentos na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Rolamentos**\n- 1 documento(s) e"
+  },
+  {
+    "name": "natural_03",
+    "status": "PASS",
+    "observed": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Correia na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Correias**\n- 1 documento(s) encont"
+  },
+  {
+    "name": "natural_04",
+    "status": "PASS",
+    "observed": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Polia na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Polias**\n- 1 documento(s) encontrado"
+  },
+  {
+    "name": "natural_05",
+    "status": "PASS",
+    "observed": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Cocked rotor na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Cocked Rotor**\n- 1 documento("
+  },
+  {
+    "name": "natural_06",
+    "status": "PASS",
+    "observed": "Oi. Posso te ajudar com uma pergunta tecnica, listar documentos da base, analisar um evento JSON ou resumir a arquitetura do projeto."
+  },
+  {
+    "name": "natural_07",
+    "status": "PASS",
+    "observed": "Claro. Versao manutencao preditiva: o sensor falou que estava tudo normal, mas era so o rolamento tentando manter a postura profissional.\n\nPosso tambem:\n- Se quiser, depois eu volt"
+  },
+  {
+    "name": "natural_08",
+    "status": "PASS",
+    "observed": "De nada. Se quiser, seguimos com a parte tecnica."
+  },
+  {
+    "name": "natural_09",
+    "status": "PASS",
+    "observed": "Boa. Se quiser, eu continuo no modo leve ou volto para a analise tecnica."
+  },
+  {
+    "name": "natural_10",
+    "status": "PASS",
+    "observed": "RAG e a combinacao de recuperacao de contexto com geracao de resposta pelo modelo.\n\nPosso tambem:\n- Se quiser, posso explicar o RAG do projeto em linguagem simples ou em termos mai"
+  },
+  {
     "name": "mongo_doc_01",
     "status": "PASS",
     "observed": "desbalanceamento == desbalanceamento"
@@ -457,7 +507,7 @@
   {
     "name": "mongo_doc_02",
     "status": "PASS",
-    "observed": "{'python': ['810c2c5e-3a40-453a-afb1-7783622e24ff', 'ddabc77b-505d-4fb4-8c0e-0fa3f48bbfdc', 'cd1717dc-3a69-4ddd-8761-6ef03d8430e8', '3ab26e45-ffad-4fbe-a032-36c2b9792739'], 'mongo': ['810c2c5e-3a40-453a-afb1-7783622e24ff', 'ddabc77b-505d-4fb4-8c0e-0fa3f48bbfdc', 'cd1717dc-3a69-4ddd-8761-6ef03d8430e8', '3ab26e45-ffad-4fbe-a032-36c2b9792739']}"
+    "observed": "{'python': ['5ad68971-b027-43c3-a25c-dab006cd8dfc', '6df6cc64-7a2c-4ff1-a1e7-c77e345c37fd', 'cc375c55-1241-4548-acca-d81882b0cfd4', '5f0b53ee-535e-4b6d-abf0-3285e51ea4f2'], 'mongo': ['5ad68971-b027-43c3-a25c-dab006cd8dfc', '6df6cc64-7a2c-4ff1-a1e7-c77e345c37fd', 'cc375c55-1241-4548-acca-d81882b0cfd4', '5f0b53ee-535e-4b6d-abf0-3285e51ea4f2']}"
   },
   {
     "name": "mongo_doc_03",
@@ -477,7 +527,7 @@
   {
     "name": "mongo_doc_06",
     "status": "PASS",
-    "observed": "Sem historico rotulado de cavitacao, o sistema nao deveria inventar diagnostico numerico confiavel; no maximo, ele consegue apoiar por documento, se houver lastro textual.\n\nSe quis"
+    "observed": "Sem historico rotulado de cavitacao, o sistema nao deveria inventar diagnostico numerico confiavel; no maximo, ele consegue apoiar por documento, se houver lastro textual.\n\nPosso t"
   },
   {
     "name": "mongo_doc_07",
@@ -497,6 +547,6 @@
   {
     "name": "mongo_doc_10",
     "status": "PASS",
-    "observed": "{'before': 606, 'after': 607}"
+    "observed": "{'before': 1062, 'after': 1063}"
   }
 ]

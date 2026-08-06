@@ -120,8 +120,12 @@ class PrescriptiveAgent:
         lowered = text.lower()
         document_patterns = [
             "quais documentos",
+            "liste documentos",
+            "listar documentos",
             "que documentos",
             "documentos tem",
+            "documentos de",
+            "documento de",
             "lista de documentos",
             "base documental",
             "base de dados",
@@ -159,6 +163,82 @@ class PrescriptiveAgent:
             if match:
                 return json.loads(match.group(0))
         raise ValueError("Nao foi possivel interpretar o evento como JSON valido.")
+
+    def _extract_document_focus(self, user_text: str, documents_catalog: list[dict[str, Any]]) -> str | None:
+        lowered = str(user_text or "").lower()
+        if "rolament" in lowered:
+            return "rolamento_inner"
+
+        for item in documents_catalog:
+            fault_family = canonicalize_fault_label(item.get("fault_family"))
+            title = str(item.get("title") or "").lower()
+            if fault_family and fault_family != "nao_informada":
+                family_terms = {
+                    fault_family,
+                    fault_family.replace("_", " "),
+                    format_fault_label_pt(fault_family).lower(),
+                }
+                if any(term and term in lowered for term in family_terms):
+                    return fault_family
+            if title and title in lowered:
+                return fault_family
+        return None
+
+    def _casual_response(self, lowered: str) -> dict[str, Any] | None:
+        greeting_patterns = ["oi", "ola", "ol?", "bom dia", "boa tarde", "boa noite"]
+        thanks_patterns = ["obrigado", "obrigada", "valeu"]
+        joke_patterns = ["piada", "conte uma piada", "me conta uma piada"]
+        laugh_patterns = ["kkk", "haha", "rsrs"]
+
+        if any(pattern in lowered for pattern in joke_patterns):
+            return {
+                "answer_type": "casual_chat",
+                "executive_summary": (
+                    "Claro. Versao manutencao preditiva: o sensor falou que estava tudo normal, "
+                    "mas era so o rolamento tentando manter a postura profissional."
+                ),
+                "evidence_points": [],
+                "recommended_actions": [
+                    "Se quiser, depois eu volto para o modo serio e explico qualquer parte tecnica do projeto."
+                ],
+                "cited_documents": [],
+                "refusal_reason": "",
+            }
+
+        if any(pattern in lowered for pattern in greeting_patterns):
+            return {
+                "answer_type": "casual_chat",
+                "executive_summary": (
+                    "Oi. Posso te ajudar com uma pergunta tecnica, listar documentos da base, "
+                    "analisar um evento JSON ou resumir a arquitetura do projeto."
+                ),
+                "evidence_points": [],
+                "recommended_actions": [],
+                "cited_documents": [],
+                "refusal_reason": "",
+            }
+
+        if any(pattern in lowered for pattern in thanks_patterns):
+            return {
+                "answer_type": "casual_chat",
+                "executive_summary": "De nada. Se quiser, seguimos com a parte tecnica.",
+                "evidence_points": [],
+                "recommended_actions": [],
+                "cited_documents": [],
+                "refusal_reason": "",
+            }
+
+        if any(pattern in lowered for pattern in laugh_patterns):
+            return {
+                "answer_type": "casual_chat",
+                "executive_summary": "Boa. Se quiser, eu continuo no modo leve ou volto para a analise tecnica.",
+                "evidence_points": [],
+                "recommended_actions": [],
+                "cited_documents": [],
+                "refusal_reason": "",
+            }
+
+        return None
 
     def _event_query_text(self, event: dict[str, Any], candidate_fault: str) -> str:
         return (
@@ -280,39 +360,10 @@ class PrescriptiveAgent:
         refusal_reason = ""
         lowered = user_text.lower()
 
-        casual_patterns = [
-            "oi",
-            "ola",
-            "olá",
-            "bom dia",
-            "boa tarde",
-            "boa noite",
-            "obrigado",
-            "obrigada",
-            "valeu",
-            "kkk",
-            "haha",
-            "piada",
-            "brinca",
-            "brinca comigo",
-        ]
-        if any(pattern in lowered for pattern in casual_patterns) and len(lowered.split()) <= 12:
-            return {
-                "answer_type": "casual_chat",
-                "executive_summary": (
-                    "Posso conversar de forma mais leve tambem. "
-                    "Se quiser, me mande uma pergunta tecnica, um evento JSON ou ate uma curiosidade sobre o projeto."
-                ),
-                "evidence_points": [],
-                "recommended_actions": [],
-                "cited_documents": [],
-                "refusal_reason": "",
-            }
-
         if answer_type == "document_query":
             if cited_documents:
                 summary = "A base documental atual possui documentos tecnicos indexados para consulta do copiloto."
-                evidence = [document_summary, f"{len(cited_documents)} documento(s) indexado(s) na base."]
+                evidence = [document_summary]
                 actions = ["Se quiser, posso abrir por familia de falha, procedimento ou checklist tecnico."]
             else:
                 summary = "No momento nao encontrei documentos indexados na base documental."
@@ -326,6 +377,26 @@ class PrescriptiveAgent:
                 "recommended_actions": actions,
                 "cited_documents": cited_documents,
                 "refusal_reason": refusal_reason,
+            }
+
+        if len(lowered.split()) <= 12:
+            casual_response = self._casual_response(lowered)
+            if casual_response is not None:
+                return casual_response
+
+        if ("usa rag" in lowered or "o que e rag" in lowered or "oque e rag" in lowered or lowered.strip() == "rag") and "rag_groq" not in lowered:
+            return {
+                "answer_type": answer_type,
+                "executive_summary": "RAG e a combinacao de recuperacao de contexto com geracao de resposta pelo modelo.",
+                "evidence_points": [
+                    "No projeto, o RAG consulta a base documental chunkada antes da resposta final.",
+                    "Isso ajuda o LLM a responder apoiado em trechos recuperados, e nao apenas por memoria generica.",
+                ],
+                "recommended_actions": [
+                    "Se quiser, posso explicar o RAG do projeto em linguagem simples ou em termos mais tecnicos."
+                ],
+                "cited_documents": [],
+                "refusal_reason": "",
             }
 
         if "fft" in lowered:
@@ -343,7 +414,7 @@ class PrescriptiveAgent:
                 "refusal_reason": "",
             }
 
-        if "llm" in lowered and ("orquestra" in lowered or "inferência numérica" in lowered or "inferencia numerica" in lowered):
+        if "llm" in lowered and ("orquestra" in lowered or "infer?ncia num?rica" in lowered or "inferencia numerica" in lowered):
             return {
                 "answer_type": answer_type,
                 "executive_summary": "No projeto atual, o LLM nao executa o motor numerico principal; ele orquestra o fluxo, resume evidencias e sintetiza a resposta final.",
@@ -359,7 +430,7 @@ class PrescriptiveAgent:
             }
 
         if "mongodb" in lowered or "mongo" in lowered:
-            if "vetorial" in lowered or "persist" in lowered or "persistência" in lowered or "persistencia" in lowered:
+            if "vetorial" in lowered or "persist" in lowered or "persist?ncia" in lowered or "persistencia" in lowered:
                 return {
                     "answer_type": answer_type,
                     "executive_summary": "Hoje o MongoDB atua principalmente como persistencia opcional; a busca vetorial principal ainda e calculada na aplicacao.",
@@ -586,13 +657,18 @@ class PrescriptiveAgent:
         answer_type = payload.get("answer_type", "freeform_question")
 
         if answer_type == "casual_chat":
-            return summary or "Posso conversar com voce por aqui tambem."
+            lines = [summary or "Posso conversar com voce por aqui tambem."]
+            if actions:
+                lines.extend(["", "Posso tambem:"])
+                for item in actions[:2]:
+                    lines.append(f"- {item}")
+            return "\n".join(lines)
 
         if answer_type == "freeform_question":
             lines = [summary or "Sem resposta consolidada."]
 
             if actions:
-                lines.extend(["", "Se quiser, eu posso:"])
+                lines.extend(["", "Posso tambem:"])
                 for item in actions[:3]:
                     lines.append(f"- {item}")
 
@@ -615,7 +691,8 @@ class PrescriptiveAgent:
             lines.append("- Nenhum documento aderente foi recuperado.")
 
         for item in evidence_points:
-            lines.append(f"- {item}")
+            if item not in cited_documents:
+                lines.append(f"- {item}")
 
         lines.extend(["", "### Proximos passos"])
         if actions:
@@ -633,11 +710,25 @@ class PrescriptiveAgent:
         selected_model = model_name or SETTINGS.default_llm_model
         documents_catalog = DOCUMENT_SERVICE.list_documents()
         lowered_input = raw_input.lower()
+        requested_fault_family = self._extract_document_focus(raw_input, documents_catalog)
         if answer_type == "document_query":
             document_result = DOCUMENT_SERVICE.search_chunks(query_text="catalogo documentos base documental", top_k=0)
             document_result.chunks = []
-            document_result.summary = f"{len(documents_catalog)} documento(s) indexado(s) na base documental."
+            if requested_fault_family:
+                focused_documents = [
+                    item for item in documents_catalog if canonicalize_fault_label(item.get("fault_family")) == requested_fault_family
+                ]
+                label_pt = "rolamentos" if requested_fault_family == "rolamento_inner" and "rolament" in lowered_input else format_fault_label_pt(requested_fault_family)
+                document_result.summary = (
+                    f"{len(focused_documents)} documento(s) encontrado(s) para {label_pt}."
+                    if focused_documents
+                    else f"Nao encontrei documento especifico para {label_pt}."
+                )
+            else:
+                focused_documents = documents_catalog
+                document_result.summary = f"{len(documents_catalog)} documento(s) indexado(s) na base documental."
         else:
+            focused_documents = documents_catalog
             document_result = DOCUMENT_SERVICE.search_chunks(query_text=raw_input, top_k=SETTINGS.top_k_documents)
 
         response_payload = self._deterministic_freeform_response(
@@ -648,10 +739,17 @@ class PrescriptiveAgent:
         )
         raw_llm_response = None
         usage = {}
-        skip_llm = response_payload.get("answer_type") == "casual_chat" or answer_type == "document_query" or any(
+        skip_llm = (
+            response_payload.get("answer_type") == "casual_chat"
+            or answer_type == "document_query"
+            or not document_result.chunks
+            or any(
             marker in lowered_input
             for marker in [
                 "fft",
+                "usa rag",
+                "o que e rag",
+                "oque e rag",
                 "mongodb",
                 "mongo",
                 "banco vetorial",
@@ -664,22 +762,36 @@ class PrescriptiveAgent:
                 "orquestra",
                 "cavita",
             ]
+            )
         )
 
-        if answer_type == "document_query" and documents_catalog:
+        if answer_type == "document_query" and focused_documents:
+            family_display = "rolamentos" if requested_fault_family == "rolamento_inner" and "rolament" in lowered_input else None
             document_lines = [
-                f"Documento indexado: {item.get('title')} | familia: {item.get('fault_family')} | origem: {item.get('source_file')}"
-                for item in documents_catalog
+                f"{item.get('title')} | familia: {family_display or format_fault_label_pt(item.get('fault_family'))} | origem: {item.get('source_file')}"
+                for item in focused_documents
             ]
+            if requested_fault_family:
+                focus_label = "rolamentos" if requested_fault_family == "rolamento_inner" and "rolament" in lowered_input else format_fault_label_pt(requested_fault_family)
+                response_payload["executive_summary"] = (
+                    f"Encontrei {len(focused_documents)} documento(s) relacionado(s) a {focus_label} na base documental."
+                )
+                response_payload["recommended_actions"] = [
+                    "Se quiser, posso resumir esse procedimento ou listar os principais passos tecnicos desse documento."
+                ]
+            else:
+                response_payload["executive_summary"] = (
+                    f"A base documental atual possui {len(documents_catalog)} documentos indexados, "
+                    "cada um associado a uma familia tecnica de falha ou procedimento."
+                )
+                response_payload["recommended_actions"] = [
+                    "Se quiser, posso listar os documentos por familia de falha ou resumir cada procedimento."
+                ]
             response_payload["executive_summary"] = (
-                f"A base documental atual possui {len(documents_catalog)} documentos indexados, "
-                "cada um associado a uma familia tecnica de falha ou procedimento."
+                response_payload["executive_summary"]
             )
-            response_payload["evidence_points"] = [*response_payload.get("evidence_points", []), *document_lines]
-            response_payload["cited_documents"] = [item.get("title") for item in documents_catalog]
-            response_payload["recommended_actions"] = [
-                "Se quiser, posso listar os documentos por familia de falha ou resumir cada procedimento."
-            ]
+            response_payload["evidence_points"] = [document_result.summary, *document_lines]
+            response_payload["cited_documents"] = [item.get("title") for item in focused_documents]
             response_payload["refusal_reason"] = ""
 
         if not skip_llm and self._provider in {"groq", "ollama"} and (self._provider != "groq" or self._groq_client is not None):

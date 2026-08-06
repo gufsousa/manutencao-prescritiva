@@ -296,7 +296,7 @@ def case_arch_03() -> CaseResult:
 def case_arch_04() -> CaseResult:
     result = _run_text_case("Usa RAG?")
     markdown = _markdown(result)
-    ok = _contains_any(markdown, ["rag", "chunks", "document"])
+    ok = _contains_any(markdown, ["rag e a combinacao", "base documental", "trechos recuperados"])
     return _ok("arch_04", markdown[:180]) if ok else _fail("arch_04", markdown[:260])
 
 
@@ -584,6 +584,68 @@ def build_cases() -> list[tuple[str, Callable[[], CaseResult]]]:
     for i in range(1, 11):
         cases.append((f"chat_flow_{i:02d}", locals()[f"chat_flow_{i:02d}"]))
 
+    def natural_01() -> CaseResult:
+        result = _run_text_case("liste documentos de rolamentos")
+        ok = _response(result).get("answer_type") == "document_query"
+        return _ok("natural_01", _response(result).get("answer_type")) if ok else _fail("natural_01", result)
+
+    def natural_02() -> CaseResult:
+        result = _run_text_case("liste documentos de rolamentos")
+        markdown = _markdown(result)
+        ok = _contains_all(markdown, ["Procedimento de Rolamentos", "rolamentos"]) and "Posso conversar de forma mais leve" not in markdown
+        return _ok("natural_02", markdown[:180]) if ok else _fail("natural_02", markdown[:260])
+
+    def natural_03() -> CaseResult:
+        result = _run_text_case("listar documentos de correias")
+        markdown = _markdown(result)
+        ok = _contains_any(markdown, ["Procedimento de Correias"])
+        return _ok("natural_03", markdown[:180]) if ok else _fail("natural_03", markdown[:260])
+
+    def natural_04() -> CaseResult:
+        result = _run_text_case("documentos de polia")
+        markdown = _markdown(result)
+        ok = _contains_any(markdown, ["Procedimento de Polias"])
+        return _ok("natural_04", markdown[:180]) if ok else _fail("natural_04", markdown[:260])
+
+    def natural_05() -> CaseResult:
+        result = _run_text_case("liste documentos de cocked rotor")
+        markdown = _markdown(result)
+        ok = _contains_any(markdown, ["Procedimento de Cocked Rotor"])
+        return _ok("natural_05", markdown[:180]) if ok else _fail("natural_05", markdown[:260])
+
+    def natural_06() -> CaseResult:
+        result = _run_text_case("oi")
+        markdown = _markdown(result)
+        ok = _response(result).get("answer_type") == "casual_chat" and _contains_any(markdown, ["Posso te ajudar", "arquitetura do projeto"])
+        return _ok("natural_06", markdown[:180]) if ok else _fail("natural_06", markdown[:260])
+
+    def natural_07() -> CaseResult:
+        result = _run_text_case("conte uma piada")
+        markdown = _markdown(result)
+        ok = _response(result).get("answer_type") == "casual_chat" and _contains_any(markdown, ["rolamento", "Posso tambem"])
+        return _ok("natural_07", markdown[:180]) if ok else _fail("natural_07", markdown[:260])
+
+    def natural_08() -> CaseResult:
+        result = _run_text_case("obrigado")
+        markdown = _markdown(result)
+        ok = _response(result).get("answer_type") == "casual_chat" and _contains_any(markdown, ["De nada"])
+        return _ok("natural_08", markdown[:180]) if ok else _fail("natural_08", markdown[:260])
+
+    def natural_09() -> CaseResult:
+        result = _run_text_case("kkk")
+        markdown = _markdown(result)
+        ok = _response(result).get("answer_type") == "casual_chat" and _contains_any(markdown, ["modo leve", "analise tecnica"])
+        return _ok("natural_09", markdown[:180]) if ok else _fail("natural_09", markdown[:260])
+
+    def natural_10() -> CaseResult:
+        result = _run_text_case("Usa RAG?")
+        markdown = _markdown(result)
+        ok = _contains_any(markdown, ["RAG e a combinacao de recuperacao", "base documental chunkada"])
+        return _ok("natural_10", markdown[:180]) if ok else _fail("natural_10", markdown[:260])
+
+    for i in range(1, 11):
+        cases.append((f"natural_{i:02d}", locals()[f"natural_{i:02d}"]))
+
     def _mongo_enabled() -> bool:
         ping = STORE.ping()
         return bool(ping.get("connected"))
@@ -665,7 +727,7 @@ def build_cases() -> list[tuple[str, Callable[[], CaseResult]]]:
     for i in range(1, 11):
         cases.append((f"mongo_doc_{i:02d}", locals()[f"mongo_doc_{i:02d}"]))
 
-    assert len(cases) == 100, f"Esperado 100 casos, obtidos {len(cases)}"
+    assert len(cases) == 110, f"Esperado 110 casos, obtidos {len(cases)}"
     return cases
 
 

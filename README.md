@@ -397,15 +397,16 @@ Leitura adicional sobre classes proximas:
 
 ## Qualidade atual e melhorias futuras
 
-Na matriz ampliada de `100` testes automatizados, o projeto fechou:
+Na matriz ampliada de `110` testes automatizados, o projeto fechou:
 
-- `100/100 PASS`
-- `0/100 FAIL`
+- `110/110 PASS`
+- `0/110 FAIL`
 
 Leitura pratica:
 
 - o fluxo principal do copiloto, os guardrails fisicos, o catalogo documental e a comparacao Python vs Mongo ficaram consistentes;
-- os casos que antes falhavam foram estabilizados com roteamento deterministico melhor, guardrails documentais mais secos e ajuste no uso do historico persistido.
+- os casos que antes falhavam foram estabilizados com roteamento deterministico melhor, guardrails documentais mais secos, ajuste no uso do historico persistido e respostas livres mais naturais.
+- a rodada mais recente de QA tambem mostrou que perguntas documentais como `liste documentos de rolamentos` ficaram mais aderentes ao catalogo, com menos respostas genericas.
 
 Achado estrutural importante:
 
@@ -434,6 +435,7 @@ Melhorias futuras recomendadas:
 - [docs/analise_markdown/09_benchmark_full_inferencia_2026-08-05.md](docs/analise_markdown/09_benchmark_full_inferencia_2026-08-05.md)
 - [docs/analise_markdown/10_benchmark_groq_model_sweep_2026-08-05.md](docs/analise_markdown/10_benchmark_groq_model_sweep_2026-08-05.md)
 - [docs/analise_markdown/11_relatorio_qa_guardrails_2026-08-06.md](docs/analise_markdown/11_relatorio_qa_guardrails_2026-08-06.md)
+- [docs/analise_markdown/13_relatorio_qa_naturalidade_react_2026-08-06.md](docs/analise_markdown/13_relatorio_qa_naturalidade_react_2026-08-06.md)
 - [docs/analise_markdown/viz_vizinhos_2026-08-06/README.md](docs/analise_markdown/viz_vizinhos_2026-08-06/README.md)
 
 ## Benchmark resumido
@@ -458,7 +460,7 @@ Sweep adicional Groq em **5 de agosto de 2026**:
 
 - melhorar a qualidade da resposta tecnica livre quando o termo consultado nao estiver explicitamente nos PDFs;
 - introduzir politica agentic configuravel em `config/agent_policy.yaml`;
-- evoluir do router atual para um planner estilo ReAct mais explicito;
+- avaliar um passo de planejamento leve ou refinamento controlado antes de partir para um planner estilo ReAct mais explicito;
 - migrar a recuperacao vetorial documental do ranking local em Python para `MongoDB Vector Search` nativo com indice vetorial e `$vectorSearch`;
 - adicionar avaliacao mais forte para falso positivo e casos `unknown`.
 
