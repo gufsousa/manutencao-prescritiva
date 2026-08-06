@@ -80,7 +80,12 @@ O objetivo foi verificar se o motor numerico continuava estavel mesmo com contam
 
 ## Observacao tecnica
 
-O caso de `rolamento_inner` permaneceu estavel no teste de vies, mas convergiu para `rolamento_outer` em todas as variantes. Isso nao quebrou o guardrail de vies por rotulo, porem indica uma proximidade semantica/numerica nessa familia que merece revisao futura com mais profundidade.
+Na rodada inicial, alguns casos de `rolamento_inner`, `cocked_rotor` e `polia` pareciam instaveis. Depois do pente fino, foi identificado um fator estrutural importante: a busca historica podia comparar eventos de teste contra um historico persistido parcial no `MongoDB`, enquanto a avaliacao usava amostras do dataset completo.
+
+Esse ponto foi corrigido:
+
+- o historico persistido parcial continua valido para persistencia;
+- a inferencia diagnostica volta automaticamente para o `banner.csv` completo enquanto a cobertura do Mongo nao estiver praticamente sincronizada.
 
 ## Extensao: matriz de 100 testes
 
@@ -97,36 +102,36 @@ Depois da suite inicial de `15` verificacoes, foi executada uma matriz mais ampl
 - fluxo de chat;
 - comparacao Python vs Mongo.
 
-Resultado consolidado da matriz ampliada:
+Resultado consolidado final da matriz ampliada:
 
 - Total de verificacoes: `100`
-- Aprovadas: `90`
-- Falhas: `10`
+- Aprovadas: `100`
+- Falhas: `0`
 - JSON gerado: `docs/analise_markdown/quality_matrix_100_results_2026-08-06.json`
 
-## Principais fragilidades encontradas
+## O que foi ajustado entre a primeira e a ultima rodada
 
-As `10` falhas da matriz ampliada se concentraram em tres grupos principais:
+Os casos que falhavam na rodada inicial foram tratados em quatro frentes:
 
-1. Perguntas arquiteturais ainda incompletas
+1. Perguntas arquiteturais
 
-- `arch_03`: a pergunta sobre banco vetorial nativo ainda pode cair em resposta documental genérica;
-- `arch_05`: a pergunta sobre queda do Mongo ainda nao responde de forma deterministica em todos os enunciados equivalentes.
+- respostas deterministicas mais estaveis para banco vetorial nativo;
+- resposta explicita para queda do Mongo e fallback local.
 
-2. Guardrail documental ainda permissivo
+2. Guardrail sem documento
 
-- `doc_guard_05`: mesmo sem documentos indexados, a resposta ainda pode manter estrutura de diagnostico e checklist mais forte do que o ideal para um caso sem lastro.
+- reducao de checklist residual quando nao houver lastro documental;
+- resposta mais seca em cenarios sem base documental indexada.
 
-3. Separacao fraca entre algumas familias de falha
+3. Estado operacional versus falha em carga
 
-- `bias_label_09`, `bias_label_10`, `bias_label_11`: amostras de `rolamento_inner` convergiram para `rolamento_outer`;
-- `bias_label_12`: um caso de `cocked_rotor` caiu para `desalinhamento`;
-- `bias_label_14`: um caso de `polia` caiu para `normal`;
-- `bias_label_20`: estabilidade media das classes ficou em `20%`, abaixo do limiar esperado.
+- preservacao do caso `motor_desligado` em `OOD` extremo;
+- bloqueio de rotulos de estado como `baseline` e `teste` quando o evento estiver em carga e a distribuicao historica apontar para falha mecanica.
 
-4. Disputa entre semantica de estado e OOD extremo
+4. Uso de historico persistido parcial
 
-- `ood_08`: ao combinar evento extremo com rotulo de estado, o sistema preservou o OOD, mas nao manteve a classificacao como estado operacional.
+- a inferencia deixou de usar historico parcial do Mongo para similaridade diagnostica;
+- o fallback para o dataset completo eliminou vies por amostragem incompleta na comparacao historica.
 
 ## Leitura adicional sobre proximidade entre classes
 
@@ -172,11 +177,11 @@ Conclusao pratica:
 
 ## Melhorias futuras recomendadas
 
-- ampliar o roteamento deterministico para perguntas de arquitetura, fallback e banco vetorial;
-- endurecer a politica de resposta quando nao houver documento, reduzindo checklist e prescricao residual;
 - revisar a separacao entre `rolamento_inner` e `rolamento_outer`, incluindo features, proximidade estatistica e criterios de classe;
 - revisar classes mais frageis como `cocked_rotor`, `polia` e estados operacionais sob OOD extremo;
-- introduzir uma politica explicita para conflitos entre `state`, `fault` e `OOD`, priorizando a semantica correta do caso.
+- introduzir uma politica explicita para conflitos entre `state`, `fault` e `OOD`, priorizando a semantica correta do caso;
+- evoluir para representacoes mais discriminativas quando houver sinal bruto, como FFT, envelope e bandas de frequencia;
+- manter a regra de nao usar historico persistido parcial para diagnostico final, exceto quando o espelho persistido estiver praticamente sincronizado.
 
 ## Comando de reproducao
 

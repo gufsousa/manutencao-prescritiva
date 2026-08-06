@@ -1,0 +1,212 @@
+[
+  {
+    "sample_id": 5283,
+    "title": "desbalanceamento -> desalinhamento",
+    "true_fault": "desbalanceamento",
+    "predicted_fault": "desalinhamento",
+    "numeric_neighbors": [
+      {
+        "id": 5491,
+        "canonical_fault": "desbalanceamento",
+        "label_pt": "Desbalanceamento",
+        "distance": 1.947
+      },
+      {
+        "id": 5317,
+        "canonical_fault": "desbalanceamento",
+        "label_pt": "Desbalanceamento",
+        "distance": 2.2699
+      },
+      {
+        "id": 2998,
+        "canonical_fault": "normal",
+        "label_pt": "Operacao normal",
+        "distance": 2.4125
+      },
+      {
+        "id": 3974,
+        "canonical_fault": "normal",
+        "label_pt": "Operacao normal",
+        "distance": 2.4481
+      },
+      {
+        "id": 4124,
+        "canonical_fault": "normal",
+        "label_pt": "Operacao normal",
+        "distance": 2.5608
+      }
+    ],
+    "text_neighbors": [
+      {
+        "id": 85897,
+        "canonical_fault": "polia",
+        "label_pt": "Polia",
+        "cosine_distance": 0.3378
+      },
+      {
+        "id": 70211,
+        "canonical_fault": "rolamento_inner",
+        "label_pt": "Rolamento inner race",
+        "cosine_distance": 0.3562
+      },
+      {
+        "id": 8994,
+        "canonical_fault": "normal",
+        "label_pt": "Operacao normal",
+        "cosine_distance": 0.3598
+      },
+      {
+        "id": 145986,
+        "canonical_fault": "correia",
+        "label_pt": "Correia",
+        "cosine_distance": 0.3653
+      },
+      {
+        "id": 159436,
+        "canonical_fault": "desalinhamento",
+        "label_pt": "Desalinhamento",
+        "cosine_distance": 0.3699
+      }
+    ]
+  },
+  {
+    "sample_id": 38223,
+    "title": "cocked_rotor -> rolamento_inner",
+    "true_fault": "cocked_rotor",
+    "predicted_fault": "rolamento_inner",
+    "numeric_neighbors": [
+      {
+        "id": 8906,
+        "canonical_fault": "normal",
+        "label_pt": "Operacao normal",
+        "distance": 0.4318
+      },
+      {
+        "id": 42875,
+        "canonical_fault": "rolamento_outer",
+        "label_pt": "Rolamento outer race",
+        "distance": 0.487
+      },
+      {
+        "id": 63588,
+        "canonical_fault": "rolamento_ball",
+        "label_pt": "Rolamento esfera",
+        "distance": 0.5074
+      },
+      {
+        "id": 106638,
+        "canonical_fault": "correia",
+        "label_pt": "Correia",
+        "distance": 0.5684
+      },
+      {
+        "id": 37639,
+        "canonical_fault": "cocked_rotor",
+        "label_pt": "Cocked rotor",
+        "distance": 0.6246
+      }
+    ],
+    "text_neighbors": [
+      {
+        "id": 107675,
+        "canonical_fault": "correia",
+        "label_pt": "Correia",
+        "cosine_distance": 0.3562
+      },
+      {
+        "id": 8994,
+        "canonical_fault": "normal",
+        "label_pt": "Operacao normal",
+        "cosine_distance": 0.3598
+      },
+      {
+        "id": 40379,
+        "canonical_fault": "cocked_rotor",
+        "label_pt": "Cocked rotor",
+        "cosine_distance": 0.3598
+      },
+      {
+        "id": 121233,
+        "canonical_fault": "desbalanceamento",
+        "label_pt": "Desbalanceamento",
+        "cosine_distance": 0.3648
+      },
+      {
+        "id": 38240,
+        "canonical_fault": "cocked_rotor",
+        "label_pt": "Cocked rotor",
+        "cosine_distance": 0.3659
+      }
+    ]
+  },
+  {
+    "sample_id": 129987,
+    "title": "rolamento_inner -> desalinhamento",
+    "true_fault": "rolamento_inner",
+    "predicted_fault": "desalinhamento",
+    "numeric_neighbors": [
+      {
+        "id": 129647,
+        "canonical_fault": "rolamento_inner",
+        "label_pt": "Rolamento inner race",
+        "distance": 0.4598
+      },
+      {
+        "id": 152035,
+        "canonical_fault": "normal",
+        "label_pt": "Operacao normal",
+        "distance": 0.6685
+      },
+      {
+        "id": 129595,
+        "canonical_fault": "rolamento_inner",
+        "label_pt": "Rolamento inner race",
+        "distance": 0.7655
+      },
+      {
+        "id": 147580,
+        "canonical_fault": "desalinhamento",
+        "label_pt": "Desalinhamento",
+        "distance": 0.7814
+      },
+      {
+        "id": 128407,
+        "canonical_fault": "polia",
+        "label_pt": "Polia",
+        "distance": 0.8126
+      }
+    ],
+    "text_neighbors": [
+      {
+        "id": 154143,
+        "canonical_fault": "desalinhamento",
+        "label_pt": "Desalinhamento",
+        "cosine_distance": 0.3333
+      },
+      {
+        "id": 153943,
+        "canonical_fault": "desalinhamento",
+        "label_pt": "Desalinhamento",
+        "cosine_distance": 0.3349
+      },
+      {
+        "id": 2680,
+        "canonical_fault": "normal",
+        "label_pt": "Operacao normal",
+        "cosine_distance": 0.3378
+      },
+      {
+        "id": 127943,
+        "canonical_fault": "polia",
+        "label_pt": "Polia",
+        "cosine_distance": 0.3425
+      },
+      {
+        "id": 51063,
+        "canonical_fault": "rolamento_outer",
+        "label_pt": "Rolamento outer race",
+        "cosine_distance": 0.3425
+      }
+    ]
+  }
+]

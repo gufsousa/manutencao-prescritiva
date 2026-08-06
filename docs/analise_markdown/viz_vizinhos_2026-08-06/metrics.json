@@ -1,0 +1,32 @@
+{
+  "numeric": {
+    "top5_purity_mean": 0.2961,
+    "silhouette": -0.1272,
+    "per_class_purity": {
+      "cocked_rotor": 0.2717,
+      "correia": 0.3883,
+      "desalinhamento": 0.4283,
+      "desbalanceamento": 0.2733,
+      "normal": 0.2617,
+      "polia": 0.4167,
+      "rolamento_ball": 0.185,
+      "rolamento_inner": 0.2117,
+      "rolamento_outer": 0.2283
+    }
+  },
+  "text": {
+    "top5_purity_mean": 0.1546,
+    "silhouette": -0.0115,
+    "per_class_purity": {
+      "cocked_rotor": 0.1417,
+      "correia": 0.215,
+      "desalinhamento": 0.195,
+      "desbalanceamento": 0.125,
+      "normal": 0.1383,
+      "polia": 0.15,
+      "rolamento_ball": 0.12,
+      "rolamento_inner": 0.1383,
+      "rolamento_outer": 0.1683
+    }
+  }
+}

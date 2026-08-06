@@ -228,6 +228,14 @@ class PrescriptiveAgent:
                 "cited_documents": cited_documents,
             }
 
+        inspection_checklist = [
+            "Confirmar consistencia do evento de sensores.",
+            "Verificar contexto operacional e rotacao.",
+            "Comparar com ocorrencias historicas proximas.",
+        ]
+        if not documents or effective_label == "evento_invalido":
+            inspection_checklist = []
+
         return {
             "probable_fault": effective_label,
             "confidence_pct": 0.0 if effective_label == "evento_invalido" else float(history.get("confidence_pct") or (history["fault_distribution"][0]["pct"] if history["fault_distribution"] else 0.0)),
@@ -251,11 +259,7 @@ class PrescriptiveAgent:
                 if documents and not refusal_reason and effective_label != "evento_invalido"
                 else ["Validar instrumentacao e ampliar base documental antes de automatizar a prescricao."]
             ),
-            "inspection_checklist": [
-                "Confirmar consistencia do evento de sensores.",
-                "Verificar contexto operacional e rotacao.",
-                "Comparar com ocorrencias historicas proximas.",
-            ],
+            "inspection_checklist": inspection_checklist,
             "risk_notes": [
                 "Usar a recomendacao apenas dentro do contexto operacional semelhante.",
                 "Requer validacao humana antes de intervencao fisica.",
@@ -370,6 +374,36 @@ class PrescriptiveAgent:
                     "refusal_reason": "",
                 }
 
+        if "banco vetorial nativo" in lowered or "vetorial nativo" in lowered or "atlas vector search" in lowered:
+            return {
+                "answer_type": answer_type,
+                "executive_summary": "No estado atual, o projeto nao usa banco vetorial nativo; a vetorizacao e o ranking documental continuam locais na aplicacao.",
+                "evidence_points": [
+                    "Os chunks sao persistidos, mas a similaridade ainda e calculada em Python no pipeline atual.",
+                    "MongoDB hoje funciona principalmente como persistencia opcional, nao como ANN vetorial nativo da busca principal.",
+                ],
+                "recommended_actions": [
+                    "Se quiser, posso contrastar o estado atual com uma futura migracao para Vector Search nativo."
+                ],
+                "cited_documents": [],
+                "refusal_reason": "",
+            }
+
+        if ("mongo" in lowered or "mongodb" in lowered) and ("cair" in lowered or "para" in lowered or "parar" in lowered):
+            return {
+                "answer_type": answer_type,
+                "executive_summary": "Se o Mongo ficar indisponivel, o sistema nao precisa parar; o projeto usa fallback local para continuar operando.",
+                "evidence_points": [
+                    "Historico, documentos, conversas e logs podem continuar em armazenamento local quando o Mongo nao estiver ativo.",
+                    "O Mongo atual e uma persistencia opcional, nao um ponto unico obrigatorio para o fluxo demonstrativo.",
+                ],
+                "recommended_actions": [
+                    "Se quiser, posso detalhar como funciona o fallback local e o que muda quando o Mongo volta."
+                ],
+                "cited_documents": [],
+                "refusal_reason": "",
+            }
+
         if "cavita" in lowered and "hist" in lowered:
             return {
                 "answer_type": answer_type,
@@ -454,12 +488,10 @@ class PrescriptiveAgent:
         else:
             lines.append("- Sem evidencias detalhadas registradas.")
 
-        lines.extend(["", "### Checklist de inspecao"])
         if checklist:
+            lines.extend(["", "### Checklist de inspecao"])
             for item in checklist:
                 lines.append(f"- {item}")
-        else:
-            lines.append("- Nenhum checklist adicional registrado.")
 
         lines.extend(["", "### Riscos e limitacoes"])
         if risks:
@@ -622,6 +654,11 @@ class PrescriptiveAgent:
                 "fft",
                 "mongodb",
                 "mongo",
+                "banco vetorial",
+                "vetorial nativo",
+                "atlas vector search",
+                "mongo cair",
+                "se mongo cair",
                 "inferencia numerica",
                 "inferência numérica",
                 "orquestra",
@@ -736,6 +773,24 @@ class PrescriptiveAgent:
         validation = HISTORY_SERVICE.validate_event(event)
         history_result = HISTORY_SERVICE.search_similar_events(event, top_k=SETTINGS.top_k_history)
         candidate_fault = history_result.candidate_fault or canonicalize_fault_label(event.get("fault"))
+        input_fault_label = canonicalize_fault_label(event.get("fault"))
+        input_fault_kind = get_label_kind(input_fault_label)
+
+        if input_fault_label == "motor_desligado" and history_result.ood_status in {"ood", "fronteira"}:
+            candidate_fault = input_fault_label
+
+        if (
+            get_label_kind(candidate_fault) == "state"
+            and float(event.get("rpm") or 0) > 0
+            and not (input_fault_label == "motor_desligado" and history_result.ood_status in {"ood", "fronteira"})
+        ):
+            non_state_distribution = [
+                item for item in history_result.fault_distribution
+                if get_label_kind(item.get("canonical_fault")) != "state"
+            ]
+            if non_state_distribution:
+                candidate_fault = non_state_distribution[0]["canonical_fault"]
+
         if not validation.get("valid", True) or is_state_label(candidate_fault):
             document_result = DOCUMENT_SERVICE.search_chunks(query_text="", top_k=0)
             document_result.chunks = []

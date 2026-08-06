@@ -125,7 +125,9 @@ class HistoryService:
 
     def load_history_frame(self, prefer_mongo: bool = True) -> pd.DataFrame:
         if prefer_mongo:
-            records = STORE.find_all("history")
+            storage = self.storage_metrics()
+            can_use_mongo_for_similarity = storage["is_fully_synced"] or storage["coverage_pct"] >= 95.0
+            records = STORE.find_all("history") if can_use_mongo_for_similarity else []
             if records:
                 df = pd.DataFrame(records)
                 if "created_at" in df.columns:

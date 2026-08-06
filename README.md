@@ -166,11 +166,11 @@ Os prompts ficam fora do codigo Python para facilitar iteracao.
 
 Arquivos principais:
 
-- [prompts/maintenance_event_system.md](C:\Projetos\Manutencao-prescritiva-main\prompts\maintenance_event_system.md)
-- [prompts/freeform_system.md](C:\Projetos\Manutencao-prescritiva-main\prompts\freeform_system.md)
-- [prompts/input_router.md](C:\Projetos\Manutencao-prescritiva-main\prompts\input_router.md)
-- [prompts/prescriptive_response_few_shot.md](C:\Projetos\Manutencao-prescritiva-main\prompts\prescriptive_response_few_shot.md)
-- [src/prompt_loader.py](C:\Projetos\Manutencao-prescritiva-main\src\prompt_loader.py)
+- [prompts/maintenance_event_system.md](prompts/maintenance_event_system.md)
+- [prompts/freeform_system.md](prompts/freeform_system.md)
+- [prompts/input_router.md](prompts/input_router.md)
+- [prompts/prescriptive_response_few_shot.md](prompts/prescriptive_response_few_shot.md)
+- [src/prompt_loader.py](src/prompt_loader.py)
 
 Isso permite:
 
@@ -184,43 +184,43 @@ O repositorio pode ser entendido assim:
 
 ```text
 Manutencao-prescritiva-main/
-├── Home.py                         # Entrada principal do chat em Streamlit
-├── pages/                          # Superficies da aplicacao
-│   ├── 1_BI_de_Inferencias.py      # Dashboard de inferencias
-│   ├── 3_Base_Documental.py        # Consulta e ingestao documental
-│   ├── 4_Historico_Operacional.py  # Historico, ingestao e vizinhos
-│   ├── 5_Benchmark_de_Modelos.py   # Comparacao de tecnicas e modelos
-│   └── 6_Observabilidade.py        # Logs e rastreabilidade
-├── src/                            # Nucleo Python da aplicacao
-│   ├── agent_service.py            # Orquestracao IA e resposta final
-│   ├── history_service.py          # Motor numerico historico
-│   ├── document_service.py         # RAG documental local
-│   ├── vectorization.py            # Vetorizacao local e similaridade
-│   ├── fault_semantics.py          # Canonizacao semantica de falhas
-│   ├── prompt_loader.py            # Carga de prompts externos
-│   ├── mongo_store.py              # Persistencia MongoDB e fallback local
-│   ├── conversation_store.py       # Persistencia de conversas
-│   ├── observability.py            # Logs de inferencia e benchmark
-│   ├── sidebar.py                  # Navegacao compartilhada
-│   └── ui.py                       # Tema e componentes visuais comuns
-├── prompts/                        # Prompts versionados do agente
-│   ├── input_router.md             # Roteamento de intencao
-│   ├── maintenance_event_system.md # Prompt principal para evento
-│   ├── freeform_system.md          # Prompt para perguntas tecnicas
-│   └── prescriptive_response_few_shot.md
-├── config/                         # Configuracao declarativa
-│   └── fault_lexicon.yaml          # Taxonomia e aliases de falhas
-├── data/                           # Dados locais do projeto
-│   ├── raw/                        # Dataset banner.csv e PDFs base
-│   └── app_state/                  # Estado local, logs e fallback
-├── scripts/                        # Automacoes de benchmark e apoio
-├── tests/                          # Validacao automatizada
-│   └── smoke_test.py               # Teste de fumaca end-to-end
-├── docs/                           # Documentacao da prova
-│   └── analise_markdown/           # Analises tecnicas e benchmarks
-├── .env.example                    # Exemplo de configuracao local
-├── requirements.txt                # Dependencias Python
-└── README.md                       # Visao geral do projeto
+|-- Home.py                         # Entrada principal do chat em Streamlit
+|-- pages/                          # Superficies da aplicacao
+|   |-- 1_BI_de_Inferencias.py      # Dashboard de inferencias
+|   |-- 3_Base_Documental.py        # Consulta e ingestao documental
+|   |-- 4_Historico_Operacional.py  # Historico, ingestao e vizinhos
+|   |-- 5_Benchmark_de_Modelos.py   # Comparacao de tecnicas e modelos
+|   `-- 6_Observabilidade.py        # Logs e rastreabilidade
+|-- src/                            # Nucleo Python da aplicacao
+|   |-- agent_service.py            # Orquestracao IA e resposta final
+|   |-- history_service.py          # Motor numerico historico
+|   |-- document_service.py         # RAG documental local
+|   |-- vectorization.py            # Vetorizacao local e similaridade
+|   |-- fault_semantics.py          # Canonizacao semantica de falhas
+|   |-- prompt_loader.py            # Carga de prompts externos
+|   |-- mongo_store.py              # Persistencia MongoDB e fallback local
+|   |-- conversation_store.py       # Persistencia de conversas
+|   |-- observability.py            # Logs de inferencia e benchmark
+|   |-- sidebar.py                  # Navegacao compartilhada
+|   `-- ui.py                       # Tema e componentes visuais comuns
+|-- prompts/                        # Prompts versionados do agente
+|   |-- input_router.md             # Roteamento de intencao
+|   |-- maintenance_event_system.md # Prompt principal para evento
+|   |-- freeform_system.md          # Prompt para perguntas tecnicas
+|   `-- prescriptive_response_few_shot.md
+|-- config/                         # Configuracao declarativa
+|   `-- fault_lexicon.yaml          # Taxonomia e aliases de falhas
+|-- data/                           # Dados locais do projeto
+|   |-- raw/                        # Dataset banner.csv e PDFs base
+|   `-- app_state/                  # Estado local, logs e fallback
+|-- scripts/                        # Automacoes de benchmark e apoio
+|-- tests/                          # Validacao automatizada
+|   `-- smoke_test.py               # Teste de fumaca end-to-end
+|-- docs/                           # Documentacao da prova
+|   `-- analise_markdown/           # Analises tecnicas e benchmarks
+|-- .env.example                    # Exemplo de configuracao local
+|-- requirements.txt                # Dependencias Python
+`-- README.md                       # Visao geral do projeto
 ```
 
 ## Observabilidade e logs
@@ -390,35 +390,42 @@ Leitura adicional sobre classes proximas:
 
 Na matriz ampliada de `100` testes automatizados, o projeto fechou:
 
-- `90/100 PASS`
-- `10/100 FAIL`
+- `100/100 PASS`
+- `0/100 FAIL`
 
 Leitura pratica:
 
 - o fluxo principal do copiloto, os guardrails fisicos, o catalogo documental e a comparacao Python vs Mongo ficaram consistentes;
-- as fragilidades restantes se concentraram em perguntas arquiteturais equivalentes, politica de resposta sem documentos e separacao entre algumas familias de falha.
+- os casos que antes falhavam foram estabilizados com roteamento deterministico melhor, guardrails documentais mais secos e ajuste no uso do historico persistido.
+
+Achado estrutural importante:
+
+- parte dos erros anteriores nao vinha apenas da proximidade entre classes;
+- a busca historica estava comparando alguns testes contra um historico parcial persistido no Mongo, enquanto a amostra de avaliacao vinha do dataset completo;
+- a inferencia historica agora volta automaticamente para o `CSV` completo quando a cobertura persistida ainda nao estiver praticamente sincronizada, evitando enviesar o diagnostico por amostragem incompleta.
 
 Melhorias futuras recomendadas:
 
-- ampliar o roteamento deterministico para perguntas de arquitetura como banco vetorial nativo, fallback e queda do Mongo;
-- endurecer a resposta quando nao houver documento, reduzindo checklist e prescricao residual sem lastro;
 - revisar a separacao entre `rolamento_inner` e `rolamento_outer`, alem de casos frageis como `cocked_rotor` e `polia`;
 - revisar pares estruturalmente proximos no dataset, como `cocked_rotor/correia`, `rolamento_inner/rolamento_outer` e `desbalanceamento/polia`;
+- evoluir de features estatisticas resumidas para representacoes mais discriminativas quando houver sinal bruto, como FFT, envelope e bandas de frequencia;
+- endurecer ainda mais a politica para classes novas, OOD e open-set, evitando forcar classificacao quando o evento fugir do envelope conhecido;
 - definir uma politica mais explicita para conflitos entre `state`, `fault` e `OOD`.
 
 ## Documentacao produzida
 
-- [docs/analise_markdown/01_visao_geral_repositorio.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\01_visao_geral_repositorio.md)
-- [docs/analise_markdown/02_crisp_dm_detalhado.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\02_crisp_dm_detalhado.md)
-- [docs/analise_markdown/03_analise_exploratoria_insights.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\03_analise_exploratoria_insights.md)
-- [docs/analise_markdown/04_confronto_literatura_web.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\04_confronto_literatura_web.md)
-- [docs/analise_markdown/05_plano_mvp_streamlit_llm_first.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\05_plano_mvp_streamlit_llm_first.md)
-- [docs/analise_markdown/06_referencia_interface_streamlit_bi.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\06_referencia_interface_streamlit_bi.md)
-- [docs/analise_markdown/07_plano_implementacao_mvp_streamlit.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\07_plano_implementacao_mvp_streamlit.md)
-- [docs/analise_markdown/08_pente_fino_tecnico_banca.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\08_pente_fino_tecnico_banca.md)
-- [docs/analise_markdown/09_benchmark_full_inferencia_2026-08-05.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\09_benchmark_full_inferencia_2026-08-05.md)
-- [docs/analise_markdown/10_benchmark_groq_model_sweep_2026-08-05.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\10_benchmark_groq_model_sweep_2026-08-05.md)
-- [docs/analise_markdown/11_relatorio_qa_guardrails_2026-08-06.md](C:\Projetos\Manutencao-prescritiva-main\docs\analise_markdown\11_relatorio_qa_guardrails_2026-08-06.md)
+- [docs/analise_markdown/01_visao_geral_repositorio.md](docs/analise_markdown/01_visao_geral_repositorio.md)
+- [docs/analise_markdown/02_crisp_dm_detalhado.md](docs/analise_markdown/02_crisp_dm_detalhado.md)
+- [docs/analise_markdown/03_analise_exploratoria_insights.md](docs/analise_markdown/03_analise_exploratoria_insights.md)
+- [docs/analise_markdown/04_confronto_literatura_web.md](docs/analise_markdown/04_confronto_literatura_web.md)
+- [docs/analise_markdown/05_plano_mvp_streamlit_llm_first.md](docs/analise_markdown/05_plano_mvp_streamlit_llm_first.md)
+- [docs/analise_markdown/06_referencia_interface_streamlit_bi.md](docs/analise_markdown/06_referencia_interface_streamlit_bi.md)
+- [docs/analise_markdown/07_plano_implementacao_mvp_streamlit.md](docs/analise_markdown/07_plano_implementacao_mvp_streamlit.md)
+- [docs/analise_markdown/08_pente_fino_tecnico_banca.md](docs/analise_markdown/08_pente_fino_tecnico_banca.md)
+- [docs/analise_markdown/09_benchmark_full_inferencia_2026-08-05.md](docs/analise_markdown/09_benchmark_full_inferencia_2026-08-05.md)
+- [docs/analise_markdown/10_benchmark_groq_model_sweep_2026-08-05.md](docs/analise_markdown/10_benchmark_groq_model_sweep_2026-08-05.md)
+- [docs/analise_markdown/11_relatorio_qa_guardrails_2026-08-06.md](docs/analise_markdown/11_relatorio_qa_guardrails_2026-08-06.md)
+- [docs/analise_markdown/viz_vizinhos_2026-08-06/README.md](docs/analise_markdown/viz_vizinhos_2026-08-06/README.md)
 
 ## Benchmark resumido
 
