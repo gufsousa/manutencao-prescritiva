@@ -159,7 +159,7 @@ class DocumentService:
         return STORE.find_all("document_chunks")
 
     def search_chunks(self, query_text: str, fault_family: str | None = None, top_k: int | None = None) -> DocumentSearchResult:
-        top_k = top_k or SETTINGS.top_k_documents
+        top_k = SETTINGS.top_k_documents if top_k is None else max(int(top_k), 0)
         chunks = self.list_chunks()
         if fault_family:
             canonical_fault = canonicalize_fault_label(fault_family)
@@ -167,6 +167,8 @@ class DocumentService:
             chunks = filtered or chunks
         if not chunks:
             return DocumentSearchResult(chunks=[], summary="Nenhum chunk indexado.")
+        if top_k == 0:
+            return DocumentSearchResult(chunks=[], summary="Busca documental nao executada para esta consulta.")
 
         query_vector = embed_text(query_text)
         ranked = []

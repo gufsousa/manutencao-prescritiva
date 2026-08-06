@@ -10,7 +10,7 @@ from urllib import error, request
 from groq import Groq
 
 from src.document_service import DOCUMENT_SERVICE
-from src.fault_semantics import canonicalize_fault_label, format_fault_label_pt, get_fault_catalog, is_state_label
+from src.fault_semantics import canonicalize_fault_label, format_fault_label_pt, get_fault_catalog, get_label_kind, is_state_label
 from src.history_service import HISTORY_SERVICE
 from src.observability import log_inference
 from src.prompt_loader import load_prompt
@@ -178,19 +178,64 @@ class PrescriptiveAgent:
         documents: list[dict[str, Any]],
         candidate_fault: str,
     ) -> dict[str, Any]:
+        label_kind = get_label_kind(candidate_fault)
         refusal_reason = ""
+        effective_label = candidate_fault
         if not validation.get("valid", True):
             refusal_reason = "Evento invalido segundo validacao fisica."
+            effective_label = "evento_invalido"
         elif history.get("ood_flag"):
             refusal_reason = "Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica."
         elif not documents and not is_state_label(candidate_fault):
             refusal_reason = "Nao ha documento tecnico suficiente para sustentar prescricao."
+
+        if label_kind == "state" and not refusal_reason:
+            executive_summary = (
+                f"O evento se parece mais com um estado operacional ({format_fault_label_pt(candidate_fault)}) "
+                "do que com uma falha mecanica ou eletrica confirmada."
+            )
+            recommended_actions = [
+                "Confirmar se o equipamento realmente esta parado ou em condicao basal esperada.",
+                "Validar contexto operacional antes de abrir ordem de manutencao corretiva.",
+                "Usar a resposta como classificacao de estado, nao como diagnostico de falha."
+            ]
+            inspection_checklist = [
+                "Confirmar se a rotacao e coerente com o estado informado.",
+                "Verificar se o evento representa parada, baseline ou transiente operacional.",
+                "Registrar contexto de operacao para evitar classificar estado como falha."
+            ]
+            risk_notes = [
+                "Estado operacional nao equivale automaticamente a defeito fisico.",
+                "Nao usar esta resposta isoladamente para justificar intervencao corretiva.",
+                "Se houver suspeita real de falha, coletar evento em carga e contexto comparavel."
+            ]
+            cited_documents: list[str] = []
+            evidence_points = [
+                history["summary"],
+                "A camada semantica classificou o rotulo candidato como estado operacional.",
+                *[f"Validacao: {warning}" for warning in validation.get("warnings", [])],
+            ]
+            confidence_value = float(history.get("confidence_pct") or (history["fault_distribution"][0]["pct"] if history["fault_distribution"] else 0.0))
+            return {
+                "probable_fault": candidate_fault,
+                "confidence_pct": confidence_value,
+                "executive_summary": executive_summary,
+                "evidence_points": evidence_points,
+                "recommended_actions": recommended_actions,
+                "inspection_checklist": inspection_checklist,
+                "risk_notes": risk_notes,
+                "refusal_reason": refusal_reason,
+                "cited_documents": cited_documents,
+            }
+
         return {
-            "probable_fault": candidate_fault,
-            "confidence_pct": float(history.get("confidence_pct") or (history["fault_distribution"][0]["pct"] if history["fault_distribution"] else 0.0)),
+            "probable_fault": effective_label,
+            "confidence_pct": 0.0 if effective_label == "evento_invalido" else float(history.get("confidence_pct") or (history["fault_distribution"][0]["pct"] if history["fault_distribution"] else 0.0)),
             "executive_summary": (
                 f"O evento sugere {format_fault_label_pt(candidate_fault)} com base em evidencias historicas."
-                if not refusal_reason
+                if not refusal_reason and effective_label != "evento_invalido"
+                else "O evento foi bloqueado por validacao fisica antes de qualquer prescricao automatica."
+                if effective_label == "evento_invalido"
                 else f"O evento foi analisado, mas a resposta foi limitada: {refusal_reason}"
             ),
             "evidence_points": [
@@ -203,7 +248,7 @@ class PrescriptiveAgent:
             ],
             "recommended_actions": (
                 ["Executar procedimento tecnico rastreado e validar inspecao local."]
-                if documents and not refusal_reason
+                if documents and not refusal_reason and effective_label != "evento_invalido"
                 else ["Validar instrumentacao e ampliar base documental antes de automatizar a prescricao."]
             ),
             "inspection_checklist": [
@@ -217,7 +262,7 @@ class PrescriptiveAgent:
                 "A classificacao historica usa Mahalanobis + k-NN ponderado com deteccao OOD.",
             ],
             "refusal_reason": refusal_reason,
-            "cited_documents": [doc["title"] for doc in documents],
+            "cited_documents": [] if effective_label == "evento_invalido" else [doc["title"] for doc in documents],
         }
 
     def _deterministic_freeform_response(
@@ -229,11 +274,12 @@ class PrescriptiveAgent:
     ) -> dict[str, Any]:
         cited_documents = [doc["title"] for doc in documents]
         refusal_reason = ""
+        lowered = user_text.lower()
 
         if answer_type == "document_query":
             if cited_documents:
                 summary = "A base documental atual possui documentos tecnicos indexados para consulta do copiloto."
-                evidence = [document_summary, f"{len(cited_documents)} documento(s) aderentes recuperado(s) na busca."]
+                evidence = [document_summary, f"{len(cited_documents)} documento(s) indexado(s) na base."]
                 actions = ["Se quiser, posso abrir por familia de falha, procedimento ou checklist tecnico."]
             else:
                 summary = "No momento nao encontrei documentos indexados na base documental."
@@ -247,6 +293,67 @@ class PrescriptiveAgent:
                 "recommended_actions": actions,
                 "cited_documents": cited_documents,
                 "refusal_reason": refusal_reason,
+            }
+
+        if "fft" in lowered:
+            return {
+                "answer_type": answer_type,
+                "executive_summary": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.",
+                "evidence_points": [
+                    "O projeto atual trabalha sobre features estatisticas ja extraidas do dataset banner.csv.",
+                    "Sem sinal bruto de vibracao, FFT entra como conceito tecnico explicavel, nao como etapa calculada no motor atual.",
+                ],
+                "recommended_actions": [
+                    "Se quiser, posso explicar FFT conceitualmente ou contrastar com o motor atual baseado em features tabulares."
+                ],
+                "cited_documents": [],
+                "refusal_reason": "",
+            }
+
+        if "llm" in lowered and ("orquestra" in lowered or "inferência numérica" in lowered or "inferencia numerica" in lowered):
+            return {
+                "answer_type": answer_type,
+                "executive_summary": "No projeto atual, o LLM nao executa o motor numerico principal; ele orquestra o fluxo, resume evidencias e sintetiza a resposta final.",
+                "evidence_points": [
+                    "A busca historica principal continua em codigo Python auditavel com Mahalanobis + k-NN ponderado.",
+                    "O LLM entra no roteamento, na explicacao e na resposta final em linguagem operacional.",
+                ],
+                "recommended_actions": [
+                    "Se quiser, posso detalhar a separacao entre motor numerico, RAG documental e camada de sintese."
+                ],
+                "cited_documents": [],
+                "refusal_reason": "",
+            }
+
+        if "mongodb" in lowered or "mongo" in lowered:
+            if "vetorial" in lowered or "persist" in lowered or "persistência" in lowered or "persistencia" in lowered:
+                return {
+                    "answer_type": answer_type,
+                    "executive_summary": "Hoje o MongoDB atua principalmente como persistencia opcional; a busca vetorial principal ainda e calculada na aplicacao.",
+                    "evidence_points": [
+                        "Documentos, chunks, logs e conversas podem ser persistidos no Mongo.",
+                        "A similaridade vetorial documental atual continua sendo calculada localmente em Python.",
+                    ],
+                    "recommended_actions": [
+                        "Se quiser, posso explicar a diferenca entre o estado atual e uma migracao futura para Vector Search nativo."
+                    ],
+                    "cited_documents": [],
+                    "refusal_reason": "",
+                }
+
+        if "cavita" in lowered and "hist" in lowered:
+            return {
+                "answer_type": answer_type,
+                "executive_summary": "Sem historico rotulado de cavitacao, o sistema nao deveria inventar diagnostico numerico confiavel; no maximo, ele consegue apoiar por documento, se houver lastro textual.",
+                "evidence_points": [
+                    "A inferencia historica depende de ocorrencias comparaveis no dataset.",
+                    "Sem historico e sem documento, a resposta correta e admitir limitacao e pedir mais base."
+                ],
+                "recommended_actions": [
+                    "Adicionar documento tecnico e registrar ocorrencias historicas reais antes de automatizar prescricao para essa falha."
+                ],
+                "cited_documents": [],
+                "refusal_reason": "",
             }
 
         if not documents:
@@ -271,6 +378,7 @@ class PrescriptiveAgent:
 
     def _render_response_markdown(self, payload: dict[str, Any]) -> str:
         probable_fault = payload.get("probable_fault", "nao_informado")
+        label_kind = get_label_kind(probable_fault)
         confidence = payload.get("confidence_pct", 0)
         summary = payload.get("executive_summary", "")
         evidence_points = payload.get("evidence_points") or []
@@ -280,9 +388,16 @@ class PrescriptiveAgent:
         refusal_reason = payload.get("refusal_reason", "")
         cited_documents = payload.get("cited_documents") or []
 
+        label_title = "Falha"
+        heading = "### Diagnostico provavel"
+        if probable_fault == "evento_invalido":
+            label_title = "Status"
+        elif label_kind == "state":
+            label_title = "Estado operacional"
+
         lines = [
-            "### Diagnostico provavel",
-            f"- **Falha:** `{probable_fault}`",
+            heading,
+            f"- **{label_title}:** `{probable_fault}`",
             f"- **Confianca:** `{confidence}%`",
             "",
             "### Resumo executivo",
@@ -373,6 +488,12 @@ class PrescriptiveAgent:
         payload["evidence_points"] = [self._stringify_evidence_item(item) for item in evidence_points]
 
     def _normalize_response_payload(self, payload: dict[str, Any], fallback_documents: list[dict[str, Any]]) -> dict[str, Any]:
+        for key in ["recommended_actions", "inspection_checklist", "risk_notes", "evidence_points"]:
+            value = payload.get(key)
+            if isinstance(value, str):
+                payload[key] = [value]
+            elif value is None:
+                payload[key] = []
         self._normalize_cited_documents(payload, fallback_documents)
         self._normalize_evidence_points(payload)
         return payload
@@ -416,7 +537,13 @@ class PrescriptiveAgent:
         started = time.perf_counter()
         selected_model = model_name or SETTINGS.default_llm_model
         documents_catalog = DOCUMENT_SERVICE.list_documents()
-        document_result = DOCUMENT_SERVICE.search_chunks(query_text=raw_input, top_k=SETTINGS.top_k_documents)
+        lowered_input = raw_input.lower()
+        if answer_type == "document_query":
+            document_result = DOCUMENT_SERVICE.search_chunks(query_text="catalogo documentos base documental", top_k=0)
+            document_result.chunks = []
+            document_result.summary = f"{len(documents_catalog)} documento(s) indexado(s) na base documental."
+        else:
+            document_result = DOCUMENT_SERVICE.search_chunks(query_text=raw_input, top_k=SETTINGS.top_k_documents)
 
         response_payload = self._deterministic_freeform_response(
             user_text=raw_input,
@@ -426,16 +553,36 @@ class PrescriptiveAgent:
         )
         raw_llm_response = None
         usage = {}
+        skip_llm = answer_type == "document_query" or any(
+            marker in lowered_input
+            for marker in [
+                "fft",
+                "mongodb",
+                "mongo",
+                "inferencia numerica",
+                "inferência numérica",
+                "orquestra",
+                "cavita",
+            ]
+        )
 
         if answer_type == "document_query" and documents_catalog:
             document_lines = [
                 f"Documento indexado: {item.get('title')} | familia: {item.get('fault_family')} | origem: {item.get('source_file')}"
                 for item in documents_catalog
             ]
+            response_payload["executive_summary"] = (
+                f"A base documental atual possui {len(documents_catalog)} documentos indexados, "
+                "cada um associado a uma familia tecnica de falha ou procedimento."
+            )
             response_payload["evidence_points"] = [*response_payload.get("evidence_points", []), *document_lines]
             response_payload["cited_documents"] = [item.get("title") for item in documents_catalog]
+            response_payload["recommended_actions"] = [
+                "Se quiser, posso listar os documentos por familia de falha ou resumir cada procedimento."
+            ]
+            response_payload["refusal_reason"] = ""
 
-        if self._provider in {"groq", "ollama"} and (self._provider != "groq" or self._groq_client is not None):
+        if not skip_llm and self._provider in {"groq", "ollama"} and (self._provider != "groq" or self._groq_client is not None):
             context_payload = {
                 "user_question": raw_input,
                 "answer_type": answer_type,
@@ -526,12 +673,17 @@ class PrescriptiveAgent:
         validation = HISTORY_SERVICE.validate_event(event)
         history_result = HISTORY_SERVICE.search_similar_events(event, top_k=SETTINGS.top_k_history)
         candidate_fault = history_result.candidate_fault or canonicalize_fault_label(event.get("fault"))
-        document_query = self._event_query_text(event, candidate_fault)
-        document_result = DOCUMENT_SERVICE.search_chunks(
-            query_text=document_query,
-            fault_family=candidate_fault,
-            top_k=SETTINGS.top_k_documents,
-        )
+        if not validation.get("valid", True) or is_state_label(candidate_fault):
+            document_result = DOCUMENT_SERVICE.search_chunks(query_text="", top_k=0)
+            document_result.chunks = []
+            document_result.summary = "Busca documental pulada para evitar tratar estado operacional ou evento invalido como falha prescritiva."
+        else:
+            document_query = self._event_query_text(event, candidate_fault)
+            document_result = DOCUMENT_SERVICE.search_chunks(
+                query_text=document_query,
+                fault_family=candidate_fault,
+                top_k=SETTINGS.top_k_documents,
+            )
 
         response_payload = self._deterministic_fallback(
             event=event,
