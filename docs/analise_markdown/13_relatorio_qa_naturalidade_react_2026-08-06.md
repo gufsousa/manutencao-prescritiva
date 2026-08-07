@@ -1,6 +1,7 @@
 # Relatorio de QA, Naturalidade e ReAct
 
-Data de execucao: **6 de agosto de 2026**.
+Data de execucao original: **6 de agosto de 2026**.  
+Revalidacao ampliada: **7 de agosto de 2026**.
 
 ## Objetivo
 
@@ -17,29 +18,71 @@ Script principal:
 
 `scripts/run_quality_matrix_100.py`
 
-Comando utilizado:
+Comando original:
 
 ```powershell
 python scripts\run_quality_matrix_100.py --write-json docs\analise_markdown\quality_matrix_100_results_2026-08-06.json
 ```
 
-Arquivo de saida:
+Comando da revalidacao ampliada:
+
+```powershell
+python scripts\run_quality_matrix_100.py --write-json docs\analise_markdown\quality_matrix_115_results_2026-08-07.json
+```
+
+Arquivos de saida:
 
 - `docs/analise_markdown/quality_matrix_100_results_2026-08-06.json`
+- `docs/analise_markdown/quality_matrix_115_results_2026-08-07.json`
 
-## Resultado consolidado
+## Resultado consolidado original
 
 - Total de verificacoes: `110`
 - Aprovadas: `110`
 - Falhas: `0`
 - Skipped: `0`
 
-Leitura pratica:
+## Resultado consolidado revalidado
+
+- Total de verificacoes: `115`
+- Aprovadas: `115`
+- Falhas: `0`
+- Skipped: `0`
+
+Leitura pratica da rodada ampliada:
 
 - os guardrails fisicos seguem consistentes;
 - a camada documental parou de responder de forma generica em consultas por familia;
 - o fluxo livre ficou mais natural para interacoes curtas;
 - os cenarios sem lastro documental passaram a bloquear melhor respostas tecnicas inventadas.
+- perguntas conceituais sobre rolamentos agora citam explicitamente `Procedimento de Rolamentos`;
+- perguntas arquiteturais sobre `FFT`, `LLM` e falha nova sem historico deixaram de herdar documentos irrelevantes por fallback automatico;
+- a confianca historica segue calibrada por `OOD` e por quantidade de `features` faltantes.
+
+## O que entrou na expansao de 110 para 115 casos
+
+Foram adicionados cinco testes especificos:
+
+1. `natural_11`
+- pergunta composta: `o que sao rolamentos e qual documento fala disso?`
+- espera citacao explicita de `Procedimento de Rolamentos`
+
+2. `natural_12`
+- pergunta conceitual curta: `o que sao rolamentos?`
+- espera foco semantico correto em rolamentos
+- bloqueia citacoes erradas como polias e desbalanceamento
+
+3. `natural_13`
+- pergunta de limite tecnico: `o projeto calcula FFT diretamente no pipeline atual?`
+- espera resposta objetiva sem anexar documentos irrelevantes
+
+4. `natural_14`
+- pergunta arquitetural: `o LLM faz a inferencia numerica principal ou so orquestra e sintetiza?`
+- espera resposta deterministica sem herdar citacoes genericas
+
+5. `natural_15`
+- pergunta sobre falha nova: `tenho um documento novo sobre cavitacao...`
+- espera admissao de limite sem historico e sem citacao documental artificial
 
 ## O que foi melhorado nesta rodada
 
@@ -108,7 +151,7 @@ Exemplo observado:
 
 > `nao encontrei lastro suficiente na base para sustentar a orientacao tecnica`
 
-## Leitura dos 110 testes
+## Leitura dos 115 testes
 
 Os casos adicionais desta rodada reforcaram quatro grupos:
 
@@ -213,7 +256,7 @@ O Self-Refine e util quando a primeira resposta esta correta no conteudo, mas fr
 
 ## Analise aplicada ao projeto
 
-Com base nos 110 testes, a recomendacao atual **nao** e migrar direto para um `ReAct` completo.
+Com base nos 115 testes, a recomendacao atual **nao** e migrar direto para um `ReAct` completo.
 
 Motivos:
 

@@ -1,0 +1,577 @@
+[
+  {
+    "name": "doc_catalog_01",
+    "status": "PASS",
+    "observed": "6"
+  },
+  {
+    "name": "doc_catalog_02",
+    "status": "PASS",
+    "observed": "todos com title"
+  },
+  {
+    "name": "doc_catalog_03",
+    "status": "PASS",
+    "observed": "todos com fault_family"
+  },
+  {
+    "name": "doc_catalog_04",
+    "status": "PASS",
+    "observed": "### Base documental\nA base documental atual possui 6 documentos indexados, cada um associado a uma familia tecnica de falha ou procedimento.\n\n### Evidencias e lastro\n- Documento: *"
+  },
+  {
+    "name": "doc_catalog_05",
+    "status": "PASS",
+    "observed": "### Base documental\nNo momento nao encontrei documentos indexados na base documental.\n\n### Evidencias e lastro\n- Nenhum documento aderente foi recuperado.\n- 0 documento(s) indexado"
+  },
+  {
+    "name": "doc_catalog_06",
+    "status": "PASS",
+    "observed": "['Procedimento de Rolamentos', 'Procedimento de Desalinhamento', 'Procedimento de Desbalanceamento', 'Procedimento de Correias', 'Procedimento de Polias', 'Procedimento de Cocked Rotor']"
+  },
+  {
+    "name": "doc_catalog_07",
+    "status": "PASS",
+    "observed": "{'Procedimento de Desalinhamento', 'Procedimento de Rolamentos', 'Procedimento de Correias', 'Procedimento de Cocked Rotor', 'Procedimento de Polias', 'Procedimento de Desbalanceamento'}"
+  },
+  {
+    "name": "doc_catalog_08",
+    "status": "PASS",
+    "observed": "sem state como falha"
+  },
+  {
+    "name": "doc_catalog_09",
+    "status": "PASS",
+    "observed": "document_query"
+  },
+  {
+    "name": "doc_catalog_10",
+    "status": "PASS",
+    "observed": "### Base documental\nA base documental atual possui 6 documentos indexados, cada um associado a uma familia tecnica de falha ou procedimento.\n\n### Evidencias e lastro\n- Documento: *"
+  },
+  {
+    "name": "fft_01",
+    "status": "PASS",
+    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nPosso tambem:\n- Se quiser, p"
+  },
+  {
+    "name": "fft_02",
+    "status": "PASS",
+    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nPosso tambem:\n- Se quiser, p"
+  },
+  {
+    "name": "fft_03",
+    "status": "PASS",
+    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nPosso tambem:\n- Se quiser, p"
+  },
+  {
+    "name": "fft_04",
+    "status": "PASS",
+    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nPosso tambem:\n- Se quiser, p"
+  },
+  {
+    "name": "fft_05",
+    "status": "PASS",
+    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nPosso tambem:\n- Se quiser, p"
+  },
+  {
+    "name": "arch_01",
+    "status": "PASS",
+    "observed": "No projeto atual, o LLM nao executa o motor numerico principal; ele orquestra o fluxo, resume evidencias e sintetiza a resposta final.\n\nPosso tambem:\n- Se quiser, posso detalhar a "
+  },
+  {
+    "name": "arch_02",
+    "status": "PASS",
+    "observed": "Hoje o MongoDB atua principalmente como persistencia opcional; a busca vetorial principal ainda e calculada na aplicacao.\n\nPosso tambem:\n- Se quiser, posso explicar a diferenca ent"
+  },
+  {
+    "name": "arch_03",
+    "status": "PASS",
+    "observed": "No estado atual, o projeto nao usa banco vetorial nativo; a vetorizacao e o ranking documental continuam locais na aplicacao.\n\nPosso tambem:\n- Se quiser, posso contrastar o estado "
+  },
+  {
+    "name": "arch_04",
+    "status": "PASS",
+    "observed": "RAG e a combinacao de recuperacao de contexto com geracao de resposta pelo modelo.\n\nPosso tambem:\n- Se quiser, posso explicar o RAG do projeto em linguagem simples ou em termos mai"
+  },
+  {
+    "name": "arch_05",
+    "status": "PASS",
+    "observed": "Se o Mongo ficar indisponivel, o sistema nao precisa parar; o projeto usa fallback local para continuar operando.\n\nPosso tambem:\n- Se quiser, posso detalhar como funciona o fallbac"
+  },
+  {
+    "name": "guard_phys_01",
+    "status": "PASS",
+    "observed": "evento_invalido"
+  },
+  {
+    "name": "guard_phys_02",
+    "status": "PASS",
+    "observed": "evento_invalido"
+  },
+  {
+    "name": "guard_phys_03",
+    "status": "PASS",
+    "observed": "evento_invalido"
+  },
+  {
+    "name": "guard_phys_04",
+    "status": "PASS",
+    "observed": "['temperature_c fora da faixa plausível', 'rpm fora da faixa plausível', 'x_rms_velocity_mm_s negativa', 'z_rms_velocity_mm_s negativa']"
+  },
+  {
+    "name": "guard_phys_05",
+    "status": "PASS",
+    "observed": "evento_invalido"
+  },
+  {
+    "name": "guard_phys_06",
+    "status": "PASS",
+    "observed": "sem docs"
+  },
+  {
+    "name": "guard_phys_07",
+    "status": "PASS",
+    "observed": "sem checklist agressivo"
+  },
+  {
+    "name": "guard_phys_08",
+    "status": "PASS",
+    "observed": "Evento invalido segundo validacao fisica."
+  },
+  {
+    "name": "guard_phys_09",
+    "status": "PASS",
+    "observed": "evento_invalido"
+  },
+  {
+    "name": "guard_phys_10",
+    "status": "PASS",
+    "observed": "evento_invalido"
+  },
+  {
+    "name": "state_01",
+    "status": "PASS",
+    "observed": "motor_desligado"
+  },
+  {
+    "name": "state_02",
+    "status": "PASS",
+    "observed": "### Diagnostico provavel\n- **Estado operacional:** `motor_desligado`\n- **Confianca:** `25.0%`\n\n### Resumo executivo\nO evento foi analisado, mas a resposta foi limitada: Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica.\n\n### Prescricao recomendada\n- Validar instrumentacao e ampliar base documental antes de automatizar a prescricao.\n\n### Rastreio utilizado\n- Sem documento tecnico aderente recuperado.\n\n### Evidencias\n- 5 vizinhos recuperados | metrica: Mahalanobis + k-NN ponderado | principal hip?tese hist?rica: Baseline operacional | consenso local: 100.00% | confianca calibrada: 25.00% | OOD: ood (score=17.923) | features faltantes: 0/12\n- Guardrail OOD: status=ood | score=17.9234 | limite95=4.584 | limite99=5.1231\n- Features faltantes: 0/12 | ratio=0 | minimo recomendado ok=True\n\n### Riscos e limitacoes\n- Usar a recomendacao apenas dentro do contexto operacional semelhante.\n- Requer validacao humana antes de intervencao fisica.\n- A classificacao historica usa Mahalanobis + k-NN ponderado com deteccao OOD.\n- A confianca exibida e calibrada por OOD e disponibilidade de features, nao apenas pelo consenso local dos vizinhos.\n- **Limitacao:** Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica."
+  },
+  {
+    "name": "state_03",
+    "status": "PASS",
+    "observed": "sem docs"
+  },
+  {
+    "name": "state_04",
+    "status": "PASS",
+    "observed": "### Diagnostico provavel\n- **Estado operacional:** `motor_desligado`\n- **Confianca:** `25.0%`\n\n### Resumo executivo\nO evento foi analisado, mas a resposta foi limitada: Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica.\n\n### Prescricao recomendada\n- Validar instrumentacao e ampliar base documental antes de automatizar a prescricao.\n\n### Rastreio utilizado\n- Sem documento tecnico aderente recuperado.\n\n### Evidencias\n- 5 vizinhos recuperados | metrica: Mahalanobis + k-NN ponderado | principal hip?tese hist?rica: Baseline operacional | consenso local: 100.00% | confianca calibrada: 25.00% | OOD: ood (score=17.923) | features faltantes: 0/12\n- Guardrail OOD: status=ood | score=17.9234 | limite95=4.584 | limite99=5.1231\n- Features faltantes: 0/12 | ratio=0 | minimo recomendado ok=True\n\n### Riscos e limitacoes\n- Usar a recomendacao apenas dentro do contexto operacional semelhante.\n- Requer validacao humana antes de intervencao fisica.\n- A classificacao historica usa Mahalanobis + k-NN ponderado com deteccao OOD.\n- A confianca exibida e calibrada por OOD e disponibilidade de features, nao apenas pelo consenso local dos vizinhos.\n- **Limitacao:** Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica."
+  },
+  {
+    "name": "state_05",
+    "status": "PASS",
+    "observed": "### Diagnostico provavel\n- **Estado operacional:** `motor_desligado`\n- **Confianca:** `25.0%`\n\n### Resumo executivo\nO evento foi analisado, mas a resposta foi limitada: Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica.\n\n### Prescricao recomendada\n- Validar instrumentacao e ampliar base documental antes de automatizar a prescricao.\n\n### Rastreio utilizado\n- Sem documento tecnico aderente recuperado.\n\n### Evidencias\n- 5 vizinhos recuperados | metrica: Mahalanobis + k-NN ponderado | principal hip?tese hist?rica: Baseline operacional | consenso local: 100.00% | confianca calibrada: 25.00% | OOD: ood (score=17.923) | features faltantes: 0/12\n- Guardrail OOD: status=ood | score=17.9234 | limite95=4.584 | limite99=5.1231\n- Features faltantes: 0/12 | ratio=0 | minimo recomendado ok=True\n\n### Riscos e limitacoes\n- Usar a recomendacao apenas dentro do contexto operacional semelhante.\n- Requer validacao humana antes de intervencao fisica.\n- A classificacao historica usa Mahalanobis + k-NN ponderado com deteccao OOD.\n- A confianca exibida e calibrada por OOD e disponibilidade de features, nao apenas pelo consenso local dos vizinhos.\n- **Limitacao:** Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica."
+  },
+  {
+    "name": "state_06",
+    "status": "PASS",
+    "observed": "sem desalinhamento documental"
+  },
+  {
+    "name": "state_07",
+    "status": "PASS",
+    "observed": "baseline"
+  },
+  {
+    "name": "state_08",
+    "status": "PASS",
+    "observed": "baseline"
+  },
+  {
+    "name": "state_09",
+    "status": "PASS",
+    "observed": "baseline"
+  },
+  {
+    "name": "state_10",
+    "status": "PASS",
+    "observed": "baseline"
+  },
+  {
+    "name": "ood_01",
+    "status": "PASS",
+    "observed": "ood"
+  },
+  {
+    "name": "ood_02",
+    "status": "PASS",
+    "observed": "### Diagnostico provavel\n- **Falha:** `rolamento_ball`\n- **Confianca:** `25.0%`\n\n### Resumo executivo\nO evento foi analisado, mas a resposta foi limitada: Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica.\n\n### Prescricao recomendada\n- Validar instrumentacao e ampliar base documental antes de automatizar a prescricao.\n\n### Rastreio utilizado\n- Documento: **Procedimento de Correias**\n- Documento: **Procedimento de Polias**\n- Documento: **Procedimento de Desalinhamento**\n- Documento: **Procedimento de Desbalanceamento**\n\n### Evidencias\n- 5 vizinhos recuperados | metrica: Mahalanobis + k-NN ponderado | principal hip?tese hist?rica: Rolamento esfera | consenso local: 60.23% | confianca calibrada: 25.00% | OOD: ood (score=139.421) | features faltantes: 0/12\n- Guardrail OOD: status=ood | score=139.4214 | limite95=4.584 | limite99=5.1231\n- Features faltantes: 0/12 | ratio=0 | minimo recomendado ok=True\n\n### Checklist de inspecao\n- Confirmar consistencia do evento de sensores.\n- Verificar contexto operacional e rotacao.\n- Comparar com ocorrencias historicas proximas.\n\n### Riscos e limitacoes\n- Usar a recomendacao apenas dentro do contexto operacional semelhante.\n- Requer validacao humana antes de intervencao fisica.\n- A classificacao historica usa Mahalanobis + k-NN ponderado com deteccao OOD.\n- A confianca exibida e calibrada por OOD e disponibilidade de features, nao apenas pelo consenso local dos vizinhos.\n- **Limitacao:** Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica."
+  },
+  {
+    "name": "ood_03",
+    "status": "PASS",
+    "observed": "Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica."
+  },
+  {
+    "name": "ood_04",
+    "status": "PASS",
+    "observed": "['Procedimento de Correias', 'Procedimento de Polias', 'Procedimento de Desalinhamento', 'Procedimento de Desbalanceamento']"
+  },
+  {
+    "name": "ood_05",
+    "status": "PASS",
+    "observed": "Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica."
+  },
+  {
+    "name": "ood_06",
+    "status": "PASS",
+    "observed": "25.0"
+  },
+  {
+    "name": "ood_07",
+    "status": "PASS",
+    "observed": "ood"
+  },
+  {
+    "name": "ood_08",
+    "status": "PASS",
+    "observed": "motor_desligado"
+  },
+  {
+    "name": "ood_09",
+    "status": "PASS",
+    "observed": "evento_invalido"
+  },
+  {
+    "name": "ood_10",
+    "status": "PASS",
+    "observed": "### Diagnostico provavel\n- **Falha:** `rolamento_ball`\n- **Confianca:** `25.0%`\n\n### Resumo executivo\nO evento foi analisado, mas a resposta foi limitada: Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica.\n\n### Prescricao recomendada\n- Validar instrumentacao e ampliar base documental antes de automatizar a prescricao.\n\n### Rastreio utilizado\n- Documento: **Procedimento de Correias**\n- Documento: **Procedimento de Polias**\n- Documento: **Procedimento de Desalinhamento**\n- Documento: **Procedimento de Desbalanceamento**\n\n### Evidencias\n- 5 vizinhos recuperados | metrica: Mahalanobis + k-NN ponderado | principal hip?tese hist?rica: Rolamento esfera | consenso local: 60.23% | confianca calibrada: 25.00% | OOD: ood (score=139.421) | features faltantes: 0/12\n- Guardrail OOD: status=ood | score=139.4214 | limite95=4.584 | limite99=5.1231\n- Features faltantes: 0/12 | ratio=0 | minimo recomendado ok=True\n\n### Checklist de inspecao\n- Confirmar consistencia do evento de sensores.\n- Verificar contexto operacional e rotacao.\n- Comparar com ocorrencias historicas proximas.\n\n### Riscos e limitacoes\n- Usar a recomendacao apenas dentro do contexto operacional semelhante.\n- Requer validacao humana antes de intervencao fisica.\n- A classificacao historica usa Mahalanobis + k-NN ponderado com deteccao OOD.\n- A confianca exibida e calibrada por OOD e disponibilidade de features, nao apenas pelo consenso local dos vizinhos.\n- **Limitacao:** Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica."
+  },
+  {
+    "name": "doc_guard_01",
+    "status": "PASS",
+    "observed": "### Diagnostico provavel\n- **Falha:** `cocked_rotor`\n- **Confianca:** `85.1%`\n\n### Resumo executivo\nO evento foi analisado, mas a resposta foi limitada: Nao ha documento tecnico su"
+  },
+  {
+    "name": "doc_guard_02",
+    "status": "PASS",
+    "observed": "Nao ha documento tecnico suficiente para sustentar prescricao."
+  },
+  {
+    "name": "doc_guard_03",
+    "status": "PASS",
+    "observed": "cocked_rotor"
+  },
+  {
+    "name": "doc_guard_04",
+    "status": "PASS",
+    "observed": "[]"
+  },
+  {
+    "name": "doc_guard_05",
+    "status": "PASS",
+    "observed": "### Diagnostico provavel\n- **Falha:** `cocked_rotor`\n- **Confianca:** `85.1%`\n\n### Resumo executivo\nO evento foi analisado, mas a resposta foi limitada: Nao ha documento tecnico su"
+  },
+  {
+    "name": "doc_guard_06",
+    "status": "PASS",
+    "observed": "### Diagnostico provavel\n- **Falha:** `cocked_rotor`\n- **Confianca:** `85.1%`\n\n### Resumo executivo\nO evento foi analisado, mas a resposta foi limitada: Nao ha documento tecnico su"
+  },
+  {
+    "name": "doc_guard_07",
+    "status": "PASS",
+    "observed": "Consigo responder livremente, mas neste caso nao encontrei lastro suficiente na base para sustentar a orientacao tecnica.\n\nPosso tambem:\n- Refine a pergunta com o componente, sinto"
+  },
+  {
+    "name": "doc_guard_08",
+    "status": "PASS",
+    "observed": "### Base documental\nNo momento nao encontrei documentos indexados na base documental.\n\n### Evidencias e lastro\n- Nenhum documento aderente foi recuperado.\n- 0 documento(s) indexado"
+  },
+  {
+    "name": "doc_guard_09",
+    "status": "PASS",
+    "observed": "Sem historico rotulado de cavitacao, o sistema nao deveria inventar diagnostico numerico confiavel; no maximo, ele consegue apoiar por documento, se houver lastro textual.\n\nPosso t"
+  },
+  {
+    "name": "doc_guard_10",
+    "status": "PASS",
+    "observed": "Sem historico rotulado de cavitacao, o sistema nao deveria inventar diagnostico numerico confiavel; no maximo, ele consegue apoiar por documento, se houver lastro textual.\n\nPosso t"
+  },
+  {
+    "name": "bias_label_01",
+    "status": "PASS",
+    "observed": "desbalanceamento"
+  },
+  {
+    "name": "bias_label_02",
+    "status": "PASS",
+    "observed": "desbalanceamento"
+  },
+  {
+    "name": "bias_label_03",
+    "status": "PASS",
+    "observed": "desbalanceamento"
+  },
+  {
+    "name": "bias_label_04",
+    "status": "PASS",
+    "observed": "desbalanceamento"
+  },
+  {
+    "name": "bias_label_05",
+    "status": "PASS",
+    "observed": "desalinhamento"
+  },
+  {
+    "name": "bias_label_06",
+    "status": "PASS",
+    "observed": "desalinhamento"
+  },
+  {
+    "name": "bias_label_07",
+    "status": "PASS",
+    "observed": "desalinhamento"
+  },
+  {
+    "name": "bias_label_08",
+    "status": "PASS",
+    "observed": "desalinhamento"
+  },
+  {
+    "name": "bias_label_09",
+    "status": "PASS",
+    "observed": "rolamento_inner"
+  },
+  {
+    "name": "bias_label_10",
+    "status": "PASS",
+    "observed": "rolamento_inner"
+  },
+  {
+    "name": "bias_label_11",
+    "status": "PASS",
+    "observed": "rolamento_inner"
+  },
+  {
+    "name": "bias_label_12",
+    "status": "PASS",
+    "observed": "cocked_rotor"
+  },
+  {
+    "name": "bias_label_13",
+    "status": "PASS",
+    "observed": "correia"
+  },
+  {
+    "name": "bias_label_14",
+    "status": "PASS",
+    "observed": "polia"
+  },
+  {
+    "name": "bias_label_15",
+    "status": "PASS",
+    "observed": "falta_fase"
+  },
+  {
+    "name": "bias_label_16",
+    "status": "PASS",
+    "observed": "['desbalanceamento', 'cocked_rotor', 'eccentric_rotor', 'rolamento_outer', 'rolamento_inner']"
+  },
+  {
+    "name": "bias_label_17",
+    "status": "PASS",
+    "observed": "['desbalanceamento', 'cocked_rotor', 'eccentric_rotor', 'rolamento_outer', 'rolamento_inner']"
+  },
+  {
+    "name": "bias_label_18",
+    "status": "PASS",
+    "observed": "['desbalanceamento', 'cocked_rotor', 'eccentric_rotor', 'rolamento_outer', 'rolamento_inner']"
+  },
+  {
+    "name": "bias_label_19",
+    "status": "PASS",
+    "observed": "['desbalanceamento', 'cocked_rotor', 'eccentric_rotor', 'rolamento_outer', 'rolamento_inner']"
+  },
+  {
+    "name": "bias_label_20",
+    "status": "PASS",
+    "observed": "100.00%"
+  },
+  {
+    "name": "chat_flow_01",
+    "status": "PASS",
+    "observed": "freeform_question"
+  },
+  {
+    "name": "chat_flow_02",
+    "status": "PASS",
+    "observed": "True"
+  },
+  {
+    "name": "chat_flow_03",
+    "status": "PASS",
+    "observed": "A temperatura atual do sistema é de 25°C e a velocidade de rotação é de 1000 rpm. Com base nos procedimentos de manutenção prescritiva, é recomendável realizar uma inspeção visual "
+  },
+  {
+    "name": "chat_flow_04",
+    "status": "PASS",
+    "observed": "Consulta livre sem busca por vizinhos historicos."
+  },
+  {
+    "name": "chat_flow_05",
+    "status": "PASS",
+    "observed": "freeform_question"
+  },
+  {
+    "name": "chat_flow_06",
+    "status": "PASS",
+    "observed": "O desbalanceamento e o desalinhamento são dois problemas comuns em sistemas de rotação, mas têm características e consequências diferentes.\n\nDocumentos relacionados:\n- **Procedimen"
+  },
+  {
+    "name": "chat_flow_07",
+    "status": "PASS",
+    "observed": "### Diagnostico provavel\n- **Falha:** `desbalanceamento`\n- **Confianca:** `100.0%`\n\n### Resumo executivo\nO evento sugere Desbalanceamento com base em evidencias historicas.\n\n### Pr"
+  },
+  {
+    "name": "chat_flow_08",
+    "status": "PASS",
+    "observed": "### Diagnostico provavel\n- **Falha:** `desbalanceamento`\n- **Confianca:** `100.0%`\n\n### Resumo executivo\nO evento sugere Desbalanceamento com base em evidencias historicas.\n\n### Pr"
+  },
+  {
+    "name": "chat_flow_09",
+    "status": "PASS",
+    "observed": "### Diagnostico provavel\n- **Estado operacional:** `motor_desligado`\n- **Confianca:** `25.0%`\n\n### Resumo executivo\nO evento foi analisado, mas a resposta foi limitada: Evento fora"
+  },
+  {
+    "name": "chat_flow_10",
+    "status": "PASS",
+    "observed": "### Diagnostico provavel\n- **Status:** `evento_invalido`\n- **Confianca:** `0.0%`\n\n### Resumo executivo\nO evento foi bloqueado por validacao fisica antes de qualquer prescricao auto"
+  },
+  {
+    "name": "natural_01",
+    "status": "PASS",
+    "observed": "document_query"
+  },
+  {
+    "name": "natural_02",
+    "status": "PASS",
+    "observed": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a rolamentos na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Rolamentos**\n- 1 documento(s) e"
+  },
+  {
+    "name": "natural_03",
+    "status": "PASS",
+    "observed": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Correia na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Correias**\n- 1 documento(s) encont"
+  },
+  {
+    "name": "natural_04",
+    "status": "PASS",
+    "observed": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Polia na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Polias**\n- 1 documento(s) encontrado"
+  },
+  {
+    "name": "natural_05",
+    "status": "PASS",
+    "observed": "### Base documental\nEncontrei 1 documento(s) relacionado(s) a Cocked rotor na base documental.\n\n### Evidencias e lastro\n- Documento: **Procedimento de Cocked Rotor**\n- 1 documento("
+  },
+  {
+    "name": "natural_06",
+    "status": "PASS",
+    "observed": "Oi. Posso te ajudar com uma pergunta tecnica, listar documentos da base, analisar um evento JSON ou resumir a arquitetura do projeto."
+  },
+  {
+    "name": "natural_07",
+    "status": "PASS",
+    "observed": "Claro. Versao manutencao preditiva: o sensor falou que estava tudo normal, mas era so o rolamento tentando manter a postura profissional.\n\nPosso tambem:\n- Se quiser, depois eu volt"
+  },
+  {
+    "name": "natural_08",
+    "status": "PASS",
+    "observed": "De nada. Se quiser, seguimos com a parte tecnica."
+  },
+  {
+    "name": "natural_09",
+    "status": "PASS",
+    "observed": "Boa. Se quiser, eu continuo no modo leve ou volto para a analise tecnica."
+  },
+  {
+    "name": "natural_10",
+    "status": "PASS",
+    "observed": "RAG e a combinacao de recuperacao de contexto com geracao de resposta pelo modelo.\n\nPosso tambem:\n- Se quiser, posso explicar o RAG do projeto em linguagem simples ou em termos mai"
+  },
+  {
+    "name": "natural_11",
+    "status": "PASS",
+    "observed": "Rolamentos sao elementos mecanicos que reduzem atrito, suportam cargas e estabilizam o movimento rotativo entre eixos e mancais. Na base atual, o documento mais aderente sobre esse tema e **Procedimento de Rolamentos**.\n"
+  },
+  {
+    "name": "natural_12",
+    "status": "PASS",
+    "observed": "Rolamentos sao componentes mecanicos usados para reduzir atrito, guiar o movimento rotativo e suportar cargas entre eixos e mancais. Na base atual, o documento mais aderente sobre esse tema e **Procedimento de Rolamentos"
+  },
+  {
+    "name": "natural_13",
+    "status": "PASS",
+    "observed": "FFT e uma tecnica classica de analise em frequencia importante para manutencao preditiva, mas o pipeline atual do projeto nao calcula FFT diretamente.\n\nPosso tambem:\n- Se quiser, posso explicar FFT conceitualmente ou con"
+  },
+  {
+    "name": "natural_14",
+    "status": "PASS",
+    "observed": "No projeto atual, o LLM nao executa o motor numerico principal; ele orquestra o fluxo, resume evidencias e sintetiza a resposta final.\n\nPosso tambem:\n- Se quiser, posso detalhar a separacao entre motor numerico, RAG docu"
+  },
+  {
+    "name": "natural_15",
+    "status": "PASS",
+    "observed": "Sem historico rotulado de cavitacao, o sistema nao deveria inventar diagnostico numerico confiavel; no maximo, ele consegue apoiar por documento, se houver lastro textual.\n\nPosso tambem:\n- Adicionar documento tecnico e r"
+  },
+  {
+    "name": "mongo_doc_01",
+    "status": "PASS",
+    "observed": "desbalanceamento == desbalanceamento"
+  },
+  {
+    "name": "mongo_doc_02",
+    "status": "PASS",
+    "observed": "{'python': ['5ad68971-b027-43c3-a25c-dab006cd8dfc', '6df6cc64-7a2c-4ff1-a1e7-c77e345c37fd', 'cc375c55-1241-4548-acca-d81882b0cfd4', '5f0b53ee-535e-4b6d-abf0-3285e51ea4f2'], 'mongo': ['5ad68971-b027-43c3-a25c-dab006cd8dfc', '6df6cc64-7a2c-4ff1-a1e7-c77e345c37fd', 'cc375c55-1241-4548-acca-d81882b0cfd4', '5f0b53ee-535e-4b6d-abf0-3285e51ea4f2']}"
+  },
+  {
+    "name": "mongo_doc_03",
+    "status": "PASS",
+    "observed": "4"
+  },
+  {
+    "name": "mongo_doc_04",
+    "status": "PASS",
+    "observed": "6"
+  },
+  {
+    "name": "mongo_doc_05",
+    "status": "PASS",
+    "observed": "1 chunk manual recuperado."
+  },
+  {
+    "name": "mongo_doc_06",
+    "status": "PASS",
+    "observed": "Sem historico rotulado de cavitacao, o sistema nao deveria inventar diagnostico numerico confiavel; no maximo, ele consegue apoiar por documento, se houver lastro textual.\n\nPosso t"
+  },
+  {
+    "name": "mongo_doc_07",
+    "status": "PASS",
+    "observed": "{'inserted': 0, 'skipped': 10, 'source_rows': 10, 'source': 'test', 'partial': True, 'sample_fraction': None, 'incremental': True}"
+  },
+  {
+    "name": "mongo_doc_08",
+    "status": "PASS",
+    "observed": "{'10%': 16680, '20%': 33360}"
+  },
+  {
+    "name": "mongo_doc_09",
+    "status": "PASS",
+    "observed": "{'mode': 'mongo', 'connected': True, 'database': 'manutencao_prescritiva'}"
+  },
+  {
+    "name": "mongo_doc_10",
+    "status": "PASS",
+    "observed": "{'before': 1405, 'after': 1406}"
+  }
+]

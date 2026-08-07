@@ -643,7 +643,50 @@ def build_cases() -> list[tuple[str, Callable[[], CaseResult]]]:
         ok = _contains_any(markdown, ["RAG e a combinacao de recuperacao", "base documental chunkada"])
         return _ok("natural_10", markdown[:180]) if ok else _fail("natural_10", markdown[:260])
 
-    for i in range(1, 11):
+    def natural_11() -> CaseResult:
+        result = _run_text_case("o que sao rolamentos e qual documento fala disso?")
+        markdown = _markdown(result)
+        cited = _response(result).get("cited_documents") or []
+        ok = (
+            _contains_any(markdown, ["Procedimento de Rolamentos", "documento mais aderente"])
+            and cited == ["Procedimento de Rolamentos"]
+        )
+        return _ok("natural_11", markdown[:220]) if ok else _fail("natural_11", {"markdown": markdown[:320], "cited": cited})
+
+    def natural_12() -> CaseResult:
+        result = _run_text_case("o que sao rolamentos?")
+        markdown = _markdown(result)
+        cited = _response(result).get("cited_documents") or []
+        forbidden = ["Procedimento de Polias", "Procedimento de Desbalanceamento"]
+        ok = (
+            _contains_any(markdown, ["Procedimento de Rolamentos", "suportar cargas", "reduzir atrito"])
+            and not _contains_any(markdown, forbidden)
+            and cited == ["Procedimento de Rolamentos"]
+        )
+        return _ok("natural_12", markdown[:220]) if ok else _fail("natural_12", {"markdown": markdown[:320], "cited": cited})
+
+    def natural_13() -> CaseResult:
+        result = _run_text_case("o projeto calcula FFT diretamente no pipeline atual?")
+        markdown = _markdown(result)
+        cited = _response(result).get("cited_documents") or []
+        ok = _contains_any(markdown, ["nao calcula FFT", "pipeline atual", "features estatisticas"]) and cited == []
+        return _ok("natural_13", markdown[:220]) if ok else _fail("natural_13", {"markdown": markdown[:320], "cited": cited})
+
+    def natural_14() -> CaseResult:
+        result = _run_text_case("o LLM faz a inferencia numerica principal ou so orquestra e sintetiza?")
+        markdown = _markdown(result)
+        cited = _response(result).get("cited_documents") or []
+        ok = _contains_any(markdown, ["nao executa o motor numerico principal", "orquestra o fluxo"]) and cited == []
+        return _ok("natural_14", markdown[:220]) if ok else _fail("natural_14", {"markdown": markdown[:320], "cited": cited})
+
+    def natural_15() -> CaseResult:
+        result = _run_text_case("tenho um documento novo sobre cavitacao. o que o sistema consegue fazer se nao houver historico dessa falha?")
+        markdown = _markdown(result)
+        cited = _response(result).get("cited_documents") or []
+        ok = _contains_any(markdown, ["Sem historico", "nao deveria inventar diagnostico numerico confiavel"]) and cited == []
+        return _ok("natural_15", markdown[:220]) if ok else _fail("natural_15", {"markdown": markdown[:320], "cited": cited})
+
+    for i in range(1, 16):
         cases.append((f"natural_{i:02d}", locals()[f"natural_{i:02d}"]))
 
     def _mongo_enabled() -> bool:
@@ -727,7 +770,7 @@ def build_cases() -> list[tuple[str, Callable[[], CaseResult]]]:
     for i in range(1, 11):
         cases.append((f"mongo_doc_{i:02d}", locals()[f"mongo_doc_{i:02d}"]))
 
-    assert len(cases) == 110, f"Esperado 110 casos, obtidos {len(cases)}"
+    assert len(cases) == 115, f"Esperado 115 casos, obtidos {len(cases)}"
     return cases
 
 

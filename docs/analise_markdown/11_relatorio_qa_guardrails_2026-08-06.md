@@ -112,6 +112,22 @@ Resultado consolidado final da matriz ampliada:
 - Falhas: `0`
 - JSON gerado: `docs/analise_markdown/quality_matrix_100_results_2026-08-06.json`
 
+## Revalidacao posterior: matriz ampliada para 115 testes
+
+Em **7 de agosto de 2026**, a matriz foi reexecutada com `5` casos adicionais voltados a:
+
+- citacao explicita do documento correto em perguntas sobre rolamentos;
+- bloqueio de citacoes irrelevantes em respostas sobre `FFT`;
+- bloqueio de citacoes irrelevantes em respostas sobre o papel do `LLM`;
+- comportamento mais honesto para falha nova sem historico, como `cavitacao`.
+
+Resultado da revalidacao:
+
+- Total de verificacoes: `115`
+- Aprovadas: `115`
+- Falhas: `0`
+- JSON gerado: `docs/analise_markdown/quality_matrix_115_results_2026-08-07.json`
+
 ## O que foi ajustado entre a primeira e a ultima rodada
 
 Os casos que falhavam na rodada inicial foram tratados em quatro frentes:

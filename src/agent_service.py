@@ -287,7 +287,16 @@ class PrescriptiveAgent:
             return {
                 "answer_type": "freeform_question",
                 "executive_summary": (
-                    "Rolamentos sao elementos mecanicos que reduzem atrito, suportam cargas e estabilizam o movimento rotativo entre eixos e mancais."
+                    (
+                        "Rolamentos sao elementos mecanicos que reduzem atrito, "
+                        "suportam cargas e estabilizam o movimento rotativo entre "
+                        "eixos e mancais. "
+                        + (
+                            f"Na base atual, o documento mais aderente sobre esse tema e **{cited[0]}**."
+                            if cited
+                            else "No estado atual, nao encontrei documento indexado para citar com seguranca."
+                        )
+                    )
                 ),
                 "evidence_points": evidence[:3],
                 "recommended_actions": [
@@ -401,6 +410,8 @@ class PrescriptiveAgent:
         if not validation.get("valid", True):
             refusal_reason = "Evento invalido segundo validacao fisica."
             effective_label = "evento_invalido"
+        elif not history.get("min_required_features_met", True):
+            refusal_reason = "Evento com features faltantes em excesso para sustentar prescricao automatica confiavel."
         elif history.get("ood_flag"):
             refusal_reason = "Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica."
         elif not documents and not is_state_label(candidate_fault):
@@ -430,6 +441,10 @@ class PrescriptiveAgent:
             evidence_points = [
                 history["summary"],
                 "A camada semantica classificou o rotulo candidato como estado operacional.",
+                (
+                    f"Features faltantes: {history.get('missing_feature_count', 0)}/{12}"
+                    f" | ratio={history.get('missing_feature_ratio', 0)}"
+                ),
                 *[f"Validacao: {warning}" for warning in validation.get("warnings", [])],
             ]
             confidence_value = float(history.get("confidence_pct") or (history["fault_distribution"][0]["pct"] if history["fault_distribution"] else 0.0))
@@ -469,6 +484,11 @@ class PrescriptiveAgent:
                     f"Guardrail OOD: status={history.get('ood_status')} | score={history.get('ood_score')} "
                     f"| limite95={history.get('ood_threshold_95')} | limite99={history.get('ood_threshold_99')}"
                 ),
+                (
+                    f"Features faltantes: {history.get('missing_feature_count', 0)}/{12}"
+                    f" | ratio={history.get('missing_feature_ratio', 0)}"
+                    f" | minimo recomendado ok={history.get('min_required_features_met', True)}"
+                ),
                 *[f"Validacao: {warning}" for warning in validation.get("warnings", [])],
             ],
             "recommended_actions": (
@@ -481,6 +501,7 @@ class PrescriptiveAgent:
                 "Usar a recomendacao apenas dentro do contexto operacional semelhante.",
                 "Requer validacao humana antes de intervencao fisica.",
                 "A classificacao historica usa Mahalanobis + k-NN ponderado com deteccao OOD.",
+                "A confianca exibida e calibrada por OOD e disponibilidade de features, nao apenas pelo consenso local dos vizinhos.",
             ],
             "refusal_reason": refusal_reason,
             "cited_documents": [] if effective_label == "evento_invalido" else [doc["title"] for doc in documents],
@@ -520,6 +541,24 @@ class PrescriptiveAgent:
             casual_response = self._casual_response(lowered)
             if casual_response is not None:
                 return casual_response
+
+        if "rolament" in lowered and ("o que sao" in lowered or "o que são" in lowered or "o que e" in lowered or "o que é" in lowered):
+            return {
+                "answer_type": answer_type,
+                "executive_summary": (
+                    "Rolamentos sao componentes mecanicos usados para reduzir atrito, "
+                    "guiar o movimento rotativo e suportar cargas entre eixos e mancais. "
+                    "Na base atual, o documento mais aderente sobre esse tema e **Procedimento de Rolamentos**."
+                ),
+                "evidence_points": [
+                    "O documento de rolamentos da base cobre diagnostico, correcoes e validacao de falhas nesse componente."
+                ],
+                "recommended_actions": [
+                    "Se quiser, posso resumir o Procedimento de Rolamentos ou listar os principais sintomas cobertos na base."
+                ],
+                "cited_documents": ["Procedimento de Rolamentos"],
+                "refusal_reason": "",
+            }
 
         if ("usa rag" in lowered or "o que e rag" in lowered or "oque e rag" in lowered or lowered.strip() == "rag") and "rag_groq" not in lowered:
             return {
@@ -750,6 +789,7 @@ class PrescriptiveAgent:
         return str(item)
 
     def _normalize_cited_documents(self, payload: dict[str, Any], fallback_documents: list[dict[str, Any]]) -> None:
+        has_explicit_cited_documents = "cited_documents" in payload
         raw_documents = payload.get("cited_documents") or []
         normalized: list[str] = []
         for item in raw_documents:
@@ -759,7 +799,7 @@ class PrescriptiveAgent:
                 title = item.get("title") or item.get("document_title")
                 if title:
                     normalized.append(str(title))
-        if not normalized and fallback_documents:
+        if not normalized and fallback_documents and not has_explicit_cited_documents:
             normalized = [str(doc.get("title")) for doc in fallback_documents if doc.get("title")]
         seen: list[str] = []
         for item in normalized:
@@ -803,6 +843,11 @@ class PrescriptiveAgent:
 
         if answer_type == "freeform_question":
             lines = [summary or "Sem resposta consolidada."]
+
+            if cited_documents:
+                lines.extend(["", "Documentos relacionados:"])
+                for doc in cited_documents[:3]:
+                    lines.append(f"- **{doc}**")
 
             if actions:
                 lines.extend(["", "Posso tambem:"])
@@ -903,6 +948,16 @@ class PrescriptiveAgent:
             response_payload.get("answer_type") == "casual_chat"
             or answer_type == "document_query"
             or not document_result.chunks
+            or (
+                "rolament" in lowered_input
+                and (
+                    "o que sao" in lowered_input
+                    or "o que são" in lowered_input
+                    or "o que e" in lowered_input
+                    or "o que é" in lowered_input
+                    or "qual documento" in lowered_input
+                )
+            )
             or any(
             marker in lowered_input
             for marker in [
@@ -1004,6 +1059,16 @@ class PrescriptiveAgent:
             "history": {
                 "neighbors": [],
                 "fault_distribution": [],
+                "raw_confidence_pct": None,
+                "confidence_pct": None,
+                "ood_score": None,
+                "ood_threshold_95": None,
+                "ood_threshold_99": None,
+                "ood_flag": False,
+                "ood_status": "nao_aplicavel",
+                "missing_feature_count": 0,
+                "missing_feature_ratio": 0.0,
+                "min_required_features_met": True,
                 "summary": "Consulta livre sem busca por vizinhos historicos.",
             },
             "documents": {
@@ -1152,6 +1217,7 @@ class PrescriptiveAgent:
             "history": {
                 "neighbors": history_result.neighbors,
                 "fault_distribution": history_result.fault_distribution,
+                "raw_confidence_pct": history_result.raw_confidence_pct,
                 "confidence_pct": history_result.confidence_pct,
                 "candidate_fault": history_result.candidate_fault,
                 "similarity_metric": history_result.similarity_metric,
@@ -1160,6 +1226,9 @@ class PrescriptiveAgent:
                 "ood_threshold_99": history_result.ood_threshold_99,
                 "ood_flag": history_result.ood_flag,
                 "ood_status": history_result.ood_status,
+                "missing_feature_count": history_result.missing_feature_count,
+                "missing_feature_ratio": history_result.missing_feature_ratio,
+                "min_required_features_met": history_result.min_required_features_met,
                 "summary": history_result.summary,
             },
             "documents": {

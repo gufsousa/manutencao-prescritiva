@@ -458,18 +458,16 @@ Sweep adicional Groq em **5 de agosto de 2026**:
 
 ## Roadmap imediato
 
-- melhorar a qualidade da resposta tecnica livre quando o termo consultado nao estiver explicitamente nos PDFs;
-- introduzir politica agentic configuravel em `config/agent_policy.yaml`;
-- avaliar um passo de planejamento leve ou refinamento controlado antes de partir para um planner estilo ReAct mais explicito;
-- migrar a recuperacao vetorial documental do ranking local em Python para `MongoDB Vector Search` nativo com indice vetorial e `$vectorSearch`;
-- adicionar avaliacao mais forte para falso positivo e casos `unknown`.
+- separar melhor consulta de catalogo documental e busca por chunks;
+- adicionar avaliacao da qualidade da recuperacao antes da resposta final;
+- evoluir de ranking local para busca hibrida e, depois, ANN vetorial para escala maior;
+- reforcar abstencao em casos `OOD`, baixa evidencia e features faltantes;
+- testar planejamento leve antes de considerar um fluxo agentic completo estilo `ReAct`.
 
 Observacao importante:
 
 - hoje o `MongoDB` funciona como camada de persistencia opcional para documentos, chunks, conversas e logs;
 - a busca vetorial ainda e executada na aplicacao Python com vetorizacao local e similaridade cosseno;
-- no comparativo ponta a ponta do pipeline `llm_vector_rag_groq` com **20 amostras**, trocar o ranking documental de `Python` para `MongoDB Atlas Vector Search` **nao trouxe grandes mudancas de qualidade**: as predicoes finais ficaram equivalentes entre os dois backends;
-- o ganho observado ficou mais concentrado em **latencia da recuperacao documental** e na vantagem arquitetural de usar uma busca vetorial **nativa do banco**, em vez de manter todo o ranking dentro da aplicacao;
-- no recorte atual isso ainda nao muda muito a latencia total do pipeline, porque a chamada ao LLM continua sendo o gargalo dominante;
-- a principal vantagem potencial do `MongoDB Vector Search` aparece mais em **escalabilidade**, crescimento do corpus documental, filtros nativos, busca hibrida e reducao de carga no backend Python do que em ganho imediato de qualidade nesta base pequena;
+- no comparativo ponta a ponta com `20` amostras, trocar o ranking documental de `Python` para `MongoDB Atlas Vector Search` nao trouxe mudanca relevante de qualidade nesta base;
+- o ganho potencial do `MongoDB Vector Search` aparece mais em escalabilidade, filtros nativos, busca hibrida e reducao de carga no backend Python;
 - uma evolucao natural de arquitetura e mover essa etapa para `MongoDB Vector Search` nativo, mantendo o restante do pipeline.

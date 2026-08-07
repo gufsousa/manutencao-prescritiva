@@ -49,6 +49,7 @@ class HistorySearchResult:
     neighbors: list[dict[str, Any]]
     fault_distribution: list[dict[str, Any]]
     candidate_fault: str
+    raw_confidence_pct: float
     confidence_pct: float
     similarity_metric: str
     ood_score: float
@@ -56,6 +57,9 @@ class HistorySearchResult:
     ood_threshold_99: float
     ood_flag: bool
     ood_status: str
+    missing_feature_count: int
+    missing_feature_ratio: float
+    min_required_features_met: bool
     summary: str
 
 
@@ -295,6 +299,7 @@ class HistoryService:
                 neighbors=[],
                 fault_distribution=[],
                 candidate_fault=canonicalize_fault_label(normalized.get("fault")),
+                raw_confidence_pct=0.0,
                 confidence_pct=0.0,
                 similarity_metric="mahalanobis_weighted_knn",
                 ood_score=0.0,
@@ -302,6 +307,9 @@ class HistoryService:
                 ood_threshold_99=0.0,
                 ood_flag=False,
                 ood_status="sem_historico",
+                missing_feature_count=0,
+                missing_feature_ratio=0.0,
+                min_required_features_met=False,
                 summary="Sem histórico disponível.",
             )
 
@@ -311,6 +319,9 @@ class HistoryService:
         inv_cov = self._inverse_covariance(matrix)
 
         event_vector = pd.DataFrame([{feature: normalized.get(feature, np.nan) for feature in FEATURE_COLUMNS}])
+        missing_feature_count = int(event_vector.isna().sum(axis=1).iloc[0])
+        missing_feature_ratio = float(missing_feature_count / len(FEATURE_COLUMNS))
+        min_required_features_met = missing_feature_count <= max(2, len(FEATURE_COLUMNS) // 3)
         event_vector = event_vector.fillna(candidate_df[FEATURE_COLUMNS].median())
         scaled_event = self.scaler.transform(event_vector)
         distances = self._mahalanobis_distances(matrix, scaled_event, inv_cov)
@@ -341,7 +352,7 @@ class HistoryService:
 
         fault_distribution = self._weighted_fault_distribution(ranked)
         candidate_fault = fault_distribution[0]["canonical_fault"] if fault_distribution else canonicalize_fault_label(normalized.get("fault"))
-        confidence_pct = float(fault_distribution[0]["pct"]) if fault_distribution else 0.0
+        raw_confidence_pct = float(fault_distribution[0]["pct"]) if fault_distribution else 0.0
         squared_ood_score = self._class_ood_score(candidate_df, candidate_fault, scaled_event) ** 2
         ood_threshold_95_sq = self._chi_square_threshold(len(FEATURE_COLUMNS), 0.95)
         ood_threshold_99_sq = self._chi_square_threshold(len(FEATURE_COLUMNS), 0.99)
@@ -352,21 +363,35 @@ class HistoryService:
             ood_status = "fronteira"
         else:
             ood_status = "in_distribution"
+
+        confidence_pct = raw_confidence_pct
+        if ood_status == "fronteira":
+            confidence_pct = min(confidence_pct, 50.0)
+        elif ood_status == "ood":
+            confidence_pct = min(confidence_pct, 25.0)
+        if missing_feature_ratio >= 0.34:
+            confidence_pct = min(confidence_pct, 20.0)
+        elif missing_feature_count > 0:
+            confidence_pct = min(confidence_pct, 70.0)
+
         summary = (
             (
                 f"{len(neighbors)} vizinhos recuperados"
                 f" | metrica: Mahalanobis + k-NN ponderado"
-                f" | principal hipótese histórica: {fault_distribution[0]['label']}"
-                f" | confiança ponderada: {confidence_pct:.2f}%"
+                f" | principal hip?tese hist?rica: {fault_distribution[0]['label']}"
+                f" | consenso local: {raw_confidence_pct:.2f}%"
+                f" | confianca calibrada: {confidence_pct:.2f}%"
                 f" | OOD: {ood_status} (score={math.sqrt(squared_ood_score):.3f})"
+                f" | features faltantes: {missing_feature_count}/{len(FEATURE_COLUMNS)}"
             )
             if fault_distribution
-            else "Sem distribuição de falhas."
+            else "Sem distribui??o de falhas."
         )
         return HistorySearchResult(
             neighbors=neighbors,
             fault_distribution=fault_distribution,
             candidate_fault=candidate_fault,
+            raw_confidence_pct=raw_confidence_pct,
             confidence_pct=confidence_pct,
             similarity_metric="mahalanobis_weighted_knn",
             ood_score=round(math.sqrt(squared_ood_score), 4),
@@ -374,6 +399,9 @@ class HistoryService:
             ood_threshold_99=round(math.sqrt(ood_threshold_99_sq), 4),
             ood_flag=ood_flag,
             ood_status=ood_status,
+            missing_feature_count=missing_feature_count,
+            missing_feature_ratio=round(missing_feature_ratio, 4),
+            min_required_features_met=min_required_features_met,
             summary=summary,
         )
 
