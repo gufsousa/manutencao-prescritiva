@@ -260,6 +260,11 @@ class PrescriptiveAgent:
             return [], []
 
         action_keywords = (
+            "deslig",
+            "aplicar",
+            "confirmar",
+            "aguardar",
+            "utilizar",
             "inspec",
             "verific",
             "monitor",
@@ -290,7 +295,16 @@ class PrescriptiveAgent:
         seen_actions: set[str] = set()
         seen_checks: set[str] = set()
 
-        for doc in documents[:3]:
+        ranked_documents = sorted(
+            documents,
+            key=lambda item: (
+                any(keyword in str(item.get("chunk_text", "")).lower() for keyword in action_keywords),
+                float(item.get("score") or 0.0),
+            ),
+            reverse=True,
+        )
+
+        for doc in ranked_documents[:5]:
             text = doc.get("chunk_text", "")
             extracted_items = self._extract_numbered_actions(text) + self._extract_chunk_bullets(text)
             for bullet in extracted_items:
@@ -312,6 +326,24 @@ class PrescriptiveAgent:
                     break
             if len(actions) >= 3 and len(checklist) >= 4:
                 break
+
+        if not actions:
+            for doc in ranked_documents[:5]:
+                text = str(doc.get("chunk_text", ""))
+                for sentence in re.split(r"(?<=[\.\!\?])\s+", text):
+                    item = sentence.strip(" -;:.")
+                    lowered = item.lower()
+                    if len(item) < 12:
+                        continue
+                    if any(keyword in lowered for keyword in action_keywords):
+                        normalized_item = item[0].upper() + item[1:]
+                        if normalized_item not in seen_actions:
+                            actions.append(normalized_item[:180].rstrip(" ,;:."))
+                            seen_actions.add(normalized_item)
+                    if len(actions) >= 3:
+                        break
+                if len(actions) >= 3:
+                    break
 
         return actions[:3], checklist[:4]
 
