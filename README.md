@@ -89,14 +89,6 @@ O projeto foi construido em `Python`, com bibliotecas escolhidas para cobrir int
 | `groq` | acesso ao provider remoto usado na demonstracao quando o fluxo roda com API |
 | `plotly` | apoio para graficos e visualizacoes nas paginas analiticas e de benchmark |
 
-Leitura curta para a banca:
-
-- `Python` organiza a aplicacao inteira.
-- `Pandas` e `NumPy` sustentam a parte de dados.
-- `scikit-learn` entra na similaridade numerica e textual.
-- `Streamlit` entrega a camada full stack de interface.
-- `Groq` e `Ollama` representam a camada de execucao de modelo.
-
 ## Arquitetura
 
 ```mermaid
@@ -111,13 +103,15 @@ graph LR
 
     A --> B
     B --> C
+    B --> F
     C --> D
     C --> E
     D --> C
     E --> C
-    C --> F
-    B --> F
-    C --> G
+    D --> F
+    E --> F
+    F --> B
+    B --> G
 ```
 
 ## Screenshots
@@ -416,6 +410,14 @@ Leitura pratica:
 - o fluxo principal do copiloto, os guardrails fisicos, o catalogo documental e a comparacao Python vs Mongo ficaram consistentes;
 - os casos que antes falhavam foram estabilizados com roteamento deterministico melhor, guardrails documentais mais secos, ajuste no uso do historico persistido e respostas livres mais naturais.
 - a rodada mais recente de QA tambem mostrou que perguntas documentais como `liste documentos de rolamentos` ficaram mais aderentes ao catalogo, com menos respostas genericas.
+- a matriz automatizada fechou `110/110`, embora a camada textual ainda tenha pontos de refinamento em alguns blocos de sintese.
+
+Pontos positivos observados nos testes mais recentes:
+
+- quando existe documento tecnicamente mapeado para a familia inferida, o copiloto consegue citar o lastro correto e sintetizar a prescricao com acoes mais concretas;
+- quando nao existe documento mapeado, o fluxo atual ja evita prescricao forte e explicita a limitacao de lastro documental;
+- casos de `OOD` e eventos fisicamente incoerentes tendem a ser bloqueados ou rebaixados em confianca, reduzindo risco de recomendacao automatica indevida;
+- a separacao entre motor numerico, base documental e camada de resposta ficou mais clara e mais auditavel do que nas primeiras iteracoes.
 
 Achado estrutural importante:
 
@@ -430,6 +432,13 @@ Melhorias futuras recomendadas:
 - evoluir de features estatisticas resumidas para representacoes mais discriminativas quando houver sinal bruto, como FFT, envelope e bandas de frequencia;
 - endurecer ainda mais a politica para classes novas, OOD e open-set, evitando forcar classificacao quando o evento fugir do envelope conhecido;
 - definir uma politica mais explicita para conflitos entre `state`, `fault` e `OOD`.
+
+Limitacoes atuais da camada de prompt:
+
+- o ajuste via prompt e `few-shot` melhorou a naturalidade e a organizacao geral da resposta, mas ainda nao elimina totalmente alucinacoes pontuais em blocos textuais;
+- em especial, blocos como `Base da decisao`, `Checklist de inspecao` e `Riscos e limitacoes` ainda podem ficar mais soltos do que o ideal quando o modelo tenta resumir chunks longos ou incompletos;
+- isso significa que, mesmo com guardrails deterministas, a camada gerativa ainda pode reformular sinais documentais como se fossem evidencias observadas diretamente no evento;
+- por esse motivo, a arquitetura ainda se beneficia de mais especializacao por papel, reduzindo a liberdade do modelo em campos sensiveis.
 
 ## Documentacao produzida
 
@@ -469,9 +478,11 @@ Sweep adicional Groq em **5 de agosto de 2026**:
 
 - separar melhor consulta de catalogo documental e busca por chunks;
 - adicionar avaliacao da qualidade da recuperacao antes da resposta final;
+- reforcar a leitura arquitetural em trilhas paralelas, deixando interface, persistencia e observabilidade menos dependentes da camada gerativa;
 - evoluir de ranking local para busca hibrida e, depois, ANN vetorial para escala maior;
 - reforcar abstencao em casos `OOD`, baixa evidencia e features faltantes;
 - testar planejamento leve antes de considerar um fluxo agentic completo estilo `ReAct`.
+- avaliar especializacao por etapa entre classificacao, leitura documental e reescrita final da resposta.
 
 Observacao importante:
 
