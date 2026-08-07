@@ -486,6 +486,15 @@ class PrescriptiveAgent:
             "inspecao manutencao correcao procedimento tecnico"
         )
 
+    def _has_exact_document_mapping(self, fault_label: str) -> bool:
+        canonical_fault = canonicalize_fault_label(fault_label)
+        if not canonical_fault or canonical_fault == "nao_informada":
+            return False
+        for item in DOCUMENT_SERVICE.list_documents():
+            if canonicalize_fault_label(item.get("fault_family")) == canonical_fault:
+                return True
+        return False
+
     def _deterministic_fallback(
         self,
         event: dict[str, Any],
@@ -911,6 +920,8 @@ class PrescriptiveAgent:
                 payload[key] = [value]
             elif value is None:
                 payload[key] = []
+        if payload.get("refusal_reason") is None:
+            payload["refusal_reason"] = ""
         payload["recommended_actions"] = [self._stringify_action_item(item) for item in payload.get("recommended_actions", [])]
         payload["inspection_checklist"] = [self._stringify_action_item(item) for item in payload.get("inspection_checklist", [])]
         payload["risk_notes"] = [self._stringify_action_item(item) for item in payload.get("risk_notes", [])]
@@ -1232,6 +1243,12 @@ class PrescriptiveAgent:
                 fault_family=candidate_fault,
                 top_k=SETTINGS.top_k_documents,
             )
+            if not self._has_exact_document_mapping(candidate_fault):
+                document_result.chunks = []
+                document_result.summary = (
+                    f"Nao existe documento tecnico mapeado especificamente para "
+                    f"{format_fault_label_pt(candidate_fault)} na base atual."
+                )
 
         response_payload = self._deterministic_fallback(
             event=event,
@@ -1256,6 +1273,7 @@ class PrescriptiveAgent:
         deterministic_checklist = list(response_payload.get("inspection_checklist") or [])
         deterministic_summary = response_payload.get("executive_summary")
         deterministic_cited_documents = list(response_payload.get("cited_documents") or [])
+        deterministic_refusal_reason = str(response_payload.get("refusal_reason") or "")
         raw_llm_response = None
         usage = {}
         selected_model = model_name or SETTINGS.default_llm_model
@@ -1305,8 +1323,10 @@ class PrescriptiveAgent:
                         response_payload["recommended_actions"] = deterministic_actions
                     if deterministic_checklist:
                         response_payload["inspection_checklist"] = deterministic_checklist
-                    if deterministic_cited_documents:
+                    if deterministic_cited_documents or not document_result.chunks:
                         response_payload["cited_documents"] = deterministic_cited_documents
+                    if deterministic_refusal_reason:
+                        response_payload["refusal_reason"] = deterministic_refusal_reason
                     if deterministic_summary and not response_payload.get("executive_summary"):
                         response_payload["executive_summary"] = deterministic_summary
             except Exception as exc:

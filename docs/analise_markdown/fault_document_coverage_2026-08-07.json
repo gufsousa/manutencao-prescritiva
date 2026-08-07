@@ -1,0 +1,188 @@
+{
+  "summary": {
+    "total_faults": 12,
+    "passed": 12,
+    "failed": 0,
+    "mapped_docs": 6,
+    "unmapped_docs": 6
+  },
+  "results": [
+    {
+      "dataset_fault": "cocked_rotor",
+      "has_mapped_doc": true,
+      "predicted_fault": "cocked_rotor",
+      "confidence_pct": 85.1,
+      "refusal_reason": "",
+      "cited_documents": [
+        "Procedimento de Cocked Rotor"
+      ],
+      "recommended_actions": [
+        "Inspeção Visual Verificar: • Inclinação aparente do rotor; • Marcas de contato; • Desgaste irregular; • Folgas; • Integridade do cubo; • Integridade da chaveta; • Integridade dos m",
+        "Verificação Geométrica 9",
+        "Diagnóstico por Vibração Realizar medições: • Horizontal; • Vertical; • Axial"
+      ],
+      "document_summary": "5 chunk(s) recuperados para Cocked rotor.",
+      "passed": true
+    },
+    {
+      "dataset_fault": "correia",
+      "has_mapped_doc": true,
+      "predicted_fault": "correia",
+      "confidence_pct": 50.0,
+      "refusal_reason": "",
+      "cited_documents": [
+        "Procedimento de Correias"
+      ],
+      "recommended_actions": [
+        "Verificar desvios",
+        "Inspeção das Polias Verificar: • Trincas; • Corrosão; • Empenamento; • Desgaste das ranhuras; • Fixação no eixo",
+        "Verificação Dinâmica Com o equipamento operando: Observar: • Vibração; • Oscilação da correia; • Ruídos; • Temperatura"
+      ],
+      "document_summary": "5 chunk(s) recuperados para Correia.",
+      "passed": true
+    },
+    {
+      "dataset_fault": "desalinhamento",
+      "has_mapped_doc": true,
+      "predicted_fault": "desalinhamento",
+      "confidence_pct": 86.87,
+      "refusal_reason": "",
+      "cited_documents": [
+        "Procedimento de Desalinhamento"
+      ],
+      "recommended_actions": [
+        "Realizar pequenos deslocamentos",
+        "Medir novamente o alinhamento",
+        "Apertar os parafusos com torque adequado"
+      ],
+      "document_summary": "5 chunk(s) recuperados para Desalinhamento.",
+      "passed": true
+    },
+    {
+      "dataset_fault": "desbalanceamento",
+      "has_mapped_doc": true,
+      "predicted_fault": "desbalanceamento",
+      "confidence_pct": 100.0,
+      "refusal_reason": "",
+      "cited_documents": [
+        "Procedimento de Desbalanceamento"
+      ],
+      "recommended_actions": [
+        "Inspecionar visualmente novamente",
+        "Defeitos em rolamentos. 9. Limpeza do Rotor Antes de qualquer correção: 1. Remover sujeira. 2. Limpar pás. 3. Remover incrustações. 4. Inspecionar visualmente novamente. Muitas vez"
+      ],
+      "document_summary": "5 chunk(s) recuperados para Desbalanceamento.",
+      "passed": true
+    },
+    {
+      "dataset_fault": "eccentric_rotor",
+      "has_mapped_doc": false,
+      "predicted_fault": "eccentric_rotor",
+      "confidence_pct": 80.38,
+      "refusal_reason": "Nao ha documento tecnico suficiente para sustentar prescricao.",
+      "cited_documents": [],
+      "recommended_actions": [
+        "Validar instrumentacao e ampliar base documental antes de automatizar a prescricao."
+      ],
+      "document_summary": "Nao existe documento tecnico mapeado especificamente para Rotor excentrico na base atual.",
+      "passed": true
+    },
+    {
+      "dataset_fault": "falta_fase",
+      "has_mapped_doc": false,
+      "predicted_fault": "falta_fase",
+      "confidence_pct": 82.09,
+      "refusal_reason": "Nao ha documento tecnico suficiente para sustentar prescricao.",
+      "cited_documents": [],
+      "recommended_actions": [
+        "Validar instrumentacao e ampliar base documental antes de automatizar a prescricao."
+      ],
+      "document_summary": "Nao existe documento tecnico mapeado especificamente para Falta de fase na base atual.",
+      "passed": true
+    },
+    {
+      "dataset_fault": "polia",
+      "has_mapped_doc": true,
+      "predicted_fault": "polia",
+      "confidence_pct": 25.0,
+      "refusal_reason": "Evento fora do envelope estatistico historico (OOD). Requer validacao humana e registro complementar antes de prescricao automatica.",
+      "cited_documents": [
+        "Procedimento de Polias"
+      ],
+      "recommended_actions": [
+        "Validar instrumentacao e ampliar base documental antes de automatizar a prescricao."
+      ],
+      "document_summary": "5 chunk(s) recuperados para Polia.",
+      "passed": true
+    },
+    {
+      "dataset_fault": "rolamento_ball",
+      "has_mapped_doc": false,
+      "predicted_fault": "rolamento_ball",
+      "confidence_pct": 87.17,
+      "refusal_reason": "Nao ha documento tecnico suficiente para sustentar prescricao.",
+      "cited_documents": [],
+      "recommended_actions": [
+        "Validar instrumentacao e ampliar base documental antes de automatizar a prescricao."
+      ],
+      "document_summary": "Nao existe documento tecnico mapeado especificamente para Rolamento esfera na base atual.",
+      "passed": true
+    },
+    {
+      "dataset_fault": "rolamento_combination",
+      "has_mapped_doc": false,
+      "predicted_fault": "rolamento_combination",
+      "confidence_pct": 100.0,
+      "refusal_reason": "Nao ha documento tecnico suficiente para sustentar prescricao.",
+      "cited_documents": [],
+      "recommended_actions": [
+        "Validar instrumentacao e ampliar base documental antes de automatizar a prescricao."
+      ],
+      "document_summary": "Nao existe documento tecnico mapeado especificamente para Rolamento combinado na base atual.",
+      "passed": true
+    },
+    {
+      "dataset_fault": "rolamento_inner",
+      "has_mapped_doc": true,
+      "predicted_fault": "rolamento_inner",
+      "confidence_pct": 88.14,
+      "refusal_reason": "",
+      "cited_documents": [
+        "Procedimento de Rolamentos"
+      ],
+      "recommended_actions": [
+        "Verificar o rolamento interno para identificar a causa da falha",
+        "Realizar uma inspeção visual do rolamento interno",
+        "Executar testes de diagnóstico para confirmar a falha"
+      ],
+      "document_summary": "1 chunk(s) recuperados para Rolamento inner race.",
+      "passed": true
+    },
+    {
+      "dataset_fault": "rolamento_outer",
+      "has_mapped_doc": false,
+      "predicted_fault": "rolamento_outer",
+      "confidence_pct": 76.26,
+      "refusal_reason": "Nao ha documento tecnico suficiente para sustentar prescricao.",
+      "cited_documents": [],
+      "recommended_actions": [
+        "Validar instrumentacao e ampliar base documental antes de automatizar a prescricao."
+      ],
+      "document_summary": "Nao existe documento tecnico mapeado especificamente para Rolamento outer race na base atual.",
+      "passed": true
+    },
+    {
+      "dataset_fault": "ventoinha",
+      "has_mapped_doc": false,
+      "predicted_fault": "ventoinha",
+      "confidence_pct": 77.99,
+      "refusal_reason": "Nao ha documento tecnico suficiente para sustentar prescricao.",
+      "cited_documents": [],
+      "recommended_actions": [
+        "Validar instrumentacao e ampliar base documental antes de automatizar a prescricao."
+      ],
+      "document_summary": "Nao existe documento tecnico mapeado especificamente para Ventoinha na base atual.",
+      "passed": true
+    }
+  ]
+}
