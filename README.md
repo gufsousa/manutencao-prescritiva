@@ -83,7 +83,7 @@ O projeto foi construido em `Python`, com bibliotecas escolhidas para cobrir int
 | `numpy` | suporte numerico para vetores, distancias e calculos do motor historico |
 | `scikit-learn` | escalonamento com `StandardScaler` e vetorizacao textual com `HashingVectorizer` |
 | `pypdf` | leitura e extracao de texto dos PDFs usados na base documental |
-| `pymongo` | integracao com MongoDB para persistencia opcional de historico, documentos, conversas e logs |
+| `pymongo` | integracao com MongoDB para persistencia opcional de historico, documentos, chunks, conversas e logs |
 | `python-dotenv` | carregamento das configuracoes do `.env`, incluindo provider LLM, Mongo e parametros da aplicacao |
 | `PyYAML` | leitura da taxonomia semantica de falhas em `config/fault_lexicon.yaml` |
 | `groq` | acesso ao provider remoto usado na demonstracao quando o fluxo roda com API |
@@ -232,6 +232,15 @@ O projeto registra inferencias e benchmarks em dois niveis:
 
 - persistencia opcional no `MongoDB`;
 - fallback local em `jsonl`.
+
+Colecoes usadas no Mongo:
+
+- `historical_events`: historico operacional persistido;
+- `documents`: metadados e conteudo dos documentos;
+- `document_chunks`: chunks documentais com vetores locais;
+- `inference_logs`: logs de inferencia;
+- `benchmark_runs`: logs de benchmark;
+- `conversations`: historico de conversa.
 
 Arquivos locais principais:
 
@@ -467,6 +476,7 @@ Sweep adicional Groq em **5 de agosto de 2026**:
 Observacao importante:
 
 - hoje o `MongoDB` funciona como camada de persistencia opcional para documentos, chunks, conversas e logs;
+- no estado atual, o cluster gratuito ja comporta o historico operacional persistido, incluindo a colecao `historical_events` com cerca de `134 mil` registros;
 - a busca vetorial ainda e executada na aplicacao Python com vetorizacao local e similaridade cosseno;
 - no comparativo ponta a ponta com `20` amostras, trocar o ranking documental de `Python` para `MongoDB Atlas Vector Search` nao trouxe mudanca relevante de qualidade nesta base;
 - o ganho potencial do `MongoDB Vector Search` aparece mais em escalabilidade, filtros nativos, busca hibrida e reducao de carga no backend Python;

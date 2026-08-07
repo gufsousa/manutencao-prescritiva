@@ -97,6 +97,8 @@ class HistoryService:
         if limit is not None and not allow_partial:
             raise PermissionError("Ingestao parcial do historico exige allow_partial=True.")
         if sample_fraction is not None:
+            if sample_fraction > 1 and sample_fraction <= 100 and source in {"page", "test"}:
+                sample_fraction = sample_fraction / 100
             if not (0 < sample_fraction < 1):
                 raise ValueError("sample_fraction deve estar entre 0 e 1.")
             if source not in {"page", "test"}:

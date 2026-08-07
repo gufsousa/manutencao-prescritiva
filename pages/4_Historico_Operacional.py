@@ -18,7 +18,6 @@ hero("Historico Operacional", "Exploracao do historico do banner.csv, ingestao e
 
 metrics = HISTORY_SERVICE.dataset_metrics()
 storage_metrics = HISTORY_SERVICE.storage_metrics()
-sample_target = math.ceil(storage_metrics["csv_rows"] * 0.20)
 col1, col2, col3, col4 = st.columns(4)
 with col1:
     metric_card("Registros", f"{metrics['rows']:,}".replace(",", "."))
@@ -38,15 +37,6 @@ with cover2:
 with cover3:
     metric_card("Cobertura", f"{storage_metrics['coverage_pct']}%", tone="green" if storage_metrics["is_fully_synced"] else "amber")
 
-st.info(
-    "Neste ambiente, o Mongo gratis usa uma amostra representativa de 20% do `banner.csv`, "
-    "preservando cobertura temporal e de familias de falha para exploracao e busca historica."
-)
-st.caption(
-    "Meta de amostragem: "
-    f"{sample_target:,} registros. Atual: {storage_metrics['stored_rows']:,}.".replace(",", ".")
-)
-
 st.caption(
     "Camada semantica atual: "
     f"{metrics['fault_labels']} falhas reais e {metrics['state_labels']} estados operacionais canonicos."
@@ -64,7 +54,7 @@ target_percent = st.slider(
 target_fraction = target_percent / 100
 target_rows = math.ceil(storage_metrics["csv_rows"] * target_fraction)
 st.caption(
-    f"Meta alvo selecionada: {target_rows:,} registros representativos ({target_percent}%).".replace(",", ".")
+    f"Meta alvo selecionada: {target_rows:,} registros ({target_percent}%).".replace(",", ".")
 )
 
 if st.button("Adicionar somente registros faltantes ao Mongo", width="stretch"):
