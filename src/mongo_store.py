@@ -18,6 +18,7 @@ class MongoStore:
     def __init__(self) -> None:
         self._client: MongoClient | None = None
         self._local_state = self._load_local_state()
+        self._last_mongo_error: str = ""
 
     def _load_local_state(self) -> dict[str, list[dict[str, Any]]]:
         if not LOCAL_STATE_FILE.exists():
@@ -33,19 +34,35 @@ class MongoStore:
     def enabled(self) -> bool:
         return SETTINGS.mongo_enabled and bool(SETTINGS.mongo_connection_string)
 
+    def last_mongo_error(self) -> str:
+        return self._last_mongo_error
+
+    def _remember_mongo_error(self, exc: Exception) -> None:
+        self._last_mongo_error = str(exc)
+        try:
+            if self._client is not None:
+                self._client.close()
+        except Exception:
+            pass
+        self._client = None
+
     def get_database(self):
         if not self.enabled():
             return None
-        if self._client is None:
-            self._client = MongoClient(
-                SETTINGS.mongo_connection_string,
-                server_api=ServerApi("1"),
-                serverSelectionTimeoutMS=15000,
-                connectTimeoutMS=15000,
-                socketTimeoutMS=30000,
-                retryWrites=True,
-            )
-        return self._client[SETTINGS.mongo_database]
+        try:
+            if self._client is None:
+                self._client = MongoClient(
+                    SETTINGS.mongo_connection_string,
+                    server_api=ServerApi("1"),
+                    serverSelectionTimeoutMS=15000,
+                    connectTimeoutMS=15000,
+                    socketTimeoutMS=30000,
+                    retryWrites=True,
+                )
+            return self._client[SETTINGS.mongo_database]
+        except Exception as exc:
+            self._remember_mongo_error(exc)
+            return None
 
     def ping(self) -> dict[str, Any]:
         if not self.enabled():
@@ -77,12 +94,16 @@ class MongoStore:
         collection_name = self._collection_name(logical_name)
         db = self.get_database()
         if db is not None:
-            collection = db[collection_name]
-            collection.delete_many({})
-            if documents:
-                for batch in self._batched(documents):
-                    collection.insert_many([deepcopy(item) for item in batch], ordered=False)
-            return len(documents)
+            try:
+                collection = db[collection_name]
+                collection.delete_many({})
+                if documents:
+                    for batch in self._batched(documents):
+                        collection.insert_many([deepcopy(item) for item in batch], ordered=False)
+                self._last_mongo_error = ""
+                return len(documents)
+            except Exception as exc:
+                self._remember_mongo_error(exc)
         self._local_state[collection_name] = documents
         self._save_local_state()
         return len(documents)
@@ -91,8 +112,12 @@ class MongoStore:
         collection_name = self._collection_name(logical_name)
         db = self.get_database()
         if db is not None:
-            cursor = db[collection_name].find({"id": {"$exists": True}}, {"_id": 0, "id": 1})
-            return {str(item["id"]) for item in cursor if item.get("id") is not None}
+            try:
+                cursor = db[collection_name].find({"id": {"$exists": True}}, {"_id": 0, "id": 1})
+                self._last_mongo_error = ""
+                return {str(item["id"]) for item in cursor if item.get("id") is not None}
+            except Exception as exc:
+                self._remember_mongo_error(exc)
         return {
             str(item["id"])
             for item in self._local_state.get(collection_name, [])
@@ -110,11 +135,15 @@ class MongoStore:
 
         db = self.get_database()
         if db is not None:
-            if missing_documents:
-                collection = db[collection_name]
-                for batch in self._batched(missing_documents):
-                    collection.insert_many(batch, ordered=False)
-            return {"requested": len(documents), "inserted": len(missing_documents), "skipped": len(documents) - len(missing_documents)}
+            try:
+                if missing_documents:
+                    collection = db[collection_name]
+                    for batch in self._batched(missing_documents):
+                        collection.insert_many(batch, ordered=False)
+                self._last_mongo_error = ""
+                return {"requested": len(documents), "inserted": len(missing_documents), "skipped": len(documents) - len(missing_documents)}
+            except Exception as exc:
+                self._remember_mongo_error(exc)
 
         target = self._local_state.setdefault(collection_name, [])
         if missing_documents:
@@ -126,8 +155,12 @@ class MongoStore:
         collection_name = self._collection_name(logical_name)
         db = self.get_database()
         if db is not None:
-            db[collection_name].insert_one(deepcopy(document))
-            return document
+            try:
+                db[collection_name].insert_one(deepcopy(document))
+                self._last_mongo_error = ""
+                return document
+            except Exception as exc:
+                self._remember_mongo_error(exc)
         self._local_state.setdefault(collection_name, []).append(document)
         self._save_local_state()
         return document
@@ -136,10 +169,14 @@ class MongoStore:
         collection_name = self._collection_name(logical_name)
         db = self.get_database()
         if db is not None:
-            cursor = db[collection_name].find({}, {"_id": 0})
-            if limit:
-                cursor = cursor.limit(limit)
-            return list(cursor)
+            try:
+                cursor = db[collection_name].find({}, {"_id": 0})
+                if limit:
+                    cursor = cursor.limit(limit)
+                self._last_mongo_error = ""
+                return list(cursor)
+            except Exception as exc:
+                self._remember_mongo_error(exc)
         items = list(self._local_state.get(collection_name, []))
         return items[:limit] if limit else items
 
@@ -148,12 +185,16 @@ class MongoStore:
 
     def get_counts(self) -> dict[str, int]:
         counts: dict[str, int] = {}
-        if self.get_database() is not None:
-            db = self.get_database()
+        db = self.get_database()
+        if db is not None:
             assert db is not None
-            for logical_name in ["history", "documents", "document_chunks", "logs", "benchmarks", "conversations"]:
-                counts[logical_name] = db[self._collection_name(logical_name)].count_documents({})
-            return counts
+            try:
+                for logical_name in ["history", "documents", "document_chunks", "logs", "benchmarks", "conversations"]:
+                    counts[logical_name] = db[self._collection_name(logical_name)].count_documents({})
+                self._last_mongo_error = ""
+                return counts
+            except Exception as exc:
+                self._remember_mongo_error(exc)
         for logical_name in ["history", "documents", "document_chunks", "logs", "benchmarks", "conversations"]:
             counts[logical_name] = len(self._local_state.get(self._collection_name(logical_name), []))
         return counts
