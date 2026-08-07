@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import math
 
 import pandas as pd
 import streamlit as st
@@ -42,25 +41,16 @@ st.caption(
     f"{metrics['fault_labels']} falhas reais e {metrics['state_labels']} estados operacionais canonicos."
 )
 
-st.markdown("### Ingestao incremental no Mongo")
-target_percent = st.slider(
-    "Percentual alvo da amostra representativa",
-    min_value=20,
-    max_value=100,
-    value=20,
-    step=10,
-    help="A pagina calcula uma amostra representativa nesse percentual e adiciona apenas os IDs que ainda nao existem no historico persistido.",
-)
-target_fraction = target_percent / 100
-target_rows = math.ceil(storage_metrics["csv_rows"] * target_fraction)
+st.markdown("### Sincronizacao do historico no Mongo")
 st.caption(
-    f"Meta alvo selecionada: {target_rows:,} registros ({target_percent}%).".replace(",", ".")
+    "A sincronizacao adiciona apenas os IDs que ainda nao existem na colecao `historical_events`, "
+    "ate completar o historico persistido."
 )
 
-if st.button("Adicionar somente registros faltantes ao Mongo", width="stretch"):
-    result = HISTORY_SERVICE.ingest_history_to_mongo(source="page", sample_fraction=target_fraction, incremental=True)
+if st.button("Sincronizar registros faltantes no Mongo", width="stretch"):
+    result = HISTORY_SERVICE.ingest_history_to_mongo(source="page", incremental=True)
     st.success(
-        "Ingestao incremental concluida: "
+        "Sincronizacao concluida: "
         f"{result['inserted']} novo(s) registro(s) e {result['skipped']} ja existente(s)."
     )
 
