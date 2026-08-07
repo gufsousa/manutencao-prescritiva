@@ -855,14 +855,17 @@ class PrescriptiveAgent:
         else:
             lines.append("- Sem prescricao automatica disponivel.")
 
-        lines.extend(["", "### Rastreio utilizado"])
+        lines.extend(["", "### Lastro consultado"])
         if cited_documents:
             for doc in cited_documents:
                 lines.append(f"- Documento: **{doc}**")
         else:
             lines.append("- Sem documento tecnico aderente recuperado.")
 
-        lines.extend(["", "### Evidencias"])
+        evidence_title = "### Base da decisao"
+        if refusal_reason and "OOD" in refusal_reason:
+            evidence_title = "### Indicadores da analise"
+        lines.extend(["", evidence_title])
         if evidence_points:
             for item in evidence_points:
                 lines.append(f"- {item}")
