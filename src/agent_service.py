@@ -225,6 +225,96 @@ class PrescriptiveAgent:
                 return fault_family
         return None
 
+    def _extract_chunk_bullets(self, text: str) -> list[str]:
+        normalized = re.sub(r"\s+", " ", str(text or "")).strip()
+        if not normalized:
+            return []
+        candidates: list[str] = []
+        for piece in normalized.split("•"):
+            item = piece.strip(" -;:.")
+            item = re.sub(r"^\d+(\.\d+)?\s*", "", item).strip(" -;:.")
+            if len(item) < 12:
+                continue
+            if "•" in item:
+                item = item.split("•", 1)[0].strip(" -;:.")
+            if "  " in item:
+                item = re.sub(r"\s{2,}", " ", item)
+            candidates.append(item[:180].rstrip(" ,;:."))
+        return candidates
+
+    def _extract_numbered_actions(self, text: str) -> list[str]:
+        normalized = re.sub(r"\s+", " ", str(text or "")).strip()
+        if not normalized:
+            return []
+        candidates: list[str] = []
+        matches = re.findall(r"(?:^|\s)\d+\.\s*([^\.]{8,180})", normalized)
+        for match in matches:
+            item = match.strip(" -;:.")
+            if len(item) < 8:
+                continue
+            candidates.append(item[:180].rstrip(" ,;:."))
+        return candidates
+
+    def _document_driven_actions(self, documents: list[dict[str, Any]]) -> tuple[list[str], list[str]]:
+        if not documents:
+            return [], []
+
+        action_keywords = (
+            "inspec",
+            "verific",
+            "monitor",
+            "realizar",
+            "medir",
+            "acompanhar",
+            "corrigir",
+            "validar",
+            "checar",
+            "avaliar",
+            "torque",
+        )
+        symptom_keywords = (
+            "vibra",
+            "temperatura",
+            "ruido",
+            "batimento",
+            "harmon",
+            "axial",
+            "radial",
+            "desgaste",
+            "rpm",
+            "mancal",
+        )
+
+        actions: list[str] = []
+        checklist: list[str] = []
+        seen_actions: set[str] = set()
+        seen_checks: set[str] = set()
+
+        for doc in documents[:3]:
+            text = doc.get("chunk_text", "")
+            extracted_items = self._extract_numbered_actions(text) + self._extract_chunk_bullets(text)
+            for bullet in extracted_items:
+                lowered = bullet.lower()
+                normalized_bullet = bullet[0].upper() + bullet[1:]
+                if any(keyword in lowered for keyword in action_keywords) and normalized_bullet not in seen_actions:
+                    actions.append(normalized_bullet)
+                    seen_actions.add(normalized_bullet)
+                if (
+                    any(keyword in lowered for keyword in symptom_keywords)
+                    and len(normalized_bullet) <= 80
+                    and "ferramentas necess" not in lowered
+                    and "sintomas comuns" not in lowered
+                    and normalized_bullet not in seen_checks
+                ):
+                    checklist.append(normalized_bullet)
+                    seen_checks.add(normalized_bullet)
+                if len(actions) >= 3 and len(checklist) >= 4:
+                    break
+            if len(actions) >= 3 and len(checklist) >= 4:
+                break
+
+        return actions[:3], checklist[:4]
+
     def _is_compound_freeform(self, text: str) -> bool:
         lowered = str(text or "").lower()
         asks_document = any(
@@ -467,6 +557,9 @@ class PrescriptiveAgent:
         ]
         if not documents or effective_label == "evento_invalido":
             inspection_checklist = []
+        doc_actions, doc_checklist = self._document_driven_actions(documents)
+        if doc_checklist and effective_label != "evento_invalido":
+            inspection_checklist = doc_checklist
 
         return {
             "probable_fault": effective_label,
@@ -492,7 +585,7 @@ class PrescriptiveAgent:
                 *[f"Validacao: {warning}" for warning in validation.get("warnings", [])],
             ],
             "recommended_actions": (
-                ["Executar procedimento tecnico rastreado e validar inspecao local."]
+                doc_actions
                 if documents and not refusal_reason and effective_label != "evento_invalido"
                 else ["Validar instrumentacao e ampliar base documental antes de automatizar a prescricao."]
             ),
@@ -1159,6 +1252,10 @@ class PrescriptiveAgent:
             documents=document_result.chunks,
             candidate_fault=candidate_fault,
         )
+        deterministic_actions = list(response_payload.get("recommended_actions") or [])
+        deterministic_checklist = list(response_payload.get("inspection_checklist") or [])
+        deterministic_summary = response_payload.get("executive_summary")
+        deterministic_cited_documents = list(response_payload.get("cited_documents") or [])
         raw_llm_response = None
         usage = {}
         selected_model = model_name or SETTINGS.default_llm_model
@@ -1204,6 +1301,14 @@ class PrescriptiveAgent:
                 parsed = self._extract_json(raw_llm_response)
                 if parsed:
                     response_payload.update(parsed)
+                    if deterministic_actions:
+                        response_payload["recommended_actions"] = deterministic_actions
+                    if deterministic_checklist:
+                        response_payload["inspection_checklist"] = deterministic_checklist
+                    if deterministic_cited_documents:
+                        response_payload["cited_documents"] = deterministic_cited_documents
+                    if deterministic_summary and not response_payload.get("executive_summary"):
+                        response_payload["executive_summary"] = deterministic_summary
             except Exception as exc:
                 response_payload["risk_notes"].append(f"Fallback local usado apos falha no LLM: {exc}")
 
